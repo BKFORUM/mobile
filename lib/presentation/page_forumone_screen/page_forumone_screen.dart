@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import '../page_forumone_screen/widgets/userpost1_item_widget.dart';
 import 'controller/page_forumone_controller.dart';
 import 'models/userpost1_item_model.dart';
@@ -32,7 +34,7 @@ class PageForumoneScreen extends GetWidget<PageForumoneController> {
                       AppbarImage1(
                           imagePath: ImageConstant.imgIconforum,
                           margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                      ),
+                      ).animate().tint(color: Colors.amber).shake(),
                       AppbarImage1(
                           imagePath: ImageConstant.imgIconmessage,
                           margin: EdgeInsets.only(left: 19.h, right: 19.h),

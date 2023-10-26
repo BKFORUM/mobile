@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import 'controller/page_message_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/widgets/app_bar/appbar_circleimage.dart';
@@ -38,7 +40,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                       AppbarImage1(
                           imagePath: ImageConstant.imgIconmessage,
                         margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                      ),
+                      ).animate().tint(color: Colors.amber).shake(),
                       AppbarImage2(
                           imagePath: ImageConstant.imgIconadd,
                           margin: EdgeInsets.only(left: 19.h, right: 19.h),

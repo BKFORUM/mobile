@@ -3,6 +3,7 @@
 
 import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:bkforum/widgets/base_button.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'controller/page_post_controller.dart';
@@ -54,7 +55,7 @@ class PagePostScreen extends GetWidget<PagePostController> {
                       AppbarImage1(
                           imagePath: ImageConstant.imgIconadd,
                           margin: EdgeInsets.only(left: 19.h, right: 19.h)
-                      ),
+                      ).animate().tint(color: Colors.amber).shake(),
                       AppbarImage1(
                           imagePath: ImageConstant.imgIconnotification,
                           margin: EdgeInsets.only(left: 19.h, right: 19.h),
@@ -168,22 +169,25 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                         ),
                                                         child: Column(
                                                           children: [
-                                                            CustomElevatedButton(
-                                                              text: "Chọn từ thư viện".tr,
-                                                              buttonStyle: ElevatedButton.styleFrom(
-                                                                backgroundColor: Colors.transparent,
-                                                                shadowColor:  Colors.transparent,
-                                                                  alignment: Alignment.topLeft
-                                                              ),
-                                                              buttonTextStyle: TextStyle(
-                                                                  color: Colors.black87,
-                                                                  fontSize: 18.fSize,
-                                                                  fontFamily: 'Roboto',
-                                                                fontWeight: FontWeight.w600
-                                                              ),
-                                                              onTap: () {
-                                                                Navigator.pop(context);
-                                                              },
+                                                            Animate(
+                                                              effects: [FadeEffect(), SlideEffect(curve: Curves.easeIn)],
+                                                              child: CustomElevatedButton(
+                                                                  text: "Chọn từ thư viện".tr,
+                                                                  buttonStyle: ElevatedButton.styleFrom(
+                                                                    backgroundColor: Colors.transparent,
+                                                                    shadowColor:  Colors.transparent,
+                                                                      alignment: Alignment.topLeft
+                                                                  ),
+                                                                  buttonTextStyle: TextStyle(
+                                                                      color: Colors.black87,
+                                                                      fontSize: 18.fSize,
+                                                                      fontFamily: 'Roboto',
+                                                                    fontWeight: FontWeight.w600
+                                                                  ),
+                                                                  onTap: () {
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                ),
                                                             ),
                                                             CustomElevatedButton(
                                                               text: "Chọn từ máy ảnh".tr,
@@ -201,7 +205,7 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                               onTap: () {
                                                                 Navigator.pop(context);
                                                               },
-                                                            ),
+                                                            ).animate().fade().slideY(curve: Curves.easeIn),
                                                             const SizedBox(height: 20),
                                                             //selectedImage != null ? Image.file(selectedImage!) : const Text("Chưa có ảnh");
                                                             CustomElevatedButton(

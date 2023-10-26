@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import 'controller/page_setting_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/widgets/app_bar/appbar_circleimage.dart';
@@ -54,7 +56,7 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                       AppbarCircleimage(
                           imagePath: ImageConstant.imgIconavatar,
                           margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                      )
+                      ).animate().fadeIn().slide(duration: 100.ms)
                     ])),
                 styleType: Style.bgFill),
             body: Container(

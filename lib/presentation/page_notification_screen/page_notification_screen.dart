@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import 'controller/page_notification_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/widgets/app_bar/appbar_circleimage.dart';
@@ -48,7 +50,7 @@ class PageNotificationScreen extends GetWidget<PageNotificationController> {
                       AppbarImage1(
                           imagePath: ImageConstant.imgIconnotification,
                           margin: EdgeInsets.only(left: 19.h, right: 19.h)
-                      ),
+                      ).animate().tint(color: Colors.amber).shake(),
                       AppbarCircleimage(
                           imagePath: ImageConstant.imgIconavatar,
                           margin: EdgeInsets.only(left: 19.h, right: 19.h),

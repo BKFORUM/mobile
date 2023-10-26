@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+
 import '../page_feed_screen/widgets/userpost_item_widget.dart';
 import 'controller/page_feed_controller.dart';
 import 'models/userpost_item_model.dart';
@@ -25,7 +27,7 @@ class PageFeedScreen extends GetWidget<PageFeedController> {
                         EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
                     onTap: () {
                       onTapIconhomeone();
-                    }),
+                    }).animate().tint(color: Colors.amber).shake(),
                 title: Padding(
                     padding: EdgeInsets.only(left: 19.h),
                     child: Row(children: [
