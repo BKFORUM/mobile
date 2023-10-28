@@ -54,6 +54,10 @@ class ImageConstant {
   static String imgImage = '$imagePath/img_image.png';
 
   static String imgLocation = '$imagePath/img_location.svg';
+  static String imgNonReact = '$imagePath/heart.svg';
+  static String imgReact = '$imagePath/heart_fill.svg';
+  static String imgComment = '$imagePath/comment.svg';
+
 
   static String imgCar = '$imagePath/img_car.svg';
 

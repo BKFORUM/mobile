@@ -25,17 +25,18 @@ class _CustomReactionState extends State<CustomReaction> {
     return GestureDetector(
         onTap: toggleCustomImage,
         child: isCustomImageReacted ? CustomImageView(
-          svgPath: ImageConstant.imgLocation,
-          height: 12.v,
-          width: 14.h,
+          svgPath: ImageConstant.imgReact,
+          height: 16.v,
+          width: 16.h,
           margin: EdgeInsets.only(bottom: 2.v),
-        ).animate().tint(color: Colors.red).shakeX()
+        ).animate().shake().tint(color: Colors.red, duration: 50.ms, delay: 50.ms)
+        .scaleXY(begin: 1.4, end: 1 )
             : CustomImageView(
-                  svgPath: ImageConstant.imgLocation,
-                  height: 12.v,
-                  width: 14.h,
+                  svgPath: ImageConstant.imgNonReact,
+                  height: 16.v,
+                  width: 16.h,
                   margin: EdgeInsets.only(bottom: 2.v),
-            ), // Hiển thị một SizedBox nếu không muốn hiển thị CustomImageView
-      );
+            ),
+    );
   }
 }

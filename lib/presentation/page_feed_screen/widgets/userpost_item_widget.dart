@@ -1,6 +1,8 @@
 import 'package:bkforum/presentation/page_feed_screen/widgets/custom_comment_screen.dart';
+import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 
 import '../../../widgets/custom_elevated_button.dart';
+import '../../../widgets/custom_reaction.dart';
 import '../controller/page_feed_controller.dart';
 import '../models/userpost_item_model.dart';
 import 'package:bkforum/core/app_export.dart';
@@ -19,6 +21,7 @@ class UserpostItemWidget extends StatelessWidget {
 
   var controller = Get.find<PageFeedController>();
   final PageFeedController comments_controller = Get.put(PageFeedController());
+  bool isOverflowVisible = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -72,34 +75,47 @@ class UserpostItemWidget extends StatelessWidget {
                         Spacer(),
                         Padding(
                           padding: EdgeInsets.only(top: 3.v),
-                          child: Obx(
-                            () => Text(
-                              userpostItemModelObj.lpsinhhot20tclc!.value,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.labelLarge,
+                          child:
+                            Obx(
+                              () => Text(
+                                userpostItemModelObj.lpsinhhot20tclc!.value,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.labelLarge,
+                              ),
                             ),
-                          ),
                         ),
                       ],
                     ),
                   ),
               ),
-              Container(
-                width: 354.h,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 6.h,
-                  vertical: 2.v,
-                ),
-                decoration: AppDecoration.fillOnErrorContainer,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 8.h),
-                  child: Obx(
-                    () => Text(
-                      userpostItemModelObj.postContent!.value,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyLarge,
-                    ),
+              GestureDetector(
+                onTap: (){
+                  Get.showSnackbar(GetSnackBar(
+                    message: 'Overflow is visible!',
+                    duration: Duration(seconds: 1),
+                  ));
+                  isOverflowVisible = !isOverflowVisible;
+                },
+                child: Container(
+                  width: 354.h,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 6.h,
+                    vertical: 2.v,
                   ),
+                  decoration: AppDecoration.fillOnErrorContainer,
+                  
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 8.h),
+                      child:
+                          Obx(
+                            () => Text(
+                              userpostItemModelObj.postContent!.value,
+                              overflow: isOverflowVisible ? TextOverflow.visible : TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyLarge,
+                              maxLines: 3,
+                            ),
+                          ),
+                    ),
                 ),
               ),
               CustomImageView(
@@ -124,12 +140,7 @@ class UserpostItemWidget extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    CustomImageView(
-                      svgPath: ImageConstant.imgLocation,
-                      height: 12.v,
-                      width: 14.h,
-                      margin: EdgeInsets.only(bottom: 2.v),
-                    ),
+                    CustomReaction(),
                     Padding(
                       padding: EdgeInsets.only(left: 6.h),
                       child: Text(
@@ -137,17 +148,24 @@ class UserpostItemWidget extends StatelessWidget {
                         style: theme.textTheme.bodyMedium,
                       ),
                     ),
-                    CustomImageView(
-                      svgPath: ImageConstant.imgCar,
-                      height: 14.adaptSize,
-                      width: 14.adaptSize,
-                      margin: EdgeInsets.only(left: 13.h),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 6.h),
-                      child: Text(
-                        "lbl_15_b_nh_lu_n".tr,
-                        style: theme.textTheme.bodyMedium,
+                    GestureDetector(
+                      onTap: () {Get.bottomSheet(CustomCommentScreen());},
+                      child: Row(
+                        children: [
+                          CustomImageView(
+                            svgPath: ImageConstant.imgComment,
+                            height: 16.adaptSize,
+                            width: 16.adaptSize,
+                            margin: EdgeInsets.only(left: 13.h),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 6.h),
+                            child: Text(
+                              "lbl_15_b_nh_lu_n".tr,
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -175,32 +193,6 @@ class UserpostItemWidget extends StatelessWidget {
                         "lbl_xem_b_nh_lu_n".tr,
                         style: CustomTextStyles.bodyMediumGray500,
                       ),
-                      SizedBox(height: 12.v),
-                      Row(
-                        children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgIconavatar16x16,
-                            height: 16.adaptSize,
-                            width: 16.adaptSize,
-                            radius: BorderRadius.circular(
-                              8.h,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.h),
-                            child: Text(
-                              "msg_th_m_b_nh_lu_n".tr,
-                              style: theme.textTheme.titleSmall,
-                            ),
-                          ),
-                          Spacer(),
-                          CustomImageView(
-                            imagePath: ImageConstant.imgIconsend,
-                            height: 16.adaptSize,
-                            width: 16.adaptSize,
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ),
@@ -208,5 +200,15 @@ class UserpostItemWidget extends StatelessWidget {
             ],
           ),
       );
+  }
+}
+class ContentOverflowController extends GetxController {
+  var isOverflowVisible = false.obs;
+
+  void toggleOverflow() {
+    isOverflowVisible.value = !isOverflowVisible.value;
+    if (isOverflowVisible.value) {
+      Get.snackbar('Overflow is visible!', '', duration: Duration(seconds: 2));
+    }
   }
 }

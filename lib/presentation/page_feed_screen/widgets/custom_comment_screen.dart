@@ -34,7 +34,10 @@ class _CustomCommentScreenState extends State<CustomCommentScreen> {
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Text('Comment $index'),
-                      trailing: CustomReaction(),
+                      trailing: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: CustomReaction(),
+                      ),
                       minVerticalPadding: 1.v,
                       //contentPadding: EdgeInsetsGeometry.infinity,
                     );
@@ -65,6 +68,14 @@ class _CustomCommentScreenState extends State<CustomCommentScreen> {
                           filled: false,
                           fillColor: appTheme.blueGray100
                       ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(right: 10.h),
+                        child: CustomImageView(
+                          imagePath: ImageConstant.imgIconsend,
+                          height: 16.adaptSize,
+                          width: 16.adaptSize,
+                        )
                     ),
                   ],
                 ),
