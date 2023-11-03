@@ -30,10 +30,21 @@ class _CustomCommentScreenState extends State<CustomCommentScreen> {
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: 50,
+                  itemCount: 20,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text('Comment $index'),
+                      leading: CustomImageView(
+                          imagePath: ImageConstant.imgIconavatar28x28,
+                          height: 24.adaptSize,
+                          width: 24.adaptSize,
+                          radius: BorderRadius.circular(14.h),
+                          // margin: EdgeInsets.symmetric(vertical: 1.v)
+                      ),
+                      title: Text('Username $index'),
+                      subtitle: Text('comment $index'),
+                      // GestureDetector(
+                      //   child: Text('Trả lời'),
+                      // ),
                       trailing: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: CustomReaction(),
@@ -66,16 +77,15 @@ class _CustomCommentScreenState extends State<CustomCommentScreen> {
                           borderDecoration: InputBorder.none,
                           // TextFormFieldStyleHelper,
                           filled: false,
-                          fillColor: appTheme.blueGray100
+                          fillColor: appTheme.blueGray100,
+                          suffix: IconButton(
+                            icon: Icon(Icons.send),
+                            iconSize: 16.adaptSize,
+                            onPressed: () {
+                            // Xử lý gửi bình luận ở đây
+                            },
+                        ),
                       ),
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(right: 10.h),
-                        child: CustomImageView(
-                          imagePath: ImageConstant.imgIconsend,
-                          height: 16.adaptSize,
-                          width: 16.adaptSize,
-                        )
                     ),
                   ],
                 ),

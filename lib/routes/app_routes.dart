@@ -18,7 +18,12 @@ import 'package:bkforum/presentation/page_setting_screen/page_setting_screen.dar
 import 'package:bkforum/presentation/page_setting_screen/binding/page_setting_binding.dart';
 import 'package:bkforum/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:bkforum/presentation/app_navigation_screen/binding/app_navigation_binding.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../data/apiClient/apiLogin.dart';
+import '../presentation/loading.dart';
 
 class AppRoutes {
   static const String pageLoginScreen = '/page_login_screen';
@@ -116,10 +121,38 @@ class AppRoutes {
     ),
     GetPage(
       name: initialRoute,
-      page: () => PageLoginScreen(),
+      page: () {
+        return FutureBuilder<bool>(
+          future: checkTokenAndNavigate(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return LoadingScreen();
+            } else {
+              if (snapshot.hasData && snapshot.data!) {
+
+                return PageFeedScreen();
+              } else {
+                return PageLoginScreen();
+              }
+            }
+          },
+        );
+      },
       bindings: [
         PageLoginBinding(),
+        PageFeedBinding()
       ],
     )
   ];
+}
+
+Future<bool> checkTokenAndNavigate() async {
+  final preferences = await SharedPreferences.getInstance();
+  final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
+  final email = preferences.getString('email') ?? '';
+  final password = preferences.getString('password') ?? '';
+  if (isLoggedIn){
+    LoginApiClient().login(email, password);
+  }
+  return isLoggedIn;
 }

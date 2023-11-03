@@ -1,4 +1,5 @@
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'controller/page_setting_controller.dart';
 import 'package:bkforum/core/app_export.dart';
@@ -65,14 +66,11 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 83.h, vertical: 14.v),
-                          decoration: AppDecoration.fillOnErrorContainer,
+                      Center(
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                SizedBox(height: 9.v),
+                                SizedBox(height: 12.v),
                                 CustomImageView(
                                     imagePath: ImageConstant.imgIconavatar40x40,
                                     height: 70.adaptSize,
@@ -87,11 +85,11 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                           child: Row(children: [
                             CustomImageView(
                                 imagePath: ImageConstant.imgIconswap,
-                                height: 26.adaptSize,
-                                width: 26.adaptSize),
+                                height: 20.adaptSize,
+                                width: 20.adaptSize),
                             Padding(
                                 padding: EdgeInsets.only(
-                                    left: 19.h, top: 3.v, bottom: 2.v),
+                                    left: 20.h, top: 2.adaptSize, bottom: 2.adaptSize),
                                 child: Text("lbl_i_m_t_kh_u".tr,
                                     style: CustomTextStyles.bodyLargeInter))
                           ])),
@@ -100,16 +98,14 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                             onTapRowiconexitone();
                           },
                           child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 20.h, top: 40.v, bottom: 5.v),
+                              padding: EdgeInsets.only(left: 20.h, top: 40.v, bottom: 5.v),
                               child: Row(children: [
                                 CustomImageView(
                                     imagePath: ImageConstant.imgIconexit,
-                                    height: 26.adaptSize,
-                                    width: 26.adaptSize),
+                                    height: 20.adaptSize,
+                                    width: 20.adaptSize),
                                 Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 19.h, top: 3.v, bottom: 2.v),
+                                    padding: EdgeInsets.only(left: 20.h, top: 2.adaptSize, bottom: 2.adaptSize),
                                     child: Text("lbl_ng_xu_t".tr,
                                         style: CustomTextStyles.bodyLargeInter))
                               ])))
@@ -170,7 +166,10 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
 
   /// When the action is triggered, this function uses the [Get] package to
   /// push the named route for the pageLoginScreen.
-  onTapRowiconexitone() {
+  onTapRowiconexitone() async {
+    final preferences = await SharedPreferences.getInstance();
+    preferences.setString('accessToken', '');
+    preferences.setBool('isLoggedIn', false);
     Get.toNamed(
       AppRoutes.pageLoginScreen,
     );

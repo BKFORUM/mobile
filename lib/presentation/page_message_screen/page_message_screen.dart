@@ -136,8 +136,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                               itemBuilder: (context, index) {
                                 return ListTile(
                                     leading: CustomImageView(
-                                        imagePath:
-                                        ImageConstant.imgIconavatar28x28,
+                                        imagePath: ImageConstant.imgIconavatar28x28,
                                         height: 30.adaptSize,
                                         width: 30.adaptSize,
                                         radius: BorderRadius.circular(14.h),

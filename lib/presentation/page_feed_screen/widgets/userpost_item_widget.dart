@@ -1,5 +1,6 @@
 import 'package:bkforum/presentation/page_feed_screen/widgets/custom_comment_screen.dart';
 import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
+import 'package:bkforum/widgets/image_slider.dart';
 
 import '../../../widgets/custom_elevated_button.dart';
 import '../../../widgets/custom_reaction.dart';
@@ -7,6 +8,7 @@ import '../controller/page_feed_controller.dart';
 import '../models/userpost_item_model.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:flutter/material.dart';
+
 
 // ignore: must_be_immutable
 class UserpostItemWidget extends StatelessWidget {
@@ -22,6 +24,7 @@ class UserpostItemWidget extends StatelessWidget {
   var controller = Get.find<PageFeedController>();
   final PageFeedController comments_controller = Get.put(PageFeedController());
   bool isOverflowVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,6 +51,7 @@ class UserpostItemWidget extends StatelessWidget {
                         ),
                       )
                     );
+                  loadPost();
                   },
                 child: Container(
                     padding: EdgeInsets.all(8.h),
@@ -68,7 +72,7 @@ class UserpostItemWidget extends StatelessWidget {
                             top: 2.v,
                           ),
                           child: Text(
-                            "msg_nguy_n_nh_t_h_ng".tr,
+                            userpostItemModelObj.userCreate!.value,
                             style: CustomTextStyles.titleSmallRobotoBlack900,
                           ),
                         ),
@@ -78,7 +82,7 @@ class UserpostItemWidget extends StatelessWidget {
                           child:
                             Obx(
                               () => Text(
-                                userpostItemModelObj.lpsinhhot20tclc!.value,
+                                userpostItemModelObj.forumName!.value,
                                 overflow: TextOverflow.ellipsis,
                                 style: theme.textTheme.labelLarge,
                               ),
@@ -90,11 +94,12 @@ class UserpostItemWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: (){
-                  Get.showSnackbar(GetSnackBar(
-                    message: 'Overflow is visible!',
-                    duration: Duration(seconds: 1),
-                  ));
-                  isOverflowVisible = !isOverflowVisible;
+                  // Get.showSnackbar(GetSnackBar(
+                  //   message: 'Overflow is visible!',
+                  //   duration: Duration(seconds: 1),
+                  // ));
+                  // isOverflowVisible = !isOverflowVisible;
+                  ContentOverflowController().toggleOverflow();
                 },
                 child: Container(
                   width: 354.h,
@@ -107,29 +112,32 @@ class UserpostItemWidget extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.only(right: 8.h),
                       child:
-                          Obx(
-                            () => Text(
-                              userpostItemModelObj.postContent!.value,
-                              overflow: isOverflowVisible ? TextOverflow.visible : TextOverflow.ellipsis,
-                              style: theme.textTheme.bodyLarge,
-                              maxLines: 3,
-                            ),
-                          ),
+                      GetX<ContentOverflowController>(
+                        init: ContentOverflowController(),
+                        builder: (controller) => Text(
+                          userpostItemModelObj.postContent!.value,
+                          overflow: controller.isOverflowVisible.value ? TextOverflow.visible : TextOverflow.ellipsis,
+                          style: theme.textTheme.bodyLarge,
+                          maxLines: 3,
+                        ),
+                      ),
                     ),
                 ),
               ),
-              CustomImageView(
-                imagePath: ImageConstant.imgImage,
-                height: 265.v,
-                width: 354.h,
-              ),
+              // CustomImageView(
+              //   imagePath: ImageConstant.imgImage,
+              //   height: 265.v,
+              //   width: 354.h,
+              // ),
+
+              ImageSlider(),
               Align(
                 alignment: Alignment.center,
                 child: Container(
                   height: 2.v,
                   width: 9.h,
                   decoration: BoxDecoration(
-                    color: appTheme.blueGray100,
+                    color: Colors.white10,
                   ),
                 ),
               ),
@@ -208,7 +216,15 @@ class ContentOverflowController extends GetxController {
   void toggleOverflow() {
     isOverflowVisible.value = !isOverflowVisible.value;
     if (isOverflowVisible.value) {
-      Get.snackbar('Overflow is visible!', '', duration: Duration(seconds: 2));
+      Get.snackbar('Overflow is visible! + $isOverflowVisible', '', duration: Duration(seconds: 2));
     }
   }
 }
+Widget buildImage(String urlImage, int index) => Container(
+  margin: EdgeInsets.symmetric(horizontal: 1.adaptSize),
+  child: Image.network(
+    urlImage,
+    fit: BoxFit.cover,
+  ),
+);
+

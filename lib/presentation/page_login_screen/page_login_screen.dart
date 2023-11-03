@@ -1,5 +1,6 @@
 import 'package:flutter_animate/flutter_animate.dart';
 
+import '../../data/apiClient/apiLogin.dart';
 import 'controller/page_login_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/widgets/custom_elevated_button.dart';
@@ -21,15 +22,6 @@ class PageLoginScreen extends GetWidget<PageLoginController> {
                 width: mediaQueryData.size.width,
                 height: mediaQueryData.size.height,
                 decoration: BoxDecoration(
-                    // gradient: LinearGradient(
-                    //     begin: Alignment(0.5, 0),
-                    //     end: Alignment(0.5, 1),
-                    //     colors: [
-                    //   theme.colorScheme.primary,
-                    //   theme.colorScheme.onErrorContainer,
-                    //   theme.colorScheme.primary
-                    // ]
-                    // )
                   color: theme.colorScheme.onErrorContainer
                 ),
                 child: Container(
@@ -63,7 +55,14 @@ class PageLoginScreen extends GetWidget<PageLoginController> {
                               CustomElevatedButton(
                                   text: "lbl_ng_nh_p".tr,
                                   onTap: (){
-                                    Get.offNamed(AppRoutes.pageFeedScreen);
+                                    try {
+                                      PageLoginController().loginController(
+                                          controller.studentidoneController.text.toString(),
+                                          controller.passwordoneController.text.toString()
+                                      );
+                                    } on Exception catch (e) {
+                                      Get.snackbar(e.toString(), '');
+                                    }
                                   }
                               ),
                               Padding(
@@ -94,3 +93,4 @@ class PageLoginScreen extends GetWidget<PageLoginController> {
     );
   }
 }
+
