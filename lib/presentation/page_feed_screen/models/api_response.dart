@@ -10,9 +10,15 @@ class ApiResponse {
   int payloadSize;
   bool hasNext;
 
-  ApiResponse({required this.skippedRecords, required this.totalRecords,
-    required this.data,required this.pages,required this.currPage,
-    required this.payloadSize,required this.hasNext});
+  ApiResponse({
+    required this.skippedRecords,
+    required this.totalRecords,
+    required this.data,
+    required this.pages,
+    required this.currPage,
+    required this.payloadSize,
+    required this.hasNext
+  });
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) {
     return ApiResponse(

@@ -51,7 +51,7 @@ class UserpostItemWidget extends StatelessWidget {
                         ),
                       )
                     );
-                  loadPost();
+                  // loadPost();
                   },
                 child: Container(
                     padding: EdgeInsets.all(8.h),

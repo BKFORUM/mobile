@@ -64,8 +64,8 @@ class PageFeedScreen extends GetWidget<PageFeedController> {
                     ])),
                 styleType: Style.bgOutline),
             body: Container(
-                margin: EdgeInsets.symmetric(horizontal: 3.h),
-                padding: EdgeInsets.symmetric(vertical: 6.v),
+                margin: EdgeInsets.symmetric(horizontal: 0),
+                padding: EdgeInsets.symmetric(vertical: 0),
                 decoration: AppDecoration.fillOnErrorContainer,
                 child: Obx(() => ListView.separated(
                     physics: BouncingScrollPhysics(),

@@ -1,15 +1,18 @@
 class PostDocument {
-  String id;
-  String fileName;
-  String fileUrl;
+  String? id;
+  String? fileName;
+  String? fileUrl;
 
-  PostDocument({required this.id, required this.fileName, required this.fileUrl});
+  PostDocument({
+    this.id,
+    this.fileName,
+    this.fileUrl});
 
   factory PostDocument.fromJson(Map<String, dynamic> json) {
     return PostDocument(
-      id: json['id'],
-      fileName: json['fileName'],
-      fileUrl: json['fileUrl'],
+      id: json['id'] ?? 'Default',
+      fileName: json['fileName'] ?? 'Default',
+      fileUrl: json['fileUrl'] ?? 'Default',
     );
   }
 }
