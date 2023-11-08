@@ -1,6 +1,7 @@
 import 'package:bkforum/presentation/page_feed_screen/widgets/custom_comment_screen.dart';
 import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:bkforum/widgets/image_slider.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import '../../../widgets/custom_elevated_button.dart';
 import '../../../widgets/custom_reaction.dart';
@@ -59,7 +60,7 @@ class UserpostItemWidget extends StatelessWidget {
                     child: Row(
                       children: [
                         CustomImageView(
-                          imagePath: ImageConstant.imgIconavatar,
+                          url: userpostItemModelObj.userAvatar!.value,
                           height: 20.adaptSize,
                           width: 20.adaptSize,
                           radius: BorderRadius.circular(
@@ -114,11 +115,11 @@ class UserpostItemWidget extends StatelessWidget {
                       child:
                       GetX<ContentOverflowController>(
                         init: ContentOverflowController(),
-                        builder: (controller) => Text(
-                          userpostItemModelObj.postContent!.value,
-                          overflow: controller.isOverflowVisible.value ? TextOverflow.visible : TextOverflow.ellipsis,
-                          style: theme.textTheme.bodyLarge,
-                          maxLines: 3,
+                        builder: (controller) => Html(
+                          data: userpostItemModelObj.postContent!.value,
+                          // overflow: controller.isOverflowVisible.value ? TextOverflow.visible : TextOverflow.ellipsis,
+                          // style: theme.textTheme.bodyLarge,
+                          // maxLines: 3,
                         ),
                       ),
                     ),
@@ -130,7 +131,7 @@ class UserpostItemWidget extends StatelessWidget {
               //   width: 354.h,
               // ),
 
-              ImageSlider(),
+              ImageSlider(userpostItemModelObj.listImages!.value),
               Align(
                 alignment: Alignment.center,
                 child: Container(
@@ -157,7 +158,9 @@ class UserpostItemWidget extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {Get.bottomSheet(CustomCommentScreen());},
+                      onTap: () {Get.bottomSheet(CustomCommentScreen(
+                          userpostItemModelObj.id!.value
+                      ));},
                       child: Row(
                         children: [
                           CustomImageView(
@@ -183,7 +186,7 @@ class UserpostItemWidget extends StatelessWidget {
               GestureDetector(
                 onTap:( ){
                   Get.bottomSheet(
-                    CustomCommentScreen()
+                    CustomCommentScreen(userpostItemModelObj.id!.value)
                   );
                 },
                 child: Container(

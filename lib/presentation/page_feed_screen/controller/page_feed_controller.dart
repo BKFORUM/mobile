@@ -10,14 +10,4 @@ import '../../../data/apiClient/userpost_item_api.dart';
 class PageFeedController extends GetxController {
   Rx<PageFeedModel> pageFeedModelObj = PageFeedModel().obs;
 }
-//
-// void loadPost() async {
-//   final apiClient = PostItemApiClient();
-//   await apiClient.fetchData().then((response) {
-//     print(response.totalRecords);
-//     print(response.data[0].user.fullName);
-//     print(response.data[0].content);
-//   }).catchError((error) {
-//     print(error);
-//   });
-// }
+
