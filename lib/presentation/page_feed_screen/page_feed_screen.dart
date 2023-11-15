@@ -1,5 +1,8 @@
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/apiClient/profile_api.dart';
+import '../../data/models/profile_model.dart';
 import '../page_feed_screen/widgets/userpost_item_widget.dart';
 import 'controller/page_feed_controller.dart';
 import 'models/userpost_item_model.dart';
@@ -16,70 +19,110 @@ class PageFeedScreen extends GetWidget<PageFeedController> {
 
   @override
   Widget build(BuildContext context) {
+
+    Profile? fetchedProfile;
+    ProfileApi().fetchProfile().then((profile) async {
+      fetchedProfile = Profile(
+          id: profile.id,
+          fullName: profile.fullName,
+          avatarUrl: profile.avatarUrl,
+          email: profile.email,
+          address: profile.address,
+          faculty: profile.faculty,
+          type: profile.type,
+      );
+    final preferences = await SharedPreferences.getInstance();
+      preferences.setString('user_id', fetchedProfile!.id);
+      preferences.setString('user_fullName', fetchedProfile!.fullName);
+      preferences.setString('user_fullName', fetchedProfile!.fullName);
+    }).catchError((error) {
+      print('Error: $error');
+    });
+
     mediaQueryData = MediaQuery.of(context);
-    return SafeArea(
-        child: Scaffold(
-            appBar: CustomAppBar(
-                leadingWidth: 44.h,
-                leading: AppbarImage(
-                    imagePath: ImageConstant.imgIconhome,
-                    margin:
-                        EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
-                    onTap: () {
-                      onTapIconhomeone();
-                    }).animate().tint(color: Colors.amber).shake(),
-                title: Padding(
-                    padding: EdgeInsets.only(left: 19.h),
-                    child: Row(children: [
-                      AppbarImage1(
-                          imagePath: ImageConstant.imgIconforum,
-                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
+    return FutureBuilder<Profile>(
+      future: ProfileApi().fetchProfile(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                backgroundColor: Colors.white,
+              ));
+        } else if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+        } else {
+          final fetchedProfile = snapshot.data!;
+          return SafeArea(
+              child: Scaffold(
+                  appBar: CustomAppBar(
+                      leadingWidth: 44.h,
+                      leading: AppbarImage(
+                          imagePath: ImageConstant.imgIconhome,
+                          margin:
+                          EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
                           onTap: () {
-                            onTapIconforumone();
-                          }),
-                      AppbarImage1(
-                          imagePath: ImageConstant.imgIconmessage,
-                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                          onTap: () {
-                            onTapIconmessageone();
-                          }),
-                      AppbarImage1(
-                          imagePath: ImageConstant.imgIconadd,
-                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                          onTap: () {
-                            onTapIconaddone();
-                          }),
-                      AppbarImage2(
-                          imagePath: ImageConstant.imgIconnotification,
-                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                          onTap: () {
-                            onTapIconnotificatio();
-                          }),
-                      AppbarCircleimage(
-                          imagePath: ImageConstant.imgIconavatar,
-                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                          onTap: () {
-                            onTapIconavatarone();
-                          })
-                    ])),
-                styleType: Style.bgOutline),
-            body: Container(
-                margin: EdgeInsets.symmetric(horizontal: 0),
-                padding: EdgeInsets.symmetric(vertical: 0),
-                decoration: AppDecoration.fillOnErrorContainer,
-                child: Obx(() => ListView.separated(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 10.v);
-                    },
-                    itemCount: controller
-                        .pageFeedModelObj.value.userpostItemList.value.length,
-                    itemBuilder: (context, index) {
-                      UserpostItemModel model = controller
-                          .pageFeedModelObj.value.userpostItemList.value[index];
-                      return UserpostItemWidget(model);
-                    })))));
+                            onTapIconhomeone();
+                          }).animate().tint(color: Colors.amber).shake(),
+                      title: Padding(
+                          padding: EdgeInsets.only(left: 19.h),
+                          child: Row(children: [
+                            AppbarImage1(
+                                imagePath: ImageConstant.imgIconforum,
+                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                                onTap: () {
+                                  onTapIconforumone();
+                                }),
+                            AppbarImage1(
+                                imagePath: ImageConstant.imgIconmessage,
+                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                                onTap: () {
+                                  onTapIconmessageone();
+                                }),
+                            AppbarImage1(
+                                imagePath: ImageConstant.imgIconadd,
+                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                                onTap: () {
+                                  onTapIconaddone();
+                                }),
+                            AppbarImage2(
+                                imagePath: ImageConstant.imgIconnotification,
+                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                                onTap: () {
+                                  onTapIconnotificatio();
+                                }),
+                            AppbarCircleimage(
+                                url: fetchedProfile.avatarUrl,
+                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                                onTap: () {
+                                  onTapIconavatarone();
+                                })
+                          ])),
+                      styleType: Style.bgOutline),
+                  body: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 0),
+                      padding: EdgeInsets.symmetric(vertical: 0),
+                      decoration: AppDecoration.fillOnErrorContainer,
+                      child: Obx(() => ListView.separated(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 10.v);
+                          },
+                          itemCount: controller.pageFeedModelObj.value
+                              .userpostItemList.value.length,
+                          itemBuilder: (context, index) {
+                            UserpostItemModel model = controller
+                                .pageFeedModelObj
+                                .value
+                                .userpostItemList
+                                .value[index];
+                            return UserpostItemWidget(model);
+                          })))));
+        }
+
+      }
+    );
   }
 
   /// Navigates to the pageForumoneScreen when the action is triggered.

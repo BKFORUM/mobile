@@ -47,10 +47,11 @@ class UserpostItemWidget extends StatelessWidget {
                         height: 700.adaptSize,
                         child: Column(
                           children: [
-
                           ],
                         ),
-                      )
+                      ),
+                      isScrollControlled: true,
+                      // ignoreSafeArea: true,
                     );
                   // loadPost();
                   },
@@ -153,14 +154,18 @@ class UserpostItemWidget extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 6.h),
                       child: Text(
-                        "lbl_40_y_u_th_ch".tr,
+                        "yêu thích",
                         style: theme.textTheme.bodyMedium,
                       ),
                     ),
                     GestureDetector(
                       onTap: () {Get.bottomSheet(CustomCommentScreen(
                           userpostItemModelObj.id!.value
-                      ));},
+                      ),
+                          isScrollControlled: true,
+                          ignoreSafeArea: false,
+                          enableDrag: true
+                      );},
                       child: Row(
                         children: [
                           CustomImageView(
@@ -172,7 +177,7 @@ class UserpostItemWidget extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(left: 6.h),
                             child: Text(
-                              "lbl_15_b_nh_lu_n".tr,
+                              "bình luận",
                               style: theme.textTheme.bodyMedium,
                             ),
                           ),
@@ -186,7 +191,10 @@ class UserpostItemWidget extends StatelessWidget {
               GestureDetector(
                 onTap:( ){
                   Get.bottomSheet(
-                    CustomCommentScreen(userpostItemModelObj.id!.value)
+                    CustomCommentScreen(userpostItemModelObj.id!.value),
+                    isScrollControlled: true,
+                    ignoreSafeArea: false,
+                    enableDrag: true,
                   );
                 },
                 child: Container(
