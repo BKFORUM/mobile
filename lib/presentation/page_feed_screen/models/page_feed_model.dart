@@ -11,7 +11,7 @@ class PageFeedModel {
   Future<List<UserpostItemModel>> loadPost() async {
     try {
       final apiClient = PostItemApiClient();
-      final response = await apiClient.fetchData();
+      final response = await apiClient.fetchData('');
       List<UserpostItemModel> userpostItemList = [];
       for (var res in response.data) {
         UserpostItemModel userpostItem = UserpostItemModel(

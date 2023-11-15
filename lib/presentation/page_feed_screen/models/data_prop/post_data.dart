@@ -8,7 +8,7 @@ class Data {
   String id;
   Forum forum;
   String content;
-  User user;
+  User? user;
   List<PostDocument>? documents;
   String status;
   DateTime createdAt;
@@ -19,7 +19,7 @@ class Data {
     required this.id,
     required this.forum,
     required this.content,
-    required this.user,
+    this.user,
     this.documents,
     required this.status,
     required this.createdAt,

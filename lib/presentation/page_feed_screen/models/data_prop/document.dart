@@ -3,6 +3,8 @@ class PostDocument {
   String? fileName;
   String? fileUrl;
 
+
+
   PostDocument({
     this.id,
     this.fileName,
@@ -15,4 +17,5 @@ class PostDocument {
       fileUrl: json['fileUrl'] ?? 'Default',
     );
   }
+
 }

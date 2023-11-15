@@ -8,22 +8,31 @@ import '../../presentation/page_feed_screen/models/api_response.dart';
 // import 'package:http/http.dart' as http;
 
 class PostItemApiClient extends GetConnect {
-  Future<dynamic> fetchData() async {
+  Future<dynamic> fetchData(final String id) async {
     final preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('accessToken') ?? '';
+    // String email = preferences.getString('email') ?? '';
+
     final headers = {
       'Authorization': 'Bearer $token',
     };
-    final response = await get(
+    final response;
+    if (id=='') {
+        response = await get(
         ApiEndPoints.baseUrl+ApiEndPoints.authEndpoints.posts,
         headers: headers,
-    );
+      );
+    }else{
+        response = await get(
+        ApiEndPoints.baseUrl+ApiEndPoints.authEndpoints.forums+'/$id/posts',
+        headers: headers,
+      );
+    }
     if (response.statusCode == 200) {
       final apiResponse = ApiResponse.fromJson(response.body);
       return apiResponse;
     } else {
-      final code = response.statusCode;
-      throw Exception('Failed to fetch data, status code $code');
+      throw Exception('Failed to fetch data, status code ${response.statusCode}');
     }
   }
 }

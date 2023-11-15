@@ -21,7 +21,7 @@ class CustomCommentScreen extends StatefulWidget {
 }
 
 class _CustomCommentScreenState extends State<CustomCommentScreen> {
-  double _sheetHeight = 1000.adaptSize; // Chiều cao mặc định của BottomSheet
+  // double _sheetHeight = 1000.adaptSize; // Chiều cao mặc định của BottomSheet
 
   List<CommentsModel> commentsList = [];
 
@@ -102,11 +102,7 @@ class _CustomCommentScreenState extends State<CustomCommentScreen> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
           ),
-          padding: EdgeInsets.fromLTRB(
-              10.adaptSize,
-              10.adaptSize,
-              10.adaptSize,
-              10.adaptSize),
+          padding: EdgeInsets.all(10.adaptSize),
           //height: 500,
           child: Column(
             children: [
@@ -115,25 +111,50 @@ class _CustomCommentScreenState extends State<CustomCommentScreen> {
                   itemCount: commentsList.length,
                   itemBuilder: (context, index) {
                     final comment = commentsList[index];
-                    return ListTile(
-                      leading: CustomImageView(
-                          url: comment.userAvatar!.value,
-                          height: 24.adaptSize,
-                          width: 24.adaptSize,
-                          radius: BorderRadius.circular(14.h),
-                          // margin: EdgeInsets.symmetric(vertical: 1.v)
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 8.adaptSize),
+                      child: ListTile(
+                        leading: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 8.adaptSize),
+                          child: CustomImageView(
+                              url: comment.userAvatar!.value,
+                              height: 24.adaptSize,
+                              width: 24.adaptSize,
+                              radius: BorderRadius.circular(14.h),
+                              // margin: EdgeInsets.symmetric(vertical: 1.v)
+                          ),
+                        ),
+                        title: Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 4.adaptSize,6.adaptSize),
+                          child: Text(
+                              comment.userCreate!.value,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.v
+                              ),
+                            ),
+                        ),
+                        subtitle: Container(
+                          margin: EdgeInsets.only(top: 1.adaptSize),
+                          child: Text(
+                            comment.content!.value,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 18.v,
+                              color: Colors.black
+                            ),
+                          ),
+                        ),
+                        // GestureDetector(
+                        //   child: Text('Trả lời'),
+                        // ),
+                        // trailing: Padding(
+                        //   padding: const EdgeInsets.all(4.0),
+                        //   child: CustomReaction(),
+                        // ),
+                        minVerticalPadding: 1.v,
+                        //contentPadding: EdgeInsetsGeometry.infinity,
                       ),
-                      title: Text(comment.userCreate!.value),
-                      subtitle: Text(comment.content!.value),
-                      // GestureDetector(
-                      //   child: Text('Trả lời'),
-                      // ),
-                      trailing: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: CustomReaction(),
-                      ),
-                      minVerticalPadding: 1.v,
-                      //contentPadding: EdgeInsetsGeometry.infinity,
                     );
                   }),
               ),

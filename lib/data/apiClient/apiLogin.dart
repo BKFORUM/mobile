@@ -14,7 +14,7 @@ class LoginApiClient extends GetConnect {
     if (response.statusCode == 201) {
       final token = response.body['accessToken'] as String;
       final preferences = await SharedPreferences.getInstance();
-      print(token);
+      // print(token);
       preferences.setString('accessToken', token);
       preferences.setString('email', email);
       preferences.setString('password', password);
