@@ -1,4 +1,7 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
+import 'package:bkforum/presentation/page_friends_screen/widget/friend_suggest_widget.dart';
+import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'controller/page_friends_controller.dart';
 import 'package:bkforum/presentation/page_friends_screen/model/friends_request_model.dart';
 import 'package:bkforum/presentation/page_friends_screen/widget/friend_request_widget.dart';
@@ -8,9 +11,10 @@ import 'package:bkforum/widgets/app_bar/appbar_image_2.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class PageFriendsScreen extends GetWidget<PageFriendsController> {
-  const PageFriendsScreen({Key? key}) : super(key: key);
-
+  final subPage;
+  PageFriendsScreen({this.subPage});
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
@@ -88,8 +92,10 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                             color: Color(0xff0001cb),
                             borderRadius: BorderRadius.circular(15.adaptSize),
                           ),
-                          child: Center(
-                            child: Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                print(this.subPage);
+                              },
                               child: Text(
                                 'Lời mời',
                                 textAlign: TextAlign.center,
@@ -101,7 +107,6 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                                 ),
                               ),
                             ),
-                          ),
                         ),
                         SizedBox(
                           width: 10.adaptSize,
@@ -114,8 +119,11 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                             color: Color(0xffb0b0b0),
                             borderRadius: BorderRadius.circular(15.adaptSize),
                           ),
-                          child: Center(
-                            child: Center(
+                          child: ElevatedButton(
+                              onPressed: () {
+                                pressedButton();
+                              },
+                              style: ElevatedButton.styleFrom(backgroundColor:Color(0xffb0b0b0)),
                               child: Text(
                                 'Đề xuất',
                                 textAlign: TextAlign.center,
@@ -123,11 +131,11 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
                                   height: 1.2125,
-                                  color: Color(0xff000000),
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
-                          ),
+                          
                         ),
                         SizedBox(
                           width: 10.adaptSize,
@@ -140,8 +148,12 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                             color: Color(0xffb0b0b0),
                             borderRadius: BorderRadius.circular(15.adaptSize),
                           ),
-                          child: Center(
-                            child: Center(
+                          child: ElevatedButton(
+                              onPressed: () {
+                                print("Quang Khang");
+                                
+                              },
+                              style: ElevatedButton.styleFrom(backgroundColor:Color(0xffb0b0b0)),
                               child: Text(
                                 'Bạn bè',
                                 textAlign: TextAlign.center,
@@ -149,11 +161,10 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
                                   height: 1.2125,
-                                  color: Color(0xff000000),
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
-                          ),
                         ),
                       ],
                     ),
@@ -175,11 +186,21 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                                     .pageFriendsRequestModelObj
                                     .value
                                     .friendsRequest
-                                    .value[1];
+                                    .value[0];
+                                if (this.subPage=="suggest"){
+                                  return FriendSuggestWidget(model);
+                                }
                                 return FriendRequestWidget(model);
                               })))
                 ]))));
   }
+
+  pressedButton() {
+     Get.toNamed(
+      AppRoutes.pageFriendsScreen,
+      arguments: "suggest"
+    );
+  }   
 
   void onTapIconhomeone() {}
 
