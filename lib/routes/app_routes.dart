@@ -1,3 +1,5 @@
+import 'package:bkforum/presentation/page_friends_screen/binding/page_friends_binding.dart';
+import 'package:bkforum/presentation/page_friends_screen/page_friends_screen.dart';
 import 'package:bkforum/presentation/page_login_screen/page_login_screen.dart';
 import 'package:bkforum/presentation/page_login_screen/binding/page_login_binding.dart';
 import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
@@ -46,6 +48,8 @@ class AppRoutes {
   static const String pagePostScreen = '/page_post_screen';
 
   static const String pageNotificationScreen = '/page_notification_screen';
+
+  static const String pageFriendsScreen = '/page_friends_screen';
 
   static const String pageSettingScreen = '/page_setting_screen';
 
@@ -123,6 +127,13 @@ class AppRoutes {
       page: () => AppNavigationScreen(),
       bindings: [
         AppNavigationBinding(),
+      ],
+    ),
+     GetPage(
+      name: pageFriendsScreen,
+      page: () => PageFriendsScreen(),
+      bindings: [
+        PageFriendsBinding(),
       ],
     ),
     GetPage(
