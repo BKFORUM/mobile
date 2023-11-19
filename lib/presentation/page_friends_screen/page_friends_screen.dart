@@ -68,17 +68,94 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                 width: double.maxFinite,
                 child: Column(children: [
                   Container(
-                    // limiktbng6f (1:26)
-                    // margin: EdgeInsets.fromLTRB(
-                    //     6.adaptSize, 0.adaptSize, 0.adaptSize, 9.5.adaptSize),
-                    child: Text(
-                      'Lời mời kết bạn',
-                      style: TextStyle(
-                        fontSize: 16.adaptSize,
-                        fontWeight: FontWeight.w600,
-                        height: 1.2175,
-                        color: Color(0xff000000),
-                      ),
+                    // frame194DuM (13:232)
+                    padding: EdgeInsets.fromLTRB(
+                        9.adaptSize, 6.adaptSize, 85.adaptSize, 6.adaptSize),
+                    width: double.infinity,
+                    height: 39.adaptSize,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0x33000000)),
+                      color: Color(0xffffffff),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          // commentbuttonXv3 (13:233)
+                          width: 82.adaptSize,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xff0001cb),
+                            borderRadius: BorderRadius.circular(15.adaptSize),
+                          ),
+                          child: Center(
+                            child: Center(
+                              child: Text(
+                                'Lời mời',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2125,
+                                  color: Color(0xffffffff),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.adaptSize,
+                        ),
+                        Container(
+                          // commentbuttonb9D (13:235)
+                          width: 82.adaptSize,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xffb0b0b0),
+                            borderRadius: BorderRadius.circular(15.adaptSize),
+                          ),
+                          child: Center(
+                            child: Center(
+                              child: Text(
+                                'Đề xuất',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2125,
+                                  color: Color(0xff000000),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.adaptSize,
+                        ),
+                        Container(
+                          // commentbuttonedH (13:237)
+                          width: 82.adaptSize,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xffb0b0b0),
+                            borderRadius: BorderRadius.circular(15.adaptSize),
+                          ),
+                          child: Center(
+                            child: Center(
+                              child: Text(
+                                'Bạn bè',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2125,
+                                  color: Color(0xff000000),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Expanded(

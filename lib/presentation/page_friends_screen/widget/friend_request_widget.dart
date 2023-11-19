@@ -23,6 +23,7 @@ class FriendRequestWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          
           Container(
             // ellipse4aW7 (1:121)
             margin: EdgeInsets.fromLTRB(
@@ -42,7 +43,7 @@ class FriendRequestWidget extends StatelessWidget {
             // autogroupygq9WPm (YEE1GnTbbenp9xtdYZYGq9)
             margin: EdgeInsets.fromLTRB(
                 0.adaptSize, 6.adaptSize, 0.adaptSize, 0.adaptSize),
-            width: 229.adaptSize,
+            width: 250.adaptSize,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -71,7 +72,7 @@ class FriendRequestWidget extends StatelessWidget {
                         // commentbuttonsNj (1:123)
                         margin: EdgeInsets.fromLTRB(
                             0.adaptSize, 0.adaptSize, 9.adaptSize, 0.adaptSize),
-                        width:  110.adaptSize,
+                        width:  120.adaptSize,
                         height: double.infinity,
                         decoration: BoxDecoration(
                           color: Color(0xff0001cb),
@@ -94,7 +95,7 @@ class FriendRequestWidget extends StatelessWidget {
                       ),
                       Container(
                         // commentbuttonEEw (4:220)
-                        width:  110.adaptSize,
+                        width:  120.adaptSize,
                         height: double.infinity,
                         decoration: BoxDecoration(
                           color: Color(0xffb0b0b0),
