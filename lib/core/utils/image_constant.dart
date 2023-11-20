@@ -45,6 +45,10 @@ class ImageConstant {
 
   static String imgIconmessage = '$imagePath/img_iconmessage.png';
 
+  static String imgIconMenu = '$imagePath/img_barssort.png';
+
+  static String imgIconWhiteSearch = '$imagePath/img_iconwhitesearch.png';
+
   static String imgIconadd = '$imagePath/img_iconadd.png';
 
   static String imgIconnotification = '$imagePath/img_iconnotification.png';

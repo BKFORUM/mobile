@@ -38,5 +38,26 @@ class CommentsApiClient extends GetConnect {
       throw Exception('Failed to fetch data, status code $code');
     }
   }
+  Future<void> uploadData(String id, String comment) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+    final body = {
+      'content': comment,
+    };
+    final response = await post(
+      ApiEndPoints.baseUrl+ApiEndPoints.authEndpoints.posts+'/'+id+'/'+ApiEndPoints.authEndpoints.comments,
+      jsonEncode(body),
+      headers: headers,
+    );
+    if(response.statusCode == 201){
+    } else {
+      throw Exception('Failed to fetch comment, status code ${response.statusCode}');
+    }
+  }
 }
 

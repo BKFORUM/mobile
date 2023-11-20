@@ -49,6 +49,8 @@ class PageLoginScreen extends GetWidget<PageLoginController> {
                                   controller: controller.passwordoneController,
                                   contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 10.v),
                                   hintText: "lbl_m_t_kh_u".tr,
+                                  obscureText: true,
+                                  // obscuringCharacter:'*',
                                   textInputAction: TextInputAction.done
                               ),
                               SizedBox(height: 91.v),

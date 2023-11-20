@@ -29,7 +29,6 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
         faculty: profile.faculty,
         type: profile.type,
       );
-      print(fetchedProfile?.fullName);
     }).catchError((error) {
       print('Error: $error');
     });
@@ -54,26 +53,20 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                   appBar: CustomAppBar(
                       leadingWidth: 44.h,
                       leading: AppbarImage(
-                          imagePath: ImageConstant.imgIconhome,
-                          margin:
-                          EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
-                          onTap: () {
-                            onTapIconhomeone();
-                          }),
+                        imagePath: ImageConstant.imgIconhome,
+                        margin: EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
+                        onTap: () {
+                          onTapIconhomeone();
+                        },
+                      ),
                       title: Padding(
                           padding: EdgeInsets.only(left: 19.h),
                           child: Row(children: [
                             AppbarImage1(
-                                imagePath: ImageConstant.imgIconforum,
+                                imagePath: ImageConstant.imgIconWhiteSearch,
                                 margin: EdgeInsets.only(left: 19.h, right: 19.h),
                                 onTap: () {
-                                  onTapIconforumone();
-                                }),
-                            AppbarImage1(
-                                imagePath: ImageConstant.imgIconmessage,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconmessageone();
+                                  onTapIconsearch();
                                 }),
                             AppbarImage1(
                                 imagePath: ImageConstant.imgIconadd,
@@ -82,17 +75,23 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                   onTapIconaddone();
                                 }),
                             AppbarImage1(
+                                imagePath: ImageConstant.imgIconmessage,
+                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                                onTap: () {
+                                  onTapIconmessageone();
+                                }),
+                            AppbarImage1(
                                 imagePath: ImageConstant.imgIconnotification,
                                 margin: EdgeInsets.only(left: 19.h, right: 19.h),
                                 onTap: () {
                                   onTapIconnotificatio();
                                 }),
-                            AppbarCircleimage(
-                              url: fetchedProfile.avatarUrl,
-                              margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                            ).animate().fadeIn().slide(duration: 100.ms)
+                            AppbarImage1(
+                                imagePath: ImageConstant.imgIconMenu,
+                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                                onTap: () {}).animate().tint(color: Colors.amber).shake(),
                           ])),
-                      styleType: Style.bgFill),
+                      styleType: Style.bgOutline),
                   body: Container(
                       width: double.maxFinite,
                       decoration: AppDecoration.fillOnErrorContainer,
@@ -218,6 +217,7 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                             url: fetchedProfile.avatarUrl,
                                             height: 70.adaptSize,
                                             width: 70.adaptSize,
+                                            fit: BoxFit.cover,
                                             radius: BorderRadius.circular(35.adaptSize)),
                                       ),
                                       SizedBox(height: 13.v),
@@ -243,6 +243,15 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
     );
   }
 
+  /// Navigates to the pageSearchScreen when the action is triggered.
+
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageSearchScreen.
+  onTapIconsearch() {
+    Get.toNamed(
+      AppRoutes.pageSearchSreen,
+    );
+  }
   /// Navigates to the pageForumoneScreen when the action is triggered.
 
   /// When the action is triggered, this function uses the [Get] package to

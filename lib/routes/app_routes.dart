@@ -2,6 +2,10 @@ import 'package:bkforum/presentation/page_login_screen/page_login_screen.dart';
 import 'package:bkforum/presentation/page_login_screen/binding/page_login_binding.dart';
 import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
 import 'package:bkforum/presentation/page_feed_screen/binding/page_feed_binding.dart';
+
+import 'package:bkforum/presentation/page_search_screen/page_search_screen.dart';
+import 'package:bkforum/presentation/page_search_screen/binding/page_search_binding.dart';
+
 import 'package:bkforum/presentation/page_forumone_screen/page_forumone_screen.dart';
 import 'package:bkforum/presentation/page_forumone_screen/binding/page_forumone_binding.dart';
 import 'package:bkforum/presentation/page_forumtwo_screen/page_forumtwo_screen.dart';
@@ -19,11 +23,11 @@ import 'package:bkforum/presentation/page_setting_screen/binding/page_setting_bi
 import 'package:bkforum/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:bkforum/presentation/app_navigation_screen/binding/app_navigation_binding.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/apiClient/apiLogin.dart';
-import '../presentation/loading.dart';
 
 class AppRoutes {
   static const String pageLoginScreen = '/page_login_screen';
@@ -31,6 +35,8 @@ class AppRoutes {
   static const String pageFeedScreen = '/page_feed_screen';
 
   static const String pageForumoneScreen = '/page_forumone_screen';
+
+  static const String pageSearchSreen = '/page_search_screen';
 
   static const String pageForumtwoScreen = '/page_forumtwo_screen';
 
@@ -61,6 +67,13 @@ class AppRoutes {
       page: () => PageFeedScreen(),
       bindings: [
         PageFeedBinding(),
+      ],
+    ),
+    GetPage(
+      name: pageSearchSreen,
+      page: () => PageSearchScreen(),
+      bindings: [
+        PageSearchBinding(),
       ],
     ),
     GetPage(
@@ -126,7 +139,7 @@ class AppRoutes {
           future: checkTokenAndNavigate(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingScreen();
+              return CircularProgressIndicator();
             } else {
               if (snapshot.hasData && snapshot.data!) {
 

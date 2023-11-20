@@ -10,7 +10,7 @@ class PageForumoneModel {
   Future<List<UserpostItemModel>> loadForumPost(final String forumId) async {
     try {
       final apiClient = PostItemApiClient();
-      final response = await apiClient.fetchData(forumId);
+      final response = await apiClient.fetchData(forumId, 10, 0);
       List<UserpostItemModel> userpostItemList = [];
       for (var res in response.data) {
         UserpostItemModel userpostItem = UserpostItemModel(
