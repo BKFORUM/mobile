@@ -1,7 +1,8 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
+import 'package:bkforum/presentation/page_friends_screen/page/page_friends_request.dart';
+import 'package:bkforum/presentation/page_friends_screen/page/page_friends_suggest.dart';
+import 'package:bkforum/presentation/page_friends_screen/page/page_my_friends.dart';
 import 'package:bkforum/presentation/page_friends_screen/widget/friend_suggest_widget.dart';
-import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'controller/page_friends_controller.dart';
 import 'package:bkforum/presentation/page_friends_screen/model/friends_request_model.dart';
 import 'package:bkforum/presentation/page_friends_screen/widget/friend_request_widget.dart';
@@ -13,8 +14,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class PageFriendsScreen extends GetWidget<PageFriendsController> {
-  final subPage;
-  PageFriendsScreen({this.subPage});
+  PageFriendsScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
@@ -85,28 +85,36 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          // commentbuttonXv3 (13:233)
+                          // commentbuttonb9D (13:235)
                           width: 82.adaptSize,
                           height: double.infinity,
                           decoration: BoxDecoration(
-                            color: Color(0xff0001cb),
+                            color: Color(0xffb0b0b0),
                             borderRadius: BorderRadius.circular(15.adaptSize),
                           ),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                print(this.subPage);
-                              },
-                              child: Text(
-                                'Lời mời',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.2125,
-                                  color: Color(0xffffffff),
-                                ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PageFriendsRequest(
+                                        controller
+                                            .pageFriendsRequestModelObj.value)),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xffb0b0b0)),
+                            child: Text(
+                              'Lời mời',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                height: 1.2125,
+                                color: Colors.black,
                               ),
                             ),
+                          ),
                         ),
                         SizedBox(
                           width: 10.adaptSize,
@@ -120,22 +128,28 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                             borderRadius: BorderRadius.circular(15.adaptSize),
                           ),
                           child: ElevatedButton(
-                              onPressed: () {
-                                pressedButton();
-                              },
-                              style: ElevatedButton.styleFrom(backgroundColor:Color(0xffb0b0b0)),
-                              child: Text(
-                                'Đề xuất',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.2125,
-                                  color: Colors.black,
-                                ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PageFriendsSuggest(
+                                        controller
+                                            .pageFriendsRequestModelObj.value)),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xffb0b0b0)),
+                            child: Text(
+                              'Đề xuất',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                height: 1.2125,
+                                color: Colors.black,
                               ),
                             ),
-                          
+                          ),
                         ),
                         SizedBox(
                           width: 10.adaptSize,
@@ -149,58 +163,196 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                             borderRadius: BorderRadius.circular(15.adaptSize),
                           ),
                           child: ElevatedButton(
-                              onPressed: () {
-                                print("Quang Khang");
-                                
-                              },
-                              style: ElevatedButton.styleFrom(backgroundColor:Color(0xffb0b0b0)),
-                              child: Text(
-                                'Bạn bè',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.2125,
-                                  color: Colors.black,
-                                ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PageMyFriends(
+                                        controller
+                                            .pageFriendsRequestModelObj.value)),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xffb0b0b0)),
+                            child: Text(
+                              'Bạn bè',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                                height: 1.2125,
+                                color: Colors.black,
                               ),
                             ),
+                          ),
                         ),
                       ],
                     ),
                   ),
                   Expanded(
                       child: Container(
-                          //margin: EdgeInsets.symmetric(horizontal: 3.h),
-                          //padding: EdgeInsets.symmetric(vertical: 6.v),
                           decoration: AppDecoration.fillOnErrorContainer,
-                          child: ListView.separated(
-                              physics: BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              separatorBuilder: (context, index) {
-                                return SizedBox(height: 10.v);
-                              },
-                              itemCount: 10,
-                              itemBuilder: (context, index) {
-                                FriendRequest model = controller
-                                    .pageFriendsRequestModelObj
-                                    .value
-                                    .friendsRequest
-                                    .value[0];
-                                if (this.subPage=="suggest"){
-                                  return FriendSuggestWidget(model);
-                                }
-                                return FriendRequestWidget(model);
-                              })))
+                          child: Center(
+                              child: ListView(
+                            children: [
+                              Container(
+                                // limiktbnPUX (21:72)
+                                margin: EdgeInsets.fromLTRB(9.5.adaptSize,
+                                    10.adaptSize, 5.adaptSize, 9.5.adaptSize),
+                                child: Text(
+                                  'Lời mời kết bạn',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.2175,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                              ListView.separated(
+                                  physics: BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(height: 10.v);
+                                  },
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) {
+                                    FriendRequest model = controller
+                                        .pageFriendsRequestModelObj
+                                        .value
+                                        .friendsRequest
+                                        .value[0];
+                                    return FriendRequestWidget(model);
+                                  }),
+                              Container(
+                                // group35Ehy (16:355)
+                                margin: EdgeInsets.fromLTRB(30.adaptSize,
+                                    0.adaptSize, 30.adaptSize, 0.adaptSize),
+                                width: double.infinity,
+                                height: 30.adaptSize,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.circular(10.adaptSize),
+                                ),
+                                child: Container(
+                                  // frame162xP5 (16:356)
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff0001cb),
+                                    borderRadius:
+                                        BorderRadius.circular(10.adaptSize),
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PageFriendsRequest(controller
+                                                    .pageFriendsRequestModelObj
+                                                    .value)),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Xem tất cả',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.2125,
+                                        color: Color(0xffffffff),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Container(
+                                // limiktbnPUX (21:72)
+                                margin: EdgeInsets.fromLTRB(9.5.adaptSize,
+                                    10.adaptSize, 5.adaptSize, 9.5.adaptSize),
+                                child: Text(
+                                  'Người bạn có thể biết',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.2175,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                              ListView.separated(
+                                  physics: BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(height: 10.v);
+                                  },
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) {
+                                    FriendRequest model = controller
+                                        .pageFriendsRequestModelObj
+                                        .value
+                                        .friendsRequest
+                                        .value[0];
+                                    return FriendSuggestWidget(model);
+                                  }),
+                              Container(
+                                // group35Ehy (16:355)
+                                margin: EdgeInsets.fromLTRB(30.adaptSize,
+                                    0.adaptSize, 30.adaptSize, 0.adaptSize),
+                                width: double.infinity,
+                                height: 30.adaptSize,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.circular(10.adaptSize),
+                                ),
+                                child: Container(
+                                  // frame162xP5 (16:356)
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff0001cb),
+                                    borderRadius:
+                                        BorderRadius.circular(10.adaptSize),
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PageFriendsSuggest(controller
+                                                    .pageFriendsRequestModelObj
+                                                    .value)),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Xem tất cả',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.2125,
+                                        color: Color(0xffffffff),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                            ],
+                          ))))
                 ]))));
   }
 
   pressedButton() {
-     Get.toNamed(
-      AppRoutes.pageFriendsScreen,
-      arguments: "suggest"
-    );
-  }   
+    Get.toNamed(AppRoutes.pageFriendsScreen, arguments: "suggest");
+  }
 
   void onTapIconhomeone() {}
 

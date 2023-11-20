@@ -3,8 +3,8 @@ import 'package:bkforum/presentation/page_friends_screen/model/friends_request_m
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class FriendSuggestWidget extends StatelessWidget {
-  FriendSuggestWidget(this.friendrequest, {Key? key}) : super(key: key);
+class MyFriendsWidget extends StatelessWidget {
+  MyFriendsWidget(this.friendrequest, {Key? key}) : super(key: key);
   FriendRequest friendrequest;
 
   @override
@@ -23,6 +23,7 @@ class FriendSuggestWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          
           Container(
             // ellipse4aW7 (1:121)
             margin: EdgeInsets.fromLTRB(
@@ -61,33 +62,61 @@ class FriendSuggestWidget extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  // frame192GCj (21:798)
-                  // margin: EdgeInsets.fromLTRB(
-                  //     0.adaptSize, 0.adaptSize, 19.adaptSize, 0.adaptSize),
-                  width: double.infinity,
-                  height: 30.adaptSize,
-                  child: Container(
-                    // commentbuttonQJw (21:799)
-                    width: double.infinity,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xff0001cb),
-                      borderRadius: BorderRadius.circular(8.adaptSize),
-                    ),
-                    child: Center(
-                      child: Center(
-                        child: Text(
-                          'Kết bạn',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            height: 1.2125,
-                            color: Color(0xfffafafa),
+                  // autogroupjrcfwjy (YEE1N2orUZYpXySghqjRCF)
+                  width:  double.maxFinite,
+                  height: 35.adaptSize,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // commentbuttonsNj (1:123)
+                        margin: EdgeInsets.fromLTRB(
+                            0.adaptSize, 0.adaptSize, 9.adaptSize, 0.adaptSize),
+                        width:  120.adaptSize,
+                        height: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Color(0xff0001cb),
+                          borderRadius: BorderRadius.circular(8.adaptSize),
+                        ),
+                        child: Center(
+                          child: Center(
+                            child: Text(
+                              'Nhắn tin',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                height: 1.2125,
+                                color: Color(0xfffafafa),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      Container(
+                        // commentbuttonEEw (4:220)
+                        width:  120.adaptSize,
+                        height: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Color(0xffb0b0b0),
+                          borderRadius: BorderRadius.circular(8.adaptSize),
+                        ),
+                        child: Center(
+                          child: Center(
+                            child: Text(
+                              'Hủy kết bạn',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.adaptSize,
+                                fontWeight: FontWeight.w700,
+                                height: 1.2125,
+                                color: Color(0xff000000),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
