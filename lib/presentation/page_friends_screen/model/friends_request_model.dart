@@ -1,6 +1,6 @@
 import 'package:bkforum/core/app_export.dart';
 
-class FriendsRequestModel{
+class  FriendsRequestModel{
   Rx<List<FriendRequest>> friendsRequest = 
     Rx(List.generate(4, (index) => FriendRequest()));
 }

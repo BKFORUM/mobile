@@ -1,11 +1,12 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_friends_screen/model/friends_request_model.dart';
+import 'package:bkforum/presentation/page_friends_screen/model/my_friend_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class MyFriendsWidget extends StatelessWidget {
-  MyFriendsWidget(this.friendrequest, {Key? key}) : super(key: key);
-  FriendRequest friendrequest;
+  MyFriendsWidget(this.myFriends, {Key? key}) : super(key: key);
+  MyFriendModel myFriends;
 
   @override
   Widget build(BuildContext context) {

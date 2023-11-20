@@ -1,14 +1,38 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/data/apiClient/get_my_friends.dart';
 import 'package:bkforum/presentation/page_friends_screen/model/friends_request_model.dart';
+import 'package:bkforum/presentation/page_friends_screen/model/my_friend_model.dart';
 import 'package:bkforum/presentation/page_friends_screen/widget/my_friend_widget.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class PageMyFriends extends StatelessWidget{
+class PageMyFriends extends StatefulWidget{
    PageMyFriends(this.listFriendSuggest,{Key? key}): super(key: key);
    FriendsRequestModel listFriendSuggest;
-     @override
-     Widget build(BuildContext context) {
+   @override
+  _PageMyFriendState createState() => _PageMyFriendState();
+}
+
+class _PageMyFriendState extends State<PageMyFriends> {
+  List<MyFriendModel> listMyFriends = [];
+
+  void initState() {
+    super.initState();
+    fetchMyFriends();
+  }
+  Future<void> fetchMyFriends() async {
+    try {
+      List<MyFriendModel> res = await GetMyFriendsApiClient().fetchData();
+      setState(() {
+        listMyFriends = res;
+      });
+    } catch (error) {
+      print('Error fetching comments: $error');
+    }
+  }
+  
+  @override
+  Widget build(BuildContext context) {
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -38,13 +62,11 @@ class PageMyFriends extends StatelessWidget{
                               },
                               itemCount: 40,
                               itemBuilder: (context, index) {
-                                FriendRequest model = this.listFriendSuggest.friendsRequest.value[0];
+                                MyFriendModel model = MyFriendModel();
                                 return MyFriendsWidget(model);
                               })))
                 ]))
         )
       );
      }
-
-   
 }
