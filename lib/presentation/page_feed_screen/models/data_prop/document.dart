@@ -17,5 +17,8 @@ class PostDocument {
       fileUrl: json['fileUrl'] ?? 'Default',
     );
   }
-
+  Map<String, dynamic> toJson() => {
+    'fileName': fileName,
+    'fileUrl': fileUrl,
+  };
 }

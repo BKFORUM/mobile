@@ -8,4 +8,5 @@ class _AuthEndPoints{
   final String comments = 'comments';
   final String forums = 'forums';
   final String profile = 'users/profile';
+  final String notifications = 'notifications';
 }

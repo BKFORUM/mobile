@@ -62,6 +62,7 @@ class UserpostItemWidget extends StatelessWidget {
                       children: [
                         CustomImageView(
                           url: userpostItemModelObj.userAvatar!.value,
+                          fit: BoxFit.cover,
                           height: 20.adaptSize,
                           width: 20.adaptSize,
                           radius: BorderRadius.circular(
@@ -95,14 +96,7 @@ class UserpostItemWidget extends StatelessWidget {
                   ),
               ),
               GestureDetector(
-                onTap: (){
-                  // Get.showSnackbar(GetSnackBar(
-                  //   message: 'Overflow is visible!',
-                  //   duration: Duration(seconds: 1),
-                  // ));
-                  // isOverflowVisible = !isOverflowVisible;
-                  ContentOverflowController().toggleOverflow();
-                },
+                onTap: (){},
                 child: Container(
                   width: 354.h,
                   padding: EdgeInsets.symmetric(
@@ -113,24 +107,12 @@ class UserpostItemWidget extends StatelessWidget {
                   
                     child: Padding(
                       padding: EdgeInsets.only(right: 8.h),
-                      child:
-                      GetX<ContentOverflowController>(
-                        init: ContentOverflowController(),
-                        builder: (controller) => Html(
+                      child: Html(
                           data: userpostItemModelObj.postContent!.value,
-                          // overflow: controller.isOverflowVisible.value ? TextOverflow.visible : TextOverflow.ellipsis,
-                          // style: theme.textTheme.bodyLarge,
-                          // maxLines: 3,
                         ),
-                      ),
                     ),
                 ),
               ),
-              // CustomImageView(
-              //   imagePath: ImageConstant.imgImage,
-              //   height: 265.v,
-              //   width: 354.h,
-              // ),
 
               ImageSlider(userpostItemModelObj.listImages!.value),
               Align(
@@ -149,73 +131,93 @@ class UserpostItemWidget extends StatelessWidget {
                   top: 13.v,
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomReaction(),
-                    Padding(
-                      padding: EdgeInsets.only(left: 6.h),
-                      child: Text(
-                        "yêu thích",
-                        style: theme.textTheme.bodyMedium,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {Get.bottomSheet(CustomCommentScreen(
-                          userpostItemModelObj.id!.value
-                      ),
-                          isScrollControlled: true,
-                          ignoreSafeArea: false,
-                          enableDrag: true
-                      );},
-                      child: Row(
-                        children: [
-                          CustomImageView(
-                            svgPath: ImageConstant.imgComment,
-                            height: 16.adaptSize,
-                            width: 16.adaptSize,
-                            margin: EdgeInsets.only(left: 13.h),
+                    Row(
+                      children: [
+                        CustomReaction(),
+                        Padding(
+                          padding: EdgeInsets.only(left: 6.h),
+                          child: Text(
+                            "yêu thích",
+                            style: theme.textTheme.bodyMedium,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 6.h),
-                            child: Text(
-                              "bình luận",
-                              style: theme.textTheme.bodyMedium,
-                            ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.bottomSheet(
+                                CustomCommentScreen(
+                                    userpostItemModelObj.id!.value),
+                                isScrollControlled: true,
+                                ignoreSafeArea: false,
+                                enableDrag: true
+                            );},
+                          child: Row(
+                            children: [
+                              CustomImageView(
+                                svgPath: ImageConstant.imgComment,
+                                height: 16.adaptSize,
+                                width: 16.adaptSize,
+                                margin: EdgeInsets.only(left: 13.h),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 6.h),
+                                child: Text(
+                                  "bình luận",
+                                  style: theme.textTheme.bodyMedium,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+
+                    IconButton(
+                        onPressed: (){
+                          Get.bottomSheet(
+                              Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  padding: EdgeInsets.fromLTRB(10.adaptSize, 26.adaptSize, 10.adaptSize, 10.adaptSize),
+                                  // height: 1.adaptSize,
+                                  child:  Flex(
+                                      direction: Axis.vertical,
+                                      children: [
+                                        Padding(padding: EdgeInsets.only(left: 20.h, top: 20.v),child: Row(children: [
+                                          IconButton(
+                                              onPressed: (){
+
+                                              },
+                                              icon: Icon(Icons.edit)),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 20.h, top: 2.adaptSize, bottom: 2.adaptSize),
+                                              child: Text("Chỉnh sửa",
+                                                  style: CustomTextStyles.bodyLargeInter)),
+                                        ])),
+                                        Padding(padding: EdgeInsets.only(left: 20.h, top: 20.v),child: Row(children: [
+                                          IconButton(
+                                              onPressed: (){
+
+                                              },
+                                              icon: Icon(Icons.cancel_rounded)),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 20.h, top: 2.adaptSize, bottom: 2.adaptSize),
+                                              child: Text("Xóa",
+                                                  style: CustomTextStyles.bodyLargeInter)),
+                                        ])),
+                                      ])
+                              )
+                          );
+                        },
+                        icon: Icon(Icons.more_vert))
                   ],
                 ),
               ),
-              SizedBox(height: 7.v),
-              GestureDetector(
-                onTap:( ){
-                  Get.bottomSheet(
-                    CustomCommentScreen(userpostItemModelObj.id!.value),
-                    isScrollControlled: true,
-                    ignoreSafeArea: false,
-                    enableDrag: true,
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.h,
-                    vertical: 7.v,
-                  ),
-                  decoration: AppDecoration.fillOnErrorContainer,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox(height: 7.v),
-                      Text(
-                        "lbl_xem_b_nh_lu_n".tr,
-                        style: CustomTextStyles.bodyMediumGray500,
-                      ),
-                    ],
-                  ),
-                ),
-              )
             ],
           ),
       );

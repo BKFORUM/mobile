@@ -64,7 +64,7 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
         print('Error fetching forums: $error');
       });
     } catch (error) {
-      print('Error hehe: $error');
+      print('Error: $error');
     }
   }
 

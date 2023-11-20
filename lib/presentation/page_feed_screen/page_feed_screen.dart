@@ -14,115 +14,127 @@ import 'package:bkforum/widgets/app_bar/appbar_image_2.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
-class PageFeedScreen extends GetWidget<PageFeedController> {
+class PageFeedScreen extends GetView<PageFeedController> {
   const PageFeedScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     Profile? fetchedProfile;
+
     ProfileApi().fetchProfile().then((profile) async {
       fetchedProfile = Profile(
-          id: profile.id,
-          fullName: profile.fullName,
-          avatarUrl: profile.avatarUrl,
-          email: profile.email,
-          address: profile.address,
-          faculty: profile.faculty,
-          type: profile.type,
+        id: profile.id,
+        fullName: profile.fullName,
+        avatarUrl: profile.avatarUrl,
+        email: profile.email,
+        address: profile.address,
+        phoneNumber: profile.phoneNumber,
+        faculty: profile.faculty,
+        type: profile.type,
       );
-    final preferences = await SharedPreferences.getInstance();
+      final preferences = await SharedPreferences.getInstance();
       preferences.setString('user_id', fetchedProfile!.id);
       preferences.setString('user_fullName', fetchedProfile!.fullName);
-      preferences.setString('user_fullName', fetchedProfile!.fullName);
+      if (fetchedProfile?.avatarUrl != null) {
+        preferences.setString('user_avatarUrl', fetchedProfile!.avatarUrl!);
+      }
+      if (fetchedProfile?.email != null) {
+        preferences.setString('user_email', fetchedProfile!.email!);
+      }
+      if (fetchedProfile?.address != null) {
+        preferences.setString('user_address', fetchedProfile!.address!);
+      }
+      if (fetchedProfile?.phoneNumber != null) {
+        preferences.setString('user_phoneNumber', fetchedProfile!.phoneNumber!);
+      }
+      if (fetchedProfile?.faculty != null) {
+        preferences.setString('user_facultyId', fetchedProfile!.faculty!.id);
+        preferences.setString(
+            'user_facultyName', fetchedProfile!.faculty!.name);
+      }
+      if (fetchedProfile?.type != null) {
+        preferences.setString('user_type', fetchedProfile!.type!);
+      }
     }).catchError((error) {
       print('Error: $error');
     });
 
     mediaQueryData = MediaQuery.of(context);
-    return FutureBuilder<Profile>(
-      future: ProfileApi().fetchProfile(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-                backgroundColor: Colors.white,
-              ));
-        } else if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
-        } else {
-          final fetchedProfile = snapshot.data!;
-          return SafeArea(
-              child: Scaffold(
-                  appBar: CustomAppBar(
-                      leadingWidth: 44.h,
-                      leading: AppbarImage(
-                          imagePath: ImageConstant.imgIconhome,
-                          margin:
-                          EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
+    return SafeArea(
+        child: Scaffold(
+            appBar: CustomAppBar(
+                leadingWidth: 44.h,
+                leading: AppbarImage(
+                  imagePath: ImageConstant.imgIconhome,
+                  margin: EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
+                ).animate().tint(color: Colors.amber).shake(),
+                title: Padding(
+                    padding: EdgeInsets.only(left: 19.h),
+                    child: Row(children: [
+                      AppbarImage1(
+                          imagePath: ImageConstant.imgIconWhiteSearch,
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
                           onTap: () {
-                            onTapIconhomeone();
-                          }).animate().tint(color: Colors.amber).shake(),
-                      title: Padding(
-                          padding: EdgeInsets.only(left: 19.h),
-                          child: Row(children: [
-                            AppbarImage1(
-                                imagePath: ImageConstant.imgIconforum,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconforumone();
-                                }),
-                            AppbarImage1(
-                                imagePath: ImageConstant.imgIconmessage,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconmessageone();
-                                }),
-                            AppbarImage1(
-                                imagePath: ImageConstant.imgIconadd,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconaddone();
-                                }),
-                            AppbarImage2(
-                                imagePath: ImageConstant.imgIconnotification,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconnotificatio();
-                                }),
-                            AppbarCircleimage(
-                                url: fetchedProfile.avatarUrl,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconavatarone();
-                                })
-                          ])),
-                      styleType: Style.bgOutline),
-                  body: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 0),
-                      padding: EdgeInsets.symmetric(vertical: 0),
-                      decoration: AppDecoration.fillOnErrorContainer,
-                      child: Obx(() => ListView.separated(
-                          physics: BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: 10.v);
-                          },
-                          itemCount: controller.pageFeedModelObj.value
-                              .userpostItemList.value.length,
-                          itemBuilder: (context, index) {
-                            UserpostItemModel model = controller
-                                .pageFeedModelObj
-                                .value
-                                .userpostItemList
-                                .value[index];
-                            return UserpostItemWidget(model);
-                          })))));
-        }
-
-      }
-    );
+                            onTapIconsearch();
+                          }),
+                      AppbarImage1(
+                          imagePath: ImageConstant.imgIconadd,
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                          onTap: () {
+                            onTapIconaddone();
+                          }),
+                      AppbarImage1(
+                          imagePath: ImageConstant.imgIconmessage,
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                          onTap: () {
+                            onTapIconmessageone();
+                          }),
+                      AppbarImage1(
+                          imagePath: ImageConstant.imgIconnotification,
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                          onTap: () {
+                            onTapIconnotificatio();
+                          }),
+                      AppbarImage1(
+                          imagePath: ImageConstant.imgIconMenu,
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                          onTap: () {
+                            onTapIconavatarone();
+                          })
+                    ])),
+                styleType: Style.bgOutline),
+            body: NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  if (scrollNotification is ScrollStartNotification) {
+                  } else if (scrollNotification is ScrollUpdateNotification) {
+                  } else if (scrollNotification is ScrollEndNotification) {
+                    //Cập nhật bài viết mỗi khi lướt đến cuối danh sách
+                    controller.pageFeedModelObj.value.fetchMorePosts(
+                        controller.pageFeedModelObj.value.userpostItemList.value.length
+                    );
+                  }
+                  return true;
+                },
+              child: Obx(() => ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) {
+                    return Container(
+                      height: 10.v,
+                      color: Colors.black54,
+                    );
+                  },
+                itemCount: controller.pageFeedModelObj.value
+                    .userpostItemList.value.length.obs.value,
+                itemBuilder: (context, index){
+                    UserpostItemModel model = controller
+                        .pageFeedModelObj
+                        .value
+                        .userpostItemList
+                        .value[index];
+                    return UserpostItemWidget(model);
+                },))
+            )));
   }
 
   /// Navigates to the pageForumoneScreen when the action is triggered.
@@ -132,6 +144,16 @@ class PageFeedScreen extends GetWidget<PageFeedController> {
   onTapIconhomeone() {
     Get.toNamed(
       AppRoutes.pageForumoneScreen,
+    );
+  }
+
+  /// Navigates to the pageSearchScreen when the action is triggered.
+
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageSearchScreen.
+  onTapIconsearch() {
+    Get.toNamed(
+      AppRoutes.pageSearchSreen,
     );
   }
 
@@ -184,4 +206,9 @@ class PageFeedScreen extends GetWidget<PageFeedController> {
       AppRoutes.pageSettingScreen,
     );
   }
+}
+
+Future<SharedPreferences> getLocalProfile() async {
+  final preferences = await SharedPreferences.getInstance();
+  return preferences;
 }

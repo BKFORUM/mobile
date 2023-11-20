@@ -11,7 +11,7 @@ class PageFeedModel {
   Future<List<UserpostItemModel>> loadPost() async {
     try {
       final apiClient = PostItemApiClient();
-      final response = await apiClient.fetchData('');
+      final response = await apiClient.fetchData('', 10, 0);
       List<UserpostItemModel> userpostItemList = [];
       for (var res in response.data) {
         UserpostItemModel userpostItem = UserpostItemModel(
@@ -44,5 +44,39 @@ class PageFeedModel {
         list!.addAll(value);
       });
     });
+  }
+  int loadedPosts = 0;
+  Future<void> fetchMorePosts(int loaded) async {
+    int take = 10;
+    int skip = loaded;
+    final apiClient = PostItemApiClient();
+    try {
+      final response = await apiClient.fetchData('', take, skip);
+      List<UserpostItemModel> newUserpostItemList = [];
+      for (var res in response.data) {
+        UserpostItemModel userpostItem = UserpostItemModel(
+          userCreate: Rx(res.user.fullName),
+          userAvatar: Rx(res.user.avatarUrl),
+          forumName: Rx(res.forum.name),
+          postContent: Rx(res.content),
+          id: Rx(res.id),
+        );
+        List<String> fileUrls = [];
+        for (var document in res.documents) {
+          fileUrls.add(document.fileUrl);
+        }
+        userpostItem.listImages = RxList<String>(fileUrls);
+
+        newUserpostItemList.add(userpostItem);
+      }
+
+      userpostItemList.update((list) {
+        list!.addAll(newUserpostItemList);
+      });
+      loadedPosts += newUserpostItemList.length;
+
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 }

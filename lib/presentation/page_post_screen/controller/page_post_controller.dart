@@ -9,16 +9,16 @@ import '../../page_feed_screen/models/data_prop/forum.dart';
 /// This class manages the state of the PagePostScreen, including the
 /// current pagePostModelObj
 class PagePostController extends GetxController {
-  TextEditingController forumpostoneController = TextEditingController();
+  // TextEditingController forumpostoneController = TextEditingController();
 
   var selectedPostForum = Forum(id: 'default id', name: '', modName: 'Unknown').obs;
   Forum get getSelectedForum => selectedPostForum.value;
 
   Rx<PagePostModel> pagePostModelObj = PagePostModel().obs;
 
-  @override
-  void onClose() {
-    super.onClose();
-    forumpostoneController.dispose();
-  }
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  //   forumpostoneController.dispose();
+  // }
 }
