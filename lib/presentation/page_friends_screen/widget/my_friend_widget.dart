@@ -36,7 +36,8 @@ class MyFriendsWidget extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                    "https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-6/281326527_1704236456576162_5423355577385678617_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_ohc=-HuR_P88qrMAX9eBGyO&_nc_ht=scontent.fhan14-2.fna&oh=00_AfDU5F8Ap1W-CRYowF9-GLNa_hQrr-qJc9dJPeiA9BaLxw&oe=655E659D"),
+                  myFriends.avatarUrl.toString()
+                ),
               ),
             ),
           ),
@@ -53,7 +54,7 @@ class MyFriendsWidget extends StatelessWidget {
                   margin: EdgeInsets.fromLTRB(
                       0.adaptSize, 0.adaptSize, 0.adaptSize, 10.adaptSize),
                   child: Text(
-                    'Trương Quang Khang',
+                    myFriends.fullName.toString(),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,

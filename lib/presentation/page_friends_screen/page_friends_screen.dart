@@ -1,4 +1,6 @@
+
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/presentation/page_friends_screen/model/my_friend_model.dart';
 import 'package:bkforum/presentation/page_friends_screen/page/page_friends_request.dart';
 import 'package:bkforum/presentation/page_friends_screen/page/page_friends_suggest.dart';
 import 'package:bkforum/presentation/page_friends_screen/page/page_my_friends.dart';
@@ -97,9 +99,7 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PageFriendsRequest(
-                                        controller
-                                            .pageFriendsRequestModelObj.value)),
+                                    builder: (context) => PageFriendsRequest()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
@@ -217,11 +217,7 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                                   },
                                   itemCount: 10,
                                   itemBuilder: (context, index) {
-                                    FriendRequest model = controller
-                                        .pageFriendsRequestModelObj
-                                        .value
-                                        .friendsRequest
-                                        .value[0];
+                                    MyFriendModel model = MyFriendModel();
                                     return FriendRequestWidget(model);
                                   }),
                               Container(
@@ -249,9 +245,7 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                PageFriendsRequest(controller
-                                                    .pageFriendsRequestModelObj
-                                                    .value)),
+                                                PageFriendsRequest()),
                                       );
                                     },
                                     child: Text(

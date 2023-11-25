@@ -1,5 +1,5 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/data/apiClient/get_my_friends.dart';
+import 'package:bkforum/data/apiClient/friends_api_client.dart';
 import 'package:bkforum/presentation/page_friends_screen/model/friends_request_model.dart';
 import 'package:bkforum/presentation/page_friends_screen/model/my_friend_model.dart';
 import 'package:bkforum/presentation/page_friends_screen/widget/my_friend_widget.dart';
@@ -22,12 +22,12 @@ class _PageMyFriendState extends State<PageMyFriends> {
   }
   Future<void> fetchMyFriends() async {
     try {
-      List<MyFriendModel> res = await GetMyFriendsApiClient().fetchData();
+      List<MyFriendModel> res = await FriendsApiClient().getMyFriends();
       setState(() {
         listMyFriends = res;
       });
     } catch (error) {
-      print('Error fetching comments: $error');
+      print('Error fetching my friends: $error');
     }
   }
   
@@ -60,10 +60,9 @@ class _PageMyFriendState extends State<PageMyFriends> {
                               separatorBuilder: (context, index) {
                                 return SizedBox(height: 10.v);
                               },
-                              itemCount: 40,
+                              itemCount: listMyFriends.length,
                               itemBuilder: (context, index) {
-                                MyFriendModel model = MyFriendModel();
-                                return MyFriendsWidget(model);
+                                return MyFriendsWidget(listMyFriends[index]);
                               })))
                 ]))
         )

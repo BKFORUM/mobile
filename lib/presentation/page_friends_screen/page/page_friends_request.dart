@@ -1,14 +1,37 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/data/apiClient/friends_api_client.dart';
 import 'package:bkforum/presentation/page_friends_screen/model/friends_request_model.dart';
+import 'package:bkforum/presentation/page_friends_screen/model/my_friend_model.dart';
 import 'package:bkforum/presentation/page_friends_screen/widget/friend_request_widget.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class PageFriendsRequest extends StatelessWidget{
-   PageFriendsRequest(this.listFriendSuggest,{Key? key}): super(key: key);
-   FriendsRequestModel listFriendSuggest;
-     @override
-     Widget build(BuildContext context) {
+class PageFriendsRequest extends StatefulWidget{
+   PageFriendsRequest({Key? key}): super(key: key);
+     
+    @override
+  _FriendRequestState createState() => _FriendRequestState();
+}
+
+class _FriendRequestState extends State<PageFriendsRequest> {
+  List<MyFriendModel> listFriendRequests = [];
+
+  void initState() {
+    super.initState();
+    fetchMyFriends();
+  }
+  Future<void> fetchMyFriends() async {
+    try {
+      List<MyFriendModel> res = await FriendsApiClient().getFriendRequests();
+      setState(() {
+        listFriendRequests = res;
+      });
+    } catch (error) {
+      print('Error fetching my friends: $error');
+    }
+  }
+  @override
+ Widget build(BuildContext context) {
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -36,15 +59,13 @@ class PageFriendsRequest extends StatelessWidget{
                               separatorBuilder: (context, index) {
                                 return SizedBox(height: 10.v);
                               },
-                              itemCount: 40,
+                              itemCount: listFriendRequests.length,
                               itemBuilder: (context, index) {
-                                FriendRequest model = this.listFriendSuggest.friendsRequest.value[0];
-                                return FriendRequestWidget(model);
+                                return FriendRequestWidget(listFriendRequests[index]);
                               })))
                 ]))
         )
       );
      }
 
-   
 }

@@ -6,7 +6,7 @@ class MyFriendModel {
     this.fullName,
     this.phoneNumber,
     this.address,
-    this.avartarUrl,
+    this.avatarUrl,
     this.dateOfBirth,
     this.email,
     this.gender
@@ -15,7 +15,7 @@ class MyFriendModel {
     fullName = fullName ?? Rx("...");
     phoneNumber = phoneNumber ?? Rx("...");
     address = address ?? Rx("...");
-    avartarUrl = avartarUrl ?? Rx("https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png");
+    avatarUrl = avatarUrl ?? Rx("https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png");
     dateOfBirth = dateOfBirth ?? Rx("2024-02-14T00:00:00.000Z");
     email = email ?? Rx("...");
     gender = gender ?? Rx("MALE");
@@ -25,7 +25,7 @@ class MyFriendModel {
   Rx<String>? fullName;
   Rx<String>? phoneNumber;
   Rx<String>? address;
-  Rx<String>? avartarUrl;
+  Rx<String>? avatarUrl;
   Rx<String>? dateOfBirth;
   Rx<String>? email;
   Rx<String>? gender;
