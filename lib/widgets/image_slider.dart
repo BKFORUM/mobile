@@ -18,10 +18,10 @@ class _ImageSliderState extends State<ImageSlider> {
 
   @override
   Widget build(BuildContext context) {
+
     if (widget.urlImages == null || widget.urlImages!.isEmpty) {
       return Container();
     }
-
     return Container(
       child: Stack(
         children: [
@@ -31,7 +31,7 @@ class _ImageSliderState extends State<ImageSlider> {
               height: 400,
               aspectRatio: 1 / 1,
               viewportFraction: 1,
-              enableInfiniteScroll: true,
+              enableInfiniteScroll: widget.urlImages!.length > 1,
               enlargeCenterPage: true,
               enlargeFactor: 0,
               scrollDirection: Axis.horizontal,
@@ -45,6 +45,7 @@ class _ImageSliderState extends State<ImageSlider> {
               return Image.network(url, fit: BoxFit.cover);
             }).toList(),
           ),
+          if(widget.urlImages!.length > 1)
           Positioned(
             left: 0,
             right: 0,

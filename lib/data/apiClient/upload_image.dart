@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../presentation/page_feed_screen/models/data_prop/document.dart';
+import 'package:bkforum/data/models/data_prop/document.dart';
 
 Future<PostDocument> uploadImage(File imageFile) async {
 

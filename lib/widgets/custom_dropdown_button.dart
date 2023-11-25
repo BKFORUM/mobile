@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../data/apiClient/profile_api.dart';
 import '../data/models/profile_model.dart';
-import '../presentation/page_feed_screen/models/data_prop/forum.dart';
+import 'package:bkforum/data/models/data_prop/forum.dart';
 import '../data/apiClient/forum_list_api.dart';
-import '../presentation/page_forumone_screen/controller/page_forumone_controller.dart';
+import '../controller/page_forumone_controller.dart';
 import '../presentation/page_forumone_screen/page_forumone_screen.dart';
-import '../presentation/page_post_screen/controller/page_post_controller.dart';
+import '../controller/page_post_controller.dart';
 
 class DropdownButtonExample extends StatefulWidget {
   const DropdownButtonExample({
@@ -108,12 +108,11 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
                         setState(() {
                           dropdownValue = value!;
                           int selectedIndex = forums.indexOf(forums.firstWhere((forum) => forum.name == dropdownValue));
-                          // int selectedIndex = dropdownValue.isNotEmpty ? forums.indexWhere((forum) => forum.name == dropdownValue) : 0;
-                          var selectedForum = Get.find<PageForumoneController>().selectedForum;
+                          // var selectedForum = Get.find<PageForumoneController>().selectedForum;
                           var selectedPostForum = Get.find<PagePostController>().selectedPostForum;
-                          selectedForum.value = forums[selectedIndex];
+                          // selectedForum.value = forums[selectedIndex];
                           selectedPostForum.value = forums[selectedIndex];
-                          Get.find<PageForumoneController>().getPostsByForumId(selectedForum.value.id);
+                          // Get.find<PageForumoneController>().getPostsByForumId(selectedPostForum.value.id);
                         });
                       },
                       items: forums.map<DropdownMenuItem<String>>((Forum forum) {

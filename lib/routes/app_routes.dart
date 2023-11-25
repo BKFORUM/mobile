@@ -8,8 +8,7 @@ import 'package:bkforum/presentation/page_search_screen/binding/page_search_bind
 
 import 'package:bkforum/presentation/page_forumone_screen/page_forumone_screen.dart';
 import 'package:bkforum/presentation/page_forumone_screen/binding/page_forumone_binding.dart';
-import 'package:bkforum/presentation/page_forumtwo_screen/page_forumtwo_screen.dart';
-import 'package:bkforum/presentation/page_forumtwo_screen/binding/page_forumtwo_binding.dart';
+
 import 'package:bkforum/presentation/page_message_screen/page_message_screen.dart';
 import 'package:bkforum/presentation/page_message_screen/binding/page_message_binding.dart';
 import 'package:bkforum/presentation/page_message_chat_screen/page_message_chat_screen.dart';
@@ -83,13 +82,7 @@ class AppRoutes {
         PageForumoneBinding(),
       ],
     ),
-    GetPage(
-      name: pageForumtwoScreen,
-      page: () => PageForumtwoScreen(),
-      bindings: [
-        PageForumtwoBinding(),
-      ],
-    ),
+
     GetPage(
       name: pageMessageScreen,
       page: () => PageMessageScreen(),

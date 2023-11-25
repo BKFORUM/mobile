@@ -1,13 +1,13 @@
-import 'package:bkforum/presentation/page_feed_screen/models/data_prop/document.dart';
+import 'package:bkforum/data/models/data_prop/document.dart';
 
 class UploadPostModel{
-  String forumId;
-  String content;
+  String? forumId;
+  String? content;
   List<PostDocument>? document;
 
   UploadPostModel({
-    required this.forumId,
-    required this.content,
+    this.forumId,
+    this.content,
     this.document
   });
 
@@ -16,4 +16,10 @@ class UploadPostModel{
     'content': content,
     'documents': document?.map((doc) => doc.toJson()).toList(),
   };
+
+  void reset() {
+    forumId = null;
+    content = null;
+    document = null;
+  }
 }

@@ -3,11 +3,11 @@ import 'package:bkforum/widgets/custom_reaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../data/apiClient/comments_api.dart';
-import '../../../widgets/custom_elevated_button.dart';
-import '../../../widgets/custom_text_form_field.dart';
-import '../../../widgets/custom_reaction.dart';
-import '../../../data/models/comments_model.dart';
+import '../data/apiClient/comments_api.dart';
+import 'custom_elevated_button.dart';
+import 'custom_text_form_field.dart';
+import 'custom_reaction.dart';
+import '../data/models/comments_model.dart';
 
 class CustomCommentScreen extends StatefulWidget {
   String id;

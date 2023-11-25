@@ -1,5 +1,5 @@
 import 'package:bkforum/data/models/role_model.dart';
-import 'package:bkforum/presentation/page_feed_screen/models/data_prop/forum.dart';
+import 'package:bkforum/data/models/data_prop/forum.dart';
 import 'faculty_model.dart';
 
 class Profile {

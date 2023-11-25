@@ -1,5 +1,5 @@
 
-import 'package:bkforum/presentation/page_feed_screen/models/data_prop/post_data.dart';
+import 'package:bkforum/data/models/data_prop/post_data.dart';
 
 class ApiResponse {
   int skippedRecords;

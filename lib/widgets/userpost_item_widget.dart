@@ -1,17 +1,17 @@
-import 'package:bkforum/presentation/page_feed_screen/widgets/custom_comment_screen.dart';
+import 'package:bkforum/widgets/custom_comment_screen.dart';
 import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:bkforum/widgets/image_slider.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../widgets/custom_elevated_button.dart';
-import '../../../widgets/custom_reaction.dart';
-import '../../../controller/page_feed_controller.dart';
-import '../../../data/models/userpost_item_model.dart';
+import 'custom_elevated_button.dart';
+import 'custom_reaction.dart';
+import '../controller/page_feed_controller.dart';
+import '../data/models/userpost_item_model.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:flutter/material.dart';
 
-import '../page_feed_screen.dart';
+import '../presentation/page_feed_screen/page_feed_screen.dart';
 
 
 // ignore: must_be_immutable
@@ -241,31 +241,7 @@ class UserpostItemWidget extends StatelessWidget {
                                               ),
                                               SizedBox(height: 16.adaptSize),
                                               GestureDetector(
-                                                onTap: () {
-                                                  Get.defaultDialog(
-                                                    title: 'Xác nhận xóa',
-                                                    content: Text('Bạn có chắc chắn muốn xóa?'),
-                                                    confirm: ElevatedButton(
-                                                      style: ElevatedButton.styleFrom(
-                                                        padding: EdgeInsets.all(30.adaptSize),
-                                                      ),
-                                                      onPressed: () {
-
-                                                        Get.back();
-                                                      },
-                                                      child: Text('Có', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber),),
-                                                    ),
-                                                    cancel: ElevatedButton(
-                                                      style: ElevatedButton.styleFrom(
-                                                        padding: EdgeInsets.all(30.adaptSize),
-                                                      ),
-                                                      onPressed: () {
-                                                        Get.back();
-                                                      },
-                                                      child: Text('Không', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber),),
-                                                    ),
-                                                  );
-                                                },
+                                                onTap: () => controller.deleteConfirmDialog(userpostItemModelObj.id!.value),
                                                 child: Padding(padding: EdgeInsets.only(left: 20.h, top: 20.v),child: Row(children: [
                                                   Icon(Icons.cancel_rounded),
                                                   SizedBox(width: 20.adaptSize),
@@ -294,30 +270,7 @@ class UserpostItemWidget extends StatelessWidget {
                                         child:  Column(
                                             children: [
                                               GestureDetector(
-                                                onTap: () {
-                                                  Get.defaultDialog(
-                                                    title: 'Xác nhận xóa',
-                                                    content: Text('Bạn có chắc chắn muốn xóa?'),
-                                                    confirm: ElevatedButton(
-                                                      style: ElevatedButton.styleFrom(
-                                                        padding: EdgeInsets.all(30.adaptSize),
-                                                      ),
-                                                      onPressed: () {
-                                                        Get.back();
-                                                      },
-                                                      child: Text('Có', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber),),
-                                                    ),
-                                                    cancel: ElevatedButton(
-                                                      style: ElevatedButton.styleFrom(
-                                                        padding: EdgeInsets.all(30.adaptSize),
-                                                      ),
-                                                      onPressed: () {
-                                                        Get.back();
-                                                      },
-                                                      child: Text('Không', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber),),
-                                                    ),
-                                                  );
-                                                },
+                                                onTap: () => controller.deleteConfirmDialog(userpostItemModelObj.id!.value),
                                                 child: Padding(padding: EdgeInsets.only(left: 20.h, top: 20.v),child: Row(children: [
                                                   Icon(Icons.cancel_rounded),
                                                   SizedBox(width: 20.adaptSize),
@@ -345,16 +298,16 @@ class UserpostItemWidget extends StatelessWidget {
       );
   }
 }
-class ContentOverflowController extends GetxController {
-  var isOverflowVisible = false.obs;
-
-  void toggleOverflow() {
-    isOverflowVisible.value = !isOverflowVisible.value;
-    if (isOverflowVisible.value) {
-      Get.snackbar('Overflow is visible! + $isOverflowVisible', '', duration: Duration(seconds: 2));
-    }
-  }
-}
+// class ContentOverflowController extends GetxController {
+//   var isOverflowVisible = false.obs;
+//
+//   void toggleOverflow() {
+//     isOverflowVisible.value = !isOverflowVisible.value;
+//     if (isOverflowVisible.value) {
+//       Get.snackbar('Overflow is visible! + $isOverflowVisible', '', duration: Duration(seconds: 2));
+//     }
+//   }
+// }
 Widget buildImage(String urlImage, int index) => Container(
   margin: EdgeInsets.symmetric(horizontal: 1.adaptSize),
   child: Image.network(

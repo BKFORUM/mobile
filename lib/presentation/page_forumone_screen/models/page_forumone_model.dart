@@ -1,8 +1,8 @@
 import '../../../core/app_export.dart';
 import '../../../data/apiClient/userpost_item_api.dart';
-import '../../page_feed_screen/models/data_prop/forum.dart';
-import '../../page_feed_screen/models/userpost_item_model.dart';
-import 'userpost1_item_model.dart';
+import 'package:bkforum/data/models/data_prop/forum.dart';
+import '../../../data/models/userpost_item_model.dart';
+
 
 /// This class defines the variables used in the [page_forumone_screen],
 /// and is typically used to hold data that is passed between different parts of the application.
