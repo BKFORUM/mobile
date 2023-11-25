@@ -4,8 +4,8 @@ import 'package:bkforum/core/utils/api_endpoints.dart';
 import 'package:get/get_connect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../presentation/page_feed_screen/models/api_response.dart';
-import '../../presentation/page_feed_screen/models/data_prop/forum.dart';
+import '../models/api_response.dart';
+import 'package:bkforum/data/models/data_prop/forum.dart';
 
 class ForumListApiClient extends GetConnect {
 

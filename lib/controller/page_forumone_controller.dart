@@ -1,7 +1,7 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_forumone_screen/models/page_forumone_model.dart';
 
-import '../../page_feed_screen/models/data_prop/forum.dart';
+import 'package:bkforum/data/models/data_prop/forum.dart';
 
 /// A controller class for the PageForumoneScreen.
 ///

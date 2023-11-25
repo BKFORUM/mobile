@@ -2,7 +2,7 @@ import 'dart:async';
 
 import '../../../core/app_export.dart';
 import '../../../data/apiClient/userpost_item_api.dart';
-import 'userpost_item_model.dart';
+import '../../../data/models/userpost_item_model.dart';
 
 /// This class defines the variables used in the [page_feed_screen],
 /// and is typically used to hold data that is passed between different parts of the application.
@@ -15,10 +15,13 @@ class PageFeedModel {
       List<UserpostItemModel> userpostItemList = [];
       for (var res in response.data) {
         UserpostItemModel userpostItem = UserpostItemModel(
+          userCreateId: Rx(res.user.id),
           userCreate: Rx(res.user.fullName),
           userAvatar: Rx(res.user.avatarUrl),
+          forumModId: Rx(res.forum.modId),
           forumName: Rx(res.forum.name),
           postContent: Rx(res.content),
+          createdAt: Rx(res.createdAt),
           id: Rx(res.id),
         );
         List<String> fileUrls = [];
@@ -55,10 +58,13 @@ class PageFeedModel {
       List<UserpostItemModel> newUserpostItemList = [];
       for (var res in response.data) {
         UserpostItemModel userpostItem = UserpostItemModel(
+          userCreateId: Rx(res.user.id),
           userCreate: Rx(res.user.fullName),
           userAvatar: Rx(res.user.avatarUrl),
+          forumModId: Rx(res.forum.modId),
           forumName: Rx(res.forum.name),
           postContent: Rx(res.content),
+          createdAt: Rx(res.createdAt),
           id: Rx(res.id),
         );
         List<String> fileUrls = [];

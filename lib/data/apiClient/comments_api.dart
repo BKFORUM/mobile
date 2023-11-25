@@ -5,8 +5,8 @@ import 'package:get/get_connect.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../presentation/page_feed_screen/models/api_response.dart';
-import '../../presentation/page_feed_screen/models/comments_model.dart';
+import '../models/api_response.dart';
+import '../models/comments_model.dart';
 // import 'package:http/http.dart' as http;
 
 class CommentsApiClient extends GetConnect {

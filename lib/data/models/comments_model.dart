@@ -1,4 +1,4 @@
-import '../../../core/app_export.dart';
+import '../../core/app_export.dart';
 
 /// This class is used in the [custom_comment_screen] screen.
 class CommentsModel {

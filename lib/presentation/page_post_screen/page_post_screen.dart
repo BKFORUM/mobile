@@ -1,41 +1,33 @@
-
-
-// import 'dart:html';
 import 'dart:io';
 
-import 'package:bkforum/presentation/page_feed_screen/models/data_prop/post_data.dart';
-import 'package:bkforum/presentation/page_feed_screen/models/userpost_item_model.dart';
+
 import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
-import 'package:bkforum/presentation/page_post_screen/models/upload_post_model.dart';
-import 'package:bkforum/widgets/base_button.dart';
 import 'package:bkforum/widgets/delete_stateful_button.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../data/apiClient/profile_api.dart';
-import '../../data/apiClient/upload_image.dart';
-import '../../data/apiClient/upload_post_api.dart';
-import '../../data/models/profile_model.dart';
-import '../page_feed_screen/models/data_prop/document.dart';
-import 'controller/page_post_controller.dart';
+import '../../controller/page_post_controller.dart';
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/widgets/app_bar/appbar_circleimage.dart';
+
 import 'package:bkforum/widgets/app_bar/appbar_image.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image_1.dart';
-import 'package:bkforum/widgets/app_bar/appbar_image_2.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:bkforum/widgets/custom_dropdown_button.dart';
-import 'package:bkforum/widgets/custom_text_form_field.dart';
-import 'package:bkforum/widgets/modal_select_image.dart';
 import 'package:flutter/material.dart';
-List<File> selectedImages = [];
+
 String textFieldValue = '';
+String anchorTag = '';
 int statusCode = 401 ;
+List<File> selectedImages = [];
+
 class PagePostScreen extends GetWidget<PagePostController> {
 
   PagePostScreen({Key? key}) : super(key: key);
   final PagePostController controller = Get.put(PagePostController());
+
+  TextEditingController displayTextController = TextEditingController();
+  TextEditingController linkController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +91,7 @@ class PagePostScreen extends GetWidget<PagePostController> {
                         Expanded(
                           child: Container(
                               padding: EdgeInsets.only(top: 17.v, bottom: 16.v),
-                              child: Text("lbl_t_o_b_i_vi_t".tr,
+                              child: Text("Bài viết".tr,
                                   style:
                                   CustomTextStyles.titleMediumHelvetica18)),
                         ),
@@ -116,7 +108,11 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                   ),
                                   onTap: (){
                                     // print('forumId: ${Get.find<PagePostController>().getSelectedForum.id}');
-                                    uploadPost(context, Get.find<PagePostController>().getSelectedForum.id, textFieldValue);
+                                    controller.uploadPost(
+                                        context,
+                                        Get.find<PagePostController>().getSelectedForum.id,
+                                        textFieldValue
+                                    );
                                   }
                               ),
                             )
@@ -128,11 +124,6 @@ class PagePostScreen extends GetWidget<PagePostController> {
                       Padding(
                           padding: EdgeInsets.only(left: 4.h, top: 8.v),
                           child:
-                          // CustomTextFormField(
-                          //   hintText: "msg_vi_t_b_i_t_i_y".tr,
-                          //   borderDecoration: InputBorder.none,
-                          //   maxLines: 8,
-                          // )
                           TextFormField(
                             maxLines: 27,
                             onChanged: (value) {
@@ -263,7 +254,6 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                                           selectedImages.remove(image);
                                                                           // setState(() {
                                                                           //   print("Đã xóa");
-                                                                          //    // Xóa hình ảnh khỏi danh sách
                                                                           // });
                                                                         },
                                                                       ),
@@ -333,7 +323,46 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                     // maximumSize: Size.square(2)
                                   ),
                                   onTap: (){
-                                    Get.offNamed(AppRoutes.pageFeedScreen);
+                                    Get.bottomSheet(
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                        height: 300.adaptSize,
+                                        child: Column(
+                                          children: [
+                                            TextField(
+                                              controller: displayTextController,
+                                              decoration: InputDecoration(
+                                                labelText: 'Văn bản hiển thị',
+                                                border: OutlineInputBorder(),
+                                              ),
+                                            ),
+                                            SizedBox(height: 16),
+                                            TextField(
+                                              controller: linkController,
+                                              decoration: InputDecoration(
+                                                labelText: 'Liên kết gốc',
+                                                border: OutlineInputBorder(),
+                                              ),
+                                            ),
+                                            SizedBox(height: 70.adaptSize),
+                                            CustomElevatedButton(
+                                                onTap: () {
+                                                  String displayText = displayTextController.text;
+                                                  String link = linkController.text;
+                                                  displayTextController.text = '';
+                                                  linkController.text = '';
+                                                  anchorTag = '<a href="$link">$displayText</a>';
+                                                },
+                                              text: 'Thêm vào bài viết'.tr
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
                                   }
                               ),
                             )
@@ -346,14 +375,6 @@ class PagePostScreen extends GetWidget<PagePostController> {
     );
   }
 
-
-  //dynamic selectedImage ;
-  // Future pickImageFromGallery() async{
-  //     final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-  //     setState(() {
-  //       selectedImage = File(returnedImage!.path as List<Object>);
-  //     });
-  // }
 
   /// Navigates to the pageFeedScreen when the action is triggered.
 
@@ -413,57 +434,6 @@ class PagePostScreen extends GetWidget<PagePostController> {
     );
   }
 
-  Future<void> uploadPost(BuildContext context, String forumId, String content) async {
-// Comment để thư code
-    List<PostDocument> documents = [];
 
-    if(content!=''){
-      if (selectedImages.isNotEmpty) {
-        for (final File selectedImage in selectedImages) {
-          uploadImage(selectedImage).then((document) {
-            documents.add(document);
-
-            if (documents.length == selectedImages.length) {
-              for (final PostDocument document in documents) {
-                print('fileUrl: ${document.fileUrl}');
-                print('fileName: ${document.fileName}');
-              }
-            }
-          });
-        }
-      }
-      var postUpload = UploadPostModel(
-          forumId: forumId,
-          content: '<p>'+content+'</p>',
-          document: documents
-      );
-      // print(postUpload.document?[0].fileUrl);
-      statusCode = await uploadPostAPI(postUpload);
-
-      if (statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Đăng bài thành công, chờ duyệt bài'),
-            backgroundColor: Colors.black12,
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Đăng bài không thành công $statusCode'),
-            backgroundColor: Colors.black12,
-          ),
-        );
-      }
-    } else{
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Đăng bài không thành công, vui lòng nhập nội dung'),
-          backgroundColor: Colors.black12,
-        ),
-      );
-    }
-
-  }
 }
 

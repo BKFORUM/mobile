@@ -3,7 +3,7 @@ import 'package:bkforum/presentation/page_login_screen/models/page_login_model.d
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../data/apiClient/apiLogin.dart';
+import '../data/apiClient/apiLogin.dart';
 
 /// A controller class for the PageLoginScreen.
 ///

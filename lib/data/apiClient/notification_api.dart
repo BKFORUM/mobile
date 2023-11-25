@@ -1,5 +1,5 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/presentation/page_notification_screen/models/notification_model.dart';
+import 'package:bkforum/data/models/notification_model.dart';
 import 'package:get/get_connect/connect.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:shared_preferences/shared_preferences.dart';

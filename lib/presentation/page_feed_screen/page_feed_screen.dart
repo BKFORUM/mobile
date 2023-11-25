@@ -3,9 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/apiClient/profile_api.dart';
 import '../../data/models/profile_model.dart';
-import '../page_feed_screen/widgets/userpost_item_widget.dart';
-import 'controller/page_feed_controller.dart';
-import 'models/userpost_item_model.dart';
+import '../../widgets/userpost_item_widget.dart';
+import '../../controller/page_feed_controller.dart';
+import '../../data/models/userpost_item_model.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/widgets/app_bar/appbar_circleimage.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image.dart';
@@ -109,32 +109,39 @@ class PageFeedScreen extends GetView<PageFeedController> {
                   } else if (scrollNotification is ScrollUpdateNotification) {
                   } else if (scrollNotification is ScrollEndNotification) {
                     //Cập nhật bài viết mỗi khi lướt đến cuối danh sách
-                    controller.pageFeedModelObj.value.fetchMorePosts(
-                        controller.pageFeedModelObj.value.userpostItemList.value.length
-                    );
+                    controller.pageFeedModelObj.value.fetchMorePosts(controller
+                        .pageFeedModelObj.value.userpostItemList.value.length);
                   }
                   return true;
                 },
-              child: Obx(() => ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  separatorBuilder: (context, index) {
-                    return Container(
-                      height: 10.v,
-                      color: Colors.black54,
-                    );
-                  },
-                itemCount: controller.pageFeedModelObj.value
-                    .userpostItemList.value.length.obs.value,
-                itemBuilder: (context, index){
-                    UserpostItemModel model = controller
-                        .pageFeedModelObj
-                        .value
-                        .userpostItemList
-                        .value[index];
-                    return UserpostItemWidget(model);
-                },))
-            )));
+                child: Obx(() => RefreshIndicator(
+                      onRefresh: () async => controller.refreshPageFeedData(),
+                      child: controller.pageFeedModelObj.value.userpostItemList
+                              .value.isEmpty
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : ListView.separated(
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              separatorBuilder: (context, index) {
+                                return Container(
+                                  height: 10.v,
+                                  color: Colors.black12,
+                                );
+                              },
+                              itemCount: controller.pageFeedModelObj.value
+                                  .userpostItemList.value.length.obs.value,
+                              itemBuilder: (context, index) {
+                                UserpostItemModel model = controller
+                                    .pageFeedModelObj
+                                    .value
+                                    .userpostItemList
+                                    .value[index];
+                                return UserpostItemWidget(model);
+                              },
+                            ),
+                    )))));
   }
 
   /// Navigates to the pageForumoneScreen when the action is triggered.

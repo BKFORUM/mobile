@@ -1,5 +1,5 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/presentation/page_feed_screen/widgets/userpost_item_widget.dart';
+import 'package:bkforum/widgets/userpost_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
