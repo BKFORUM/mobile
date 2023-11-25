@@ -7,7 +7,7 @@ import '../../../data/apiClient/comments_api.dart';
 import '../../../widgets/custom_elevated_button.dart';
 import '../../../widgets/custom_text_form_field.dart';
 import '../../../widgets/custom_reaction.dart';
-import '../models/comments_model.dart';
+import '../../../data/models/comments_model.dart';
 
 class CustomCommentScreen extends StatefulWidget {
   String id;
@@ -172,7 +172,7 @@ class _CustomCommentScreenState extends State<CustomCommentScreen> {
                           icon: Icon(Icons.send),
                           iconSize: 16.adaptSize,
                           onPressed: () {
-                            if (_textEditingController.text != ''){
+                            if (_textEditingController.text.trim().isNotEmpty){
                               handleSendButtonPressed(
                                   _textEditingController.text);
                             }

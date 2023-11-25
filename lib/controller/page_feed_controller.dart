@@ -9,5 +9,8 @@ import '../../../data/apiClient/userpost_item_api.dart';
 /// current pageFeedModelObj
 class PageFeedController extends GetxController {
   Rx<PageFeedModel> pageFeedModelObj = PageFeedModel().obs;
+  void refreshPageFeedData() {
+    pageFeedModelObj.value = PageFeedModel();
+  }
 }
 
