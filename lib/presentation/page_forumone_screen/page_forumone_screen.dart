@@ -24,17 +24,7 @@ class PageForumoneScreen extends StatelessWidget  {
   @override
   Widget build(BuildContext context) {
     // print(controller.getPostsByForumId(controller.getSelectedForum.id).value.userpostForumItemList.value[0].postContent);
-    Profile? fetchedProfile;
     ProfileApi().fetchProfile().then((profile) {
-      fetchedProfile = Profile(
-        id: profile.id,
-        fullName: profile.fullName,
-        avatarUrl: profile.avatarUrl,
-        email: profile.email,
-        address: profile.address,
-        faculty: profile.faculty,
-        type: profile.type,
-      );
     }).catchError((error) {
       print('Error: $error');
     });
@@ -170,6 +160,7 @@ class PageForumoneScreen extends StatelessWidget  {
                                   final pageForumoneModel = controller
                                       .getPostsByForumId(controller.getSelectedForum.id)
                                       .value;
+                                  // ignore: unnecessary_null_comparison
                                   if (pageForumoneModel == null) {
                                     return Center(
                                       child: CircularProgressIndicator(),
@@ -181,10 +172,12 @@ class PageForumoneScreen extends StatelessWidget  {
                                       separatorBuilder: (context, index) => Divider(),
                                       itemCount: posts
                                           .userpostForumItemList
+                                          // ignore: invalid_use_of_protected_member
                                           .value.length,
                                       itemBuilder: (context, index) {
                                         UserpostItemModel model = posts
                                             .userpostForumItemList
+                                            // ignore: invalid_use_of_protected_member
                                             .value[index];
                                         return UserpostItemWidget(model);
                                       },

@@ -1,12 +1,8 @@
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-
 import '../../core/utils/api_endpoints.dart';
 import '../models/upload_post_model.dart';
-import '../models/profile_model.dart';
 
 
 Future<int> uploadPostAPI(UploadPostModel postModel) async {

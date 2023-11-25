@@ -22,6 +22,7 @@ class PageForumoneController extends GetxController {
     Rx<PageForumoneModel> pageForumoneModelObj = Rx<PageForumoneModel>(PageForumoneModel(forumId));
 
     pageForumoneModelObj.value.loadForumPost(forumId).then((value) {
+      // ignore: invalid_use_of_protected_member
       pageForumoneModelObj.value.userpostForumItemList.value.addAll(value);
     });
 

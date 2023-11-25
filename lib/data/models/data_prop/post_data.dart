@@ -2,7 +2,6 @@ import 'package:bkforum/data/models/data_prop/post_count.dart';
 import 'package:bkforum/data/models/data_prop/users.dart';
 import 'package:bkforum/data/models/data_prop/forum.dart';
 import 'package:bkforum/data/models/data_prop/document.dart';
-import 'package:flutter/cupertino.dart';
 
 class Data {
   String id;

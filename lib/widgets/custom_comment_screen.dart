@@ -1,14 +1,11 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/widgets/custom_reaction.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../data/apiClient/comments_api.dart';
-import 'custom_elevated_button.dart';
 import 'custom_text_form_field.dart';
-import 'custom_reaction.dart';
 import '../data/models/comments_model.dart';
 
+// ignore: must_be_immutable
 class CustomCommentScreen extends StatefulWidget {
   String id;
 
@@ -26,7 +23,6 @@ class _CustomCommentScreenState extends State<CustomCommentScreen> {
 
   @override
   void initState() {
-    // TODO: Fetch comments data from API and update commentsList
     super.initState();
     fetchComments();
   }

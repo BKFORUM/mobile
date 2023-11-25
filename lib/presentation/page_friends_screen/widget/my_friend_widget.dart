@@ -1,5 +1,4 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/presentation/page_friends_screen/model/friends_request_model.dart';
 import 'package:bkforum/presentation/page_friends_screen/model/my_friend_model.dart';
 import 'package:flutter/material.dart';
 

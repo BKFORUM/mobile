@@ -21,6 +21,7 @@ String anchorTag = '';
 int statusCode = 401 ;
 List<File> selectedImages = [];
 
+// ignore: must_be_immutable
 class PagePostScreen extends GetWidget<PagePostController> {
 
   PagePostScreen({Key? key}) : super(key: key);
