@@ -24,7 +24,8 @@ class FriendsApiClient extends GetConnect {
       return myFriends;
     } else {
       final code = response.statusCode;
-      throw Exception('Failed to fetch data, status code $code');
+      final detail = response.statusText;
+      throw Exception('Failed to fetch data, status code $code, error $detail');
     }
   }
 

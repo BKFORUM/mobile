@@ -168,7 +168,7 @@ class PageFeedScreen extends GetView<PageFeedController> {
   /// push the named route for the pageForumoneScreen.
   onTapIconforumone() {
     Get.toNamed(
-      AppRoutes.pageFriendsScreen,
+      AppRoutes.pageForumoneScreen,
     );
   }
 
@@ -188,7 +188,7 @@ class PageFeedScreen extends GetView<PageFeedController> {
   /// push the named route for the pagePostScreen.
   onTapIconaddone() {
     Get.toNamed(
-      AppRoutes.pagePostScreen,
+      AppRoutes.pageFriendsScreen,
     );
   }
 

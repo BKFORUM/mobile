@@ -5,12 +5,12 @@ import 'package:bkforum/presentation/page_friends_screen/page/page_friends_reque
 import 'package:bkforum/presentation/page_friends_screen/page/page_friends_suggest.dart';
 import 'package:bkforum/presentation/page_friends_screen/page/page_my_friends.dart';
 import 'package:bkforum/presentation/page_friends_screen/widget/friend_suggest_widget.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'controller/page_friends_controller.dart';
 import 'package:bkforum/presentation/page_friends_screen/model/friends_request_model.dart';
 import 'package:bkforum/presentation/page_friends_screen/widget/friend_request_widget.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image_1.dart';
-import 'package:bkforum/widgets/app_bar/appbar_image_2.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -22,53 +22,46 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
-            appBar: CustomAppBar(
+           appBar: CustomAppBar(
                 leadingWidth: 44.h,
                 leading: AppbarImage(
-                    imagePath: ImageConstant.imgIconhome,
-                    margin:
-                        EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
-                    onTap: () {
-                      onTapIconhomeone();
-                    }),
+                  imagePath: ImageConstant.imgIconhome,
+                  margin: EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
+                ).animate().tint(color: Colors.amber).shake(),
                 title: Padding(
-                    padding: EdgeInsets.only(left: 38.h),
+                    padding: EdgeInsets.only(left: 19.h),
                     child: Row(children: [
                       AppbarImage1(
-                          imagePath: ImageConstant.imgIconforum,
+                          imagePath: ImageConstant.imgIconWhiteSearch,
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
                           onTap: () {
-                            onTapIconforumone();
+                            onTapIconsearch();
+                          }),
+                      AppbarImage1(
+                          imagePath: ImageConstant.imgIconadd,
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                          onTap: () {
+                            onTapIconaddone();
                           }),
                       AppbarImage1(
                           imagePath: ImageConstant.imgIconmessage,
-                          margin: EdgeInsets.only(left: 38.h),
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
                           onTap: () {
                             onTapIconmessageone();
+                          }),
+                      AppbarImage1(
+                          imagePath: ImageConstant.imgIconnotification,
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                          onTap: () {
+                            onTapIconnotificatio();
+                          }),
+                      AppbarImage1(
+                          imagePath: ImageConstant.imgIconMenu,
+                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                          onTap: () {
+                            onTapIconavatarone();
                           })
                     ])),
-                actions: [
-                  AppbarImage2(
-                      imagePath: ImageConstant.imgIconadd,
-                      margin:
-                          EdgeInsets.only(left: 25.h, top: 15.v, right: 15.h),
-                      onTap: () {
-                        onTapIconaddone();
-                      }),
-                  AppbarImage2(
-                      imagePath: ImageConstant.imgIconnotification,
-                      margin:
-                          EdgeInsets.only(left: 38.h, top: 15.v, right: 15.h),
-                      onTap: () {
-                        onTapIconnotificatio();
-                      }),
-                  AppbarImage2(
-                      imagePath: ImageConstant.imgIconnotification,
-                      margin:
-                          EdgeInsets.only(left: 38.h, top: 15.v, right: 15.h),
-                      onTap: () {
-                        onTapIconnotificatio();
-                      }),
-                ],
                 styleType: Style.bgOutline),
             body: SizedBox(
                 width: double.maxFinite,
@@ -347,16 +340,73 @@ class PageFriendsScreen extends GetWidget<PageFriendsController> {
   pressedButton() {
     Get.toNamed(AppRoutes.pageFriendsScreen, arguments: "suggest");
   }
+  /// Navigates to the pageForumoneScreen when the action is triggered.
 
-  void onTapIconhomeone() {}
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageForumoneScreen.
+  onTapIconhomeone() {
+    Get.toNamed(
+      AppRoutes.pageForumoneScreen,
+    );
+  }
 
-  void onTapIconforumone() {}
+  /// Navigates to the pageSearchScreen when the action is triggered.
 
-  void onTapIconaddone() {}
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageSearchScreen.
+  onTapIconsearch() {
+    Get.toNamed(
+      AppRoutes.pageSearchSreen,
+    );
+  }
 
-  void onTapIconmessageone() {}
+  /// Navigates to the pageForumoneScreen when the action is triggered.
 
-  void onTapIconnotificatio() {}
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageForumoneScreen.
+  onTapIconforumone() {
+    Get.toNamed(
+      AppRoutes.pageForumoneScreen,
+    );
+  }
 
-  void onTapIconavatarone() {}
+  /// Navigates to the pageMessageScreen when the action is triggered.
+
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageMessageScreen.
+  onTapIconmessageone() {
+    Get.toNamed(
+      AppRoutes.pageMessageScreen,
+    );
+  }
+
+  /// Navigates to the pagePostScreen when the action is triggered.
+
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pagePostScreen.
+  onTapIconaddone() {
+    Get.toNamed(
+      AppRoutes.pageFriendsScreen,
+    );
+  }
+
+  /// Navigates to the pageNotificationScreen when the action is triggered.
+
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageNotificationScreen.
+  onTapIconnotificatio() {
+    Get.toNamed(
+      AppRoutes.pageNotificationScreen,
+    );
+  }
+
+  /// Navigates to the pageSettingScreen when the action is triggered.
+
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageSettingScreen.
+  onTapIconavatarone() {
+    Get.toNamed(
+      AppRoutes.pageSettingScreen,
+    );
+  }
 }

@@ -1,9 +1,9 @@
-import 'package:bkforum/presentation/page_friends_screen/binding/page_friends_binding.dart';
-import 'package:bkforum/presentation/page_friends_screen/page_friends_screen.dart';
 import 'package:bkforum/presentation/page_login_screen/page_login_screen.dart';
 import 'package:bkforum/presentation/page_login_screen/binding/page_login_binding.dart';
 import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
 import 'package:bkforum/presentation/page_feed_screen/binding/page_feed_binding.dart';
+import 'package:bkforum/presentation/page_myfriend_screen/binding/page_myfriend_binding.dart';
+import 'package:bkforum/presentation/page_myfriend_screen/page_myfriend_screen.dart';
 
 import 'package:bkforum/presentation/page_search_screen/page_search_screen.dart';
 import 'package:bkforum/presentation/page_search_screen/binding/page_search_binding.dart';
@@ -23,7 +23,6 @@ import 'package:bkforum/presentation/page_setting_screen/page_setting_screen.dar
 import 'package:bkforum/presentation/page_setting_screen/binding/page_setting_binding.dart';
 import 'package:bkforum/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:bkforum/presentation/app_navigation_screen/binding/app_navigation_binding.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -131,9 +130,9 @@ class AppRoutes {
     ),
      GetPage(
       name: pageFriendsScreen,
-      page: () => PageFriendsScreen(),
+      page: () => PageMyFriends(),
       bindings: [
-        PageFriendsBinding(),
+        PageMyFriendBinding(),
       ],
     ),
     GetPage(
