@@ -11,4 +11,5 @@ class _AuthEndPoints{
   final String notifications = 'notifications';
   final String myFriends = 'friends/me';
   final String friendRequests = 'friends';
+  final String getUser = 'users';
 }

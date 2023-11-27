@@ -1,11 +1,11 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/data/models/friend_model.dart';
+import 'package:bkforum/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class FriendSuggestWidget extends StatelessWidget {
-  FriendSuggestWidget(this.friendrequest, {Key? key}) : super(key: key);
-  MyFriendModel friendrequest;
+  FriendSuggestWidget(this.friendSuggest, {Key? key}) : super(key: key);
+  User friendSuggest;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,8 @@ class FriendSuggestWidget extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                    "https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-6/281326527_1704236456576162_5423355577385678617_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_ohc=-HuR_P88qrMAX9eBGyO&_nc_ht=scontent.fhan14-2.fna&oh=00_AfDU5F8Ap1W-CRYowF9-GLNa_hQrr-qJc9dJPeiA9BaLxw&oe=655E659D"),
+                  friendSuggest.avatarUrl.toString()
+                ),
               ),
             ),
           ),
@@ -51,7 +52,7 @@ class FriendSuggestWidget extends StatelessWidget {
                   margin: EdgeInsets.fromLTRB(
                       0.adaptSize, 0.adaptSize, 0.adaptSize, 10.adaptSize),
                   child: Text(
-                    'Trương Quang Khang',
+                    friendSuggest.fullName.toString(),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,

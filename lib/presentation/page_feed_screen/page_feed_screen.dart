@@ -188,7 +188,7 @@ class PageFeedScreen extends GetView<PageFeedController> {
   /// push the named route for the pagePostScreen.
   onTapIconaddone() {
     Get.toNamed(
-      AppRoutes.pageFriendsScreen,
+      AppRoutes.pagePostScreen,
     );
   }
 

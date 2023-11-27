@@ -36,9 +36,9 @@ class PageFriendSuggest extends GetWidget<PageFriendController>{
                               separatorBuilder: (context, index) {
                                 return SizedBox(height: 10.v);
                               },
-                              itemCount: controller.friendRequests.length,
+                              itemCount: controller.friendSuggest.length,
                               itemBuilder: (context, index) {
-                                return FriendSuggestWidget(controller.friendRequests[index]);
+                                return FriendSuggestWidget(controller.friendSuggest[index]);
                               })))))
                 ]))
         )
