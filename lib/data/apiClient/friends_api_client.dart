@@ -1,7 +1,7 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/core/utils/RxString.dart';
 import 'package:bkforum/core/utils/api_endpoints.dart';
-import 'package:bkforum/presentation/page_friends_screen/model/my_friend_model.dart';
+import 'package:bkforum/data/models/friend_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FriendsApiClient extends GetConnect {

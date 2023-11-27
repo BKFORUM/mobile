@@ -1,5 +1,5 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/presentation/page_friends_screen/model/my_friend_model.dart';
+import 'package:bkforum/data/models/friend_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable

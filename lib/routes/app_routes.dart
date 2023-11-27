@@ -1,9 +1,12 @@
+import 'package:bkforum/presentation/page_friend_screen/page_friend_suggest.dart';
+import 'package:bkforum/presentation/page_friend_screen/page_my_friend.dart';
 import 'package:bkforum/presentation/page_login_screen/page_login_screen.dart';
 import 'package:bkforum/presentation/page_login_screen/binding/page_login_binding.dart';
 import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
 import 'package:bkforum/presentation/page_feed_screen/binding/page_feed_binding.dart';
-import 'package:bkforum/presentation/page_myfriend_screen/binding/page_myfriend_binding.dart';
-import 'package:bkforum/presentation/page_myfriend_screen/page_myfriend_screen.dart';
+import 'package:bkforum/presentation/page_friend_screen/binding/page_myfriend_binding.dart';
+import 'package:bkforum/presentation/page_friend_screen/page_friend_home.dart';
+import 'package:bkforum/presentation/page_friend_screen/page_friend_request.dart';
 
 import 'package:bkforum/presentation/page_search_screen/page_search_screen.dart';
 import 'package:bkforum/presentation/page_search_screen/binding/page_search_binding.dart';
@@ -49,6 +52,12 @@ class AppRoutes {
   static const String pageNotificationScreen = '/page_notification_screen';
 
   static const String pageFriendsScreen = '/page_friends_screen';
+
+  static const String pageFriendRequestScreen = '/page_friend_request_screen';
+
+  static const String pageFriendSuggestScreen = '/page_friend_suggest_screen';
+
+  static const String pageMyFriendScreen = '/page_my_friend_screen';
 
   static const String pageSettingScreen = '/page_setting_screen';
 
@@ -130,6 +139,27 @@ class AppRoutes {
     ),
      GetPage(
       name: pageFriendsScreen,
+      page: () => PageFriendsScreen(),
+      bindings: [
+        PageMyFriendBinding(),
+      ],
+    ),
+     GetPage(
+      name: pageFriendRequestScreen,
+      page: () => PageFriendRequest(),
+      bindings: [
+        PageMyFriendBinding(),
+      ],
+    ),
+     GetPage(
+      name: pageFriendSuggestScreen,
+      page: () => PageFriendSuggest(),
+      bindings: [
+        PageMyFriendBinding(),
+      ],
+    ),
+     GetPage(
+      name: pageMyFriendScreen,
       page: () => PageMyFriends(),
       bindings: [
         PageMyFriendBinding(),

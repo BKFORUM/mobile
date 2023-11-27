@@ -1,16 +1,19 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/friends_api_client.dart';
-import 'package:bkforum/presentation/page_friends_screen/model/my_friend_model.dart';
+import 'package:bkforum/data/models/friend_model.dart';
 
 class PageFriendController extends GetxController {
   PageFriendController({required this.apiClient});
   FriendsApiClient apiClient;
   final myFriends = <MyFriendModel>[].obs;
+  final friendRequests = <MyFriendModel>[].obs;
+  final friendSuggest = <MyFriendModel>[].obs;
 
   @override
   void onInit() {
     super.onInit();
     getMyFriends();
+    getFriendRequest();
   }
   @override
   void onClose(){
@@ -18,9 +21,13 @@ class PageFriendController extends GetxController {
   }
 
   Future<void> getMyFriends () async {
+    List<MyFriendModel> list = await apiClient.getMyFriends();
+    myFriends.assignAll(list);
+  }
+
+  Future<void> getFriendRequest () async {
     List<MyFriendModel> list = await apiClient.getFriendRequests();
-    print("HELLLOOOOOO");
-    myFriends.addAll(list);
+    friendRequests.assignAll(list);
   }
   
 }
