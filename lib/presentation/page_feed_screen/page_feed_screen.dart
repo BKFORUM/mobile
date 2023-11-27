@@ -7,10 +7,8 @@ import '../../widgets/userpost_item_widget.dart';
 import '../../controller/page_feed_controller.dart';
 import '../../data/models/userpost_item_model.dart';
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/widgets/app_bar/appbar_circleimage.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image_1.dart';
-import 'package:bkforum/widgets/app_bar/appbar_image_2.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 

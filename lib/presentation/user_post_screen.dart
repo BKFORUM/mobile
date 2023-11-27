@@ -1,6 +1,4 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/widgets/userpost_item_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UserPostScreen extends GetView<UserPostScreenController> {

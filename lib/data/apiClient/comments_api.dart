@@ -5,7 +5,6 @@ import 'package:get/get_connect.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/api_response.dart';
 import '../models/comments_model.dart';
 // import 'package:http/http.dart' as http;
 

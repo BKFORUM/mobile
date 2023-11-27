@@ -1,19 +1,10 @@
-import 'dart:ffi';
-
-import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
-import '../../data/apiClient/notification_api.dart';
-
-import '../user_post_screen.dart';
 import '../../controller/page_notification_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image_1.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-
-import '../../data/models/notification_model.dart';
 
 class PageNotificationScreen extends GetWidget<PageNotificationController> {
   const PageNotificationScreen({Key? key}) : super(key: key);
@@ -113,7 +104,6 @@ class PageNotificationScreen extends GetWidget<PageNotificationController> {
                             ),
                             onTap: () {
                               String? modelName = notification.modelName?.value;
-                              String? modelId = notification.modelId?.value;
 
                               if (modelName == 'forum') {
                                 // Get.to(ForumScreen(id: modelId));

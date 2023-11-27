@@ -6,7 +6,6 @@ import '../data/apiClient/profile_api.dart';
 import '../data/models/profile_model.dart';
 import 'package:bkforum/data/models/data_prop/forum.dart';
 import '../data/apiClient/forum_list_api.dart';
-import '../controller/page_forumone_controller.dart';
 import '../presentation/page_forumone_screen/page_forumone_screen.dart';
 import '../controller/page_post_controller.dart';
 
@@ -50,13 +49,11 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
   void fetchData() async {
     try {
       Profile? fetchedProfile = await ProfileApi().fetchProfile();
-      List<Forum> fetchedForums = await ForumListApiClient().fetchForums(fetchedProfile!.id);
 
       ForumListApiClient().fetchForums(fetchedProfile.id).then((fetchedForums) {
         setState(() {
           forums = fetchedForums.isNotEmpty ? fetchedForums : <Forum>[];
           if (forums.isNotEmpty) {
-            String dropdownValue = forums[0].name;
           }
           // String dropdownValue = forums.first.name;
         });

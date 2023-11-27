@@ -5,10 +5,8 @@ import '../../data/apiClient/profile_api.dart';
 import '../../data/models/profile_model.dart';
 import '../../controller/page_setting_controller.dart';
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/widgets/app_bar/appbar_circleimage.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image_1.dart';
-import 'package:bkforum/widgets/app_bar/appbar_image_2.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +16,7 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
   @override
   Widget build(BuildContext context) {
 
+    // ignore: unused_local_variable
     Profile? fetchedProfile;
     ProfileApi().fetchProfile().then((profile) {
       fetchedProfile = Profile(
@@ -221,7 +220,7 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                             radius: BorderRadius.circular(35.adaptSize)),
                                       ),
                                       SizedBox(height: 13.v),
-                                      Text(fetchedProfile!.fullName,
+                                      Text(fetchedProfile.fullName,
                                           style: CustomTextStyles.titleMedium18),
                                       ExpandableListExample()
                                     ])),

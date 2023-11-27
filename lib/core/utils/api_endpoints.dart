@@ -9,4 +9,7 @@ class _AuthEndPoints{
   final String forums = 'forums';
   final String profile = 'users/profile';
   final String notifications = 'notifications';
+  final String myFriends = 'friends/me';
+  final String friendRequests = 'friends';
+  final String getUser = 'users';
 }
