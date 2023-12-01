@@ -1,5 +1,6 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/user_model.dart';
+import 'package:bkforum/presentation/page_friend_screen/widget/button_add_friend_widget.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -61,36 +62,7 @@ class FriendSuggestWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  // frame192GCj (21:798)
-                  // margin: EdgeInsets.fromLTRB(
-                  //     0.adaptSize, 0.adaptSize, 19.adaptSize, 0.adaptSize),
-                  width: double.infinity,
-                  height: 30.adaptSize,
-                  child: Container(
-                    // commentbuttonQJw (21:799)
-                    width: double.infinity,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xff0001cb),
-                      borderRadius: BorderRadius.circular(8.adaptSize),
-                    ),
-                    child: Center(
-                      child: Center(
-                        child: Text(
-                          'Kết bạn',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            height: 1.2125,
-                            color: Color(0xfffafafa),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                ButtonAddFriendWidget()
               ],
             ),
           ),
