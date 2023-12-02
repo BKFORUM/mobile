@@ -1,17 +1,26 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ButtonAddFriendWidget extends StatefulWidget {
+  ButtonAddFriendWidget(
+    this.callback
+  );
+
+  final VoidCallback callback;
   @override
-  _ButtonAddFriendState createState() => _ButtonAddFriendState();
+  _ButtonAddFriendState createState() => _ButtonAddFriendState(callback);
 }
 
 class _ButtonAddFriendState extends State<ButtonAddFriendWidget> {
+  _ButtonAddFriendState(this.callback);
+  final VoidCallback callback;
   bool isClicked = false;
   // ignore: non_constant_identifier_names
   void ClickButton() {
     setState(() {
       this.isClicked = !this.isClicked;
+      callback();
     });
   }
 
@@ -27,8 +36,8 @@ class _ButtonAddFriendState extends State<ButtonAddFriendWidget> {
               borderRadius: BorderRadius.circular(8), // <-- Radius
             ),
           ),
-          onPressed: () {
-            ClickButton();
+          onPressed: () => {
+            ClickButton()
           },
           child: !this.isClicked
               ? Text(

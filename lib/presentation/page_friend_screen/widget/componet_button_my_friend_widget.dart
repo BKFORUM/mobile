@@ -1,5 +1,4 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/presentation/page_friend_screen/widget/button_add_friend_widget.dart';
 import 'package:flutter/material.dart';
 
 class ComponentButtonMyFriendsWidget extends StatefulWidget {
@@ -79,7 +78,8 @@ class ComponentButtonMyFriendsState extends State<ComponentButtonMyFriendsWidget
             ),
           ],
         ):
-        ButtonAddFriendWidget()
+        // ButtonAddFriendWidget()
+        AboutDialog()
         );
   }
 }

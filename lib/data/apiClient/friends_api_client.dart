@@ -52,6 +52,46 @@ class FriendsApiClient extends GetConnect {
     }
   }
 
+  Future<void> createFriendRequest(String id) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await post(
+      ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.friendRequests,
+      {
+        "id": id
+      },
+      headers: headers,
+    );
+
+    if (response.statusCode! >= 400){
+      final code = response.statusCode;
+      throw Exception('Failed to create a friend request, status code $code');
+    }
+  }
+
+  Future<void> updateStatusFriend(String id, String status) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await post(
+      ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.friendRequests + '/$id',
+      {
+        "status": status
+      },
+      headers: headers,
+    );
+
+    if (response.statusCode! >= 400){
+      final code = response.statusCode;
+      throw Exception('Failed to update a friend request, status code $code');
+    }
+  }
+
   MyFriendModel mapResponseToObj(dynamic data) {
     MyFriendModel myfriend = MyFriendModel(
       id: PointerToRx(data['id']),

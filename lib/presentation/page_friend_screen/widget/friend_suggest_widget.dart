@@ -1,15 +1,37 @@
+import 'package:bkforum/controller/page_friend_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/user_model.dart';
-import 'package:bkforum/presentation/page_friend_screen/widget/button_add_friend_widget.dart';
+import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
+import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class FriendSuggestWidget extends StatelessWidget {
-  FriendSuggestWidget(this.friendSuggest, {Key? key}) : super(key: key);
-  User friendSuggest;
+  User friendSuggest = User();
+  final PageFriendController controller = Get.put(PageFriendController());
+  bool isClicked = false;
+  FriendSuggestWidget(User user){
+    this.friendSuggest = user;
+    isClicked = user.friendStatus.toString() == TYPE_NOT_FRIEND;
+  }
+
+  // ignore: non_constant_identifier_names
+  void ClickButtonAddFriends()  async{
+    setState(() {
+      this.isClicked = !this.isClicked;
+      controller.createFriendRequest(friendSuggest.id.toString());
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  void ClickButtonRetrieveRequest() async{
+    this.isClicked = !this.isClicked;
+    await controller.updateStatusFriend(friendSuggest.id.toString(), "DELETED");
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       //frame160fe3 (1:120)
       margin: EdgeInsets.fromLTRB(
@@ -34,9 +56,7 @@ class FriendSuggestWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(45.adaptSize),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(
-                  friendSuggest.avatarUrl.toString()
-                ),
+                image: NetworkImage(friendSuggest.avatarUrl.toString()),
               ),
             ),
           ),
@@ -62,7 +82,45 @@ class FriendSuggestWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                ButtonAddFriendWidget()
+                !this.isClicked
+                    ? CustomElevatedButton(
+                        text: "Kết bạn",
+                        height: 30.adaptSize,
+                        width: double.infinity,
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff0001cb),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
+                          ),
+                        ),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color: Color(0xfffafafa),
+                        ),
+                        onTap: ClickButtonAddFriends,
+                      )
+                    : CustomElevatedButton(
+                        text: "Đã gừi lời mời kết bạn",
+                        height: 30.adaptSize,
+                        width: double.infinity,
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffb0b0b0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
+                          ),
+                        ),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color:Color(0xff000000),
+                        ),
+                        onTap: ClickButtonRetrieveRequest,
+                      )
               ],
             ),
           ),

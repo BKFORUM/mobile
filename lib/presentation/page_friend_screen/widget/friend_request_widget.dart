@@ -11,6 +11,7 @@ class FriendRequestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       //frame160fe3 (1:120)
       margin: EdgeInsets.fromLTRB(
           0.adaptSize, 0.adaptSize, 0.adaptSize, 10.adaptSize),
