@@ -158,7 +158,7 @@ class PageFeedScreen extends GetView<PageFeedController> {
   /// push the named route for the pageSearchScreen.
   onTapIconsearch() {
     Get.toNamed(
-      AppRoutes.pageFriendsScreen,
+      AppRoutes.pageSearchSreen,
     );
   }
 
