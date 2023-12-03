@@ -16,6 +16,11 @@ class PageLoginController extends GetxController {
   Rx<PageLoginModel> pageLoginModelObj = PageLoginModel().obs;
 
   @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
   void onClose() {
     super.onClose();
     studentidoneController.dispose();

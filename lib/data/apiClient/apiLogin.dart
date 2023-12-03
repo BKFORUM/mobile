@@ -13,12 +13,14 @@ class LoginApiClient extends GetConnect {
     );
     if (response.statusCode == 201) {
       final token = response.body['accessToken'] as String;
+      //final id = response.body['id'] as String;
       final preferences = await SharedPreferences.getInstance();
       // print(token);
       preferences.setString('accessToken', token);
       preferences.setString('email', email);
       preferences.setString('password', password);
       preferences.setBool('isLoggedIn', true);
+      //preferences.setString('id', id);
       return token;
     } else {
       return('Đăng nhập thất bại');

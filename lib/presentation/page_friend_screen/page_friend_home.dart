@@ -9,7 +9,6 @@ class PageFriendsScreen extends GetWidget<PageFriendController> {
   PageFriendsScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(

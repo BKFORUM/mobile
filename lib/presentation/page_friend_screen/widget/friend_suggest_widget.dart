@@ -1,7 +1,6 @@
 import 'package:bkforum/controller/page_friend_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/user_model.dart';
-import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
@@ -16,17 +15,13 @@ class FriendSuggestWidget extends StatelessWidget {
   }
 
   // ignore: non_constant_identifier_names
-  void ClickButtonAddFriends()  async{
-    setState(() {
-      this.isClicked = !this.isClicked;
-      controller.createFriendRequest(friendSuggest.id.toString());
-    });
+  void ClickButtonAddFriends() {
+    controller.createFriendRequest(friendSuggest.id.toString());
   }
 
   // ignore: non_constant_identifier_names
-  void ClickButtonRetrieveRequest() async{
-    this.isClicked = !this.isClicked;
-    await controller.updateStatusFriend(friendSuggest.id.toString(), "DELETED");
+  void ClickButtonRetrieveRequest() {
+    controller.updateStatusFriendSuggest(friendSuggest.id.toString(), "DELETED");
   }
 
   @override
@@ -82,7 +77,7 @@ class FriendSuggestWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                !this.isClicked
+                this.isClicked
                     ? CustomElevatedButton(
                         text: "Kết bạn",
                         height: 30.adaptSize,
@@ -100,7 +95,9 @@ class FriendSuggestWidget extends StatelessWidget {
                           height: 1.2125,
                           color: Color(0xfffafafa),
                         ),
-                        onTap: ClickButtonAddFriends,
+                        onTap: (){
+                            ClickButtonAddFriends();
+                        },
                       )
                     : CustomElevatedButton(
                         text: "Đã gừi lời mời kết bạn",
@@ -119,7 +116,9 @@ class FriendSuggestWidget extends StatelessWidget {
                           height: 1.2125,
                           color:Color(0xff000000),
                         ),
-                        onTap: ClickButtonRetrieveRequest,
+                        onTap: (){
+                            ClickButtonRetrieveRequest();
+                        },
                       )
               ],
             ),

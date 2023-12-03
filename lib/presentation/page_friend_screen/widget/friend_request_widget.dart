@@ -1,17 +1,26 @@
+import 'package:bkforum/controller/page_friend_controller.dart';
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/data/models/friend_model.dart';
-import 'package:bkforum/presentation/page_friend_screen/widget/button_accept_request_widget.dart';
+import 'package:bkforum/data/models/user_model.dart';
+import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class FriendRequestWidget extends StatelessWidget {
   FriendRequestWidget(this.friendrequest, {Key? key}) : super(key: key);
-  MyFriendModel friendrequest;
+  User friendrequest;
+  final PageFriendController controller = Get.put(PageFriendController());
+  
+  void acceptFriendRequest(){
+    controller.updateStatusFriendRequest(friendrequest.id.toString(), "ACTIVE");
+  }
+
+  void rejectFriendRequest(){
+    controller.updateStatusFriendRequest(friendrequest.id.toString(), "DELETED");
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       //frame160fe3 (1:120)
       margin: EdgeInsets.fromLTRB(
           0.adaptSize, 0.adaptSize, 0.adaptSize, 10.adaptSize),
@@ -61,7 +70,61 @@ class FriendRequestWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                ButtonAcceptRequestWidget()
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(
+                          0.adaptSize, 0.adaptSize, 9.adaptSize, 0.adaptSize),
+                      height: 30.adaptSize,
+                      width: 120.adaptSize,
+                      child: CustomElevatedButton(
+                        text: "Chấp nhận",
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff0001cb),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
+                          ),
+                        ),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color: Color(0xfffafafa),
+                        ),
+                        onTap: (){
+                          acceptFriendRequest();
+                        },
+                      ),
+                    ),
+                    Container(
+                      height: 30.adaptSize,
+                      width: 120.adaptSize,
+                      child: CustomElevatedButton(
+                        text: "Hủy",
+                        height: 30.adaptSize,
+                        width: 120.adaptSize,
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffb0b0b0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
+                          ),
+                        ),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color: Color(0xff000000),
+                        ),
+                        onTap: (){
+                          rejectFriendRequest();
+                        },
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

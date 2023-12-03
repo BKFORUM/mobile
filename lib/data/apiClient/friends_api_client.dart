@@ -78,7 +78,7 @@ class FriendsApiClient extends GetConnect {
     final headers = {
       'Authorization': 'Bearer $token',
     };
-    final response = await post(
+    final response = await patch(
       ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.friendRequests + '/$id',
       {
         "status": status

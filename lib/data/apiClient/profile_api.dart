@@ -20,7 +20,10 @@ class ProfileApi extends GetConnect {
 
     if (response.statusCode == 200) {
       final jsonData = response.body;
-      return Profile.fromJson(jsonData);
+      Profile profile =  Profile.fromJson(jsonData);
+      preferences.setString('id', profile.id.toString());
+      preferences.setString('avatarUrl', profile.avatarUrl.toString());
+      return profile;
     } else {
       throw Exception('Failed to fetch profile ${response.statusCode}');
     }
