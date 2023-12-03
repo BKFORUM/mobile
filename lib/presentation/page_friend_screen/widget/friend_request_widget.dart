@@ -1,11 +1,22 @@
+import 'package:bkforum/controller/page_friend_controller.dart';
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/data/models/friend_model.dart';
+import 'package:bkforum/data/models/user_model.dart';
+import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class FriendRequestWidget extends StatelessWidget {
   FriendRequestWidget(this.friendrequest, {Key? key}) : super(key: key);
-  MyFriendModel friendrequest;
+  User friendrequest;
+  final PageFriendController controller = Get.put(PageFriendController());
+  
+  void acceptFriendRequest(){
+    controller.updateStatusFriendRequest(friendrequest.id.toString(), "ACTIVE");
+  }
+
+  void rejectFriendRequest(){
+    controller.updateStatusFriendRequest(friendrequest.id.toString(), "DELETED");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +34,6 @@ class FriendRequestWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          
           Container(
             // ellipse4aW7 (1:121)
             margin: EdgeInsets.fromLTRB(
@@ -34,9 +44,7 @@ class FriendRequestWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(45.adaptSize),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(
-                  friendrequest.avatarUrl.toString()
-                ),
+                image: NetworkImage(friendrequest.avatarUrl.toString()),
               ),
             ),
           ),
@@ -62,64 +70,61 @@ class FriendRequestWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  // autogroupjrcfwjy (YEE1N2orUZYpXySghqjRCF)
-                  width:  double.maxFinite,
-                  height: 35.adaptSize,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // commentbuttonsNj (1:123)
-                        margin: EdgeInsets.fromLTRB(
-                            0.adaptSize, 0.adaptSize, 9.adaptSize, 0.adaptSize),
-                        width:  120.adaptSize,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xff0001cb),
-                          borderRadius: BorderRadius.circular(8.adaptSize),
-                        ),
-                        child: Center(
-                          child: Center(
-                            child: Text(
-                              'Chấp Nhận',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                height: 1.2125,
-                                color: Color(0xfffafafa),
-                              ),
-                            ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(
+                          0.adaptSize, 0.adaptSize, 9.adaptSize, 0.adaptSize),
+                      height: 30.adaptSize,
+                      width: 120.adaptSize,
+                      child: CustomElevatedButton(
+                        text: "Chấp nhận",
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff0001cb),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
                           ),
                         ),
-                      ),
-                      Container(
-                        // commentbuttonEEw (4:220)
-                        width:  120.adaptSize,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xffb0b0b0),
-                          borderRadius: BorderRadius.circular(8.adaptSize),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color: Color(0xfffafafa),
                         ),
-                        child: Center(
-                          child: Center(
-                            child: Text(
-                              'Hủy',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.adaptSize,
-                                fontWeight: FontWeight.w700,
-                                height: 1.2125,
-                                color: Color(0xff000000),
-                              ),
-                            ),
+                        onTap: (){
+                          acceptFriendRequest();
+                        },
+                      ),
+                    ),
+                    Container(
+                      height: 30.adaptSize,
+                      width: 120.adaptSize,
+                      child: CustomElevatedButton(
+                        text: "Hủy",
+                        height: 30.adaptSize,
+                        width: 120.adaptSize,
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffb0b0b0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
                           ),
                         ),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color: Color(0xff000000),
+                        ),
+                        onTap: (){
+                          rejectFriendRequest();
+                        },
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

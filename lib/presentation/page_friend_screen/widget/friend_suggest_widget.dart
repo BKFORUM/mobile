@@ -1,14 +1,32 @@
+import 'package:bkforum/controller/page_friend_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/user_model.dart';
+import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class FriendSuggestWidget extends StatelessWidget {
-  FriendSuggestWidget(this.friendSuggest, {Key? key}) : super(key: key);
-  User friendSuggest;
+  User friendSuggest = User();
+  final PageFriendController controller = Get.put(PageFriendController());
+  bool isClicked = false;
+  FriendSuggestWidget(User user){
+    this.friendSuggest = user;
+    isClicked = user.friendStatus.toString() == TYPE_NOT_FRIEND;
+  }
+
+  // ignore: non_constant_identifier_names
+  void ClickButtonAddFriends() {
+    controller.createFriendRequest(friendSuggest.id.toString());
+  }
+
+  // ignore: non_constant_identifier_names
+  void ClickButtonRetrieveRequest() {
+    controller.updateStatusFriendSuggest(friendSuggest.id.toString(), "DELETED");
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       //frame160fe3 (1:120)
       margin: EdgeInsets.fromLTRB(
@@ -33,9 +51,7 @@ class FriendSuggestWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(45.adaptSize),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(
-                  friendSuggest.avatarUrl.toString()
-                ),
+                image: NetworkImage(friendSuggest.avatarUrl.toString()),
               ),
             ),
           ),
@@ -61,36 +77,49 @@ class FriendSuggestWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  // frame192GCj (21:798)
-                  // margin: EdgeInsets.fromLTRB(
-                  //     0.adaptSize, 0.adaptSize, 19.adaptSize, 0.adaptSize),
-                  width: double.infinity,
-                  height: 30.adaptSize,
-                  child: Container(
-                    // commentbuttonQJw (21:799)
-                    width: double.infinity,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color(0xff0001cb),
-                      borderRadius: BorderRadius.circular(8.adaptSize),
-                    ),
-                    child: Center(
-                      child: Center(
-                        child: Text(
-                          'Kết bạn',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            height: 1.2125,
-                            color: Color(0xfffafafa),
+                this.isClicked
+                    ? CustomElevatedButton(
+                        text: "Kết bạn",
+                        height: 30.adaptSize,
+                        width: double.infinity,
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff0001cb),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color: Color(0xfffafafa),
+                        ),
+                        onTap: (){
+                            ClickButtonAddFriends();
+                        },
+                      )
+                    : CustomElevatedButton(
+                        text: "Đã gừi lời mời kết bạn",
+                        height: 30.adaptSize,
+                        width: double.infinity,
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffb0b0b0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
+                          ),
+                        ),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color:Color(0xff000000),
+                        ),
+                        onTap: (){
+                            ClickButtonRetrieveRequest();
+                        },
+                      )
               ],
             ),
           ),

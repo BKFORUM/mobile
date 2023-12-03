@@ -1,10 +1,7 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../core/utils/image_constant.dart';
-import 'custom_image_view.dart';
 
 class CustomReaction extends StatefulWidget {
   @override

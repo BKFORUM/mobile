@@ -1,3 +1,4 @@
+import 'package:bkforum/data/apiClient/profile_api.dart';
 import 'package:bkforum/presentation/page_friend_screen/page_friend_suggest.dart';
 import 'package:bkforum/presentation/page_friend_screen/page_my_friend.dart';
 import 'package:bkforum/presentation/page_login_screen/page_login_screen.dart';
@@ -199,6 +200,7 @@ Future<bool> checkTokenAndNavigate() async {
   final password = preferences.getString('password') ?? '';
   if (isLoggedIn){
     LoginApiClient().login(email, password);
+    ProfileApi().fetchProfile();
   }
   return isLoggedIn;
 }

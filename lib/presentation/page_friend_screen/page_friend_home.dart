@@ -1,7 +1,7 @@
 import 'package:bkforum/controller/page_friend_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_friend_screen/widget/friend_request_widget.dart';
-import 'package:bkforum/presentation/page_friend_screen/widget/my_friend_widget.dart';
+import 'package:bkforum/presentation/page_friend_screen/widget/friend_suggest_widget.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -9,7 +9,6 @@ class PageFriendsScreen extends GetWidget<PageFriendController> {
   PageFriendsScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
@@ -129,7 +128,6 @@ class PageFriendsScreen extends GetWidget<PageFriendController> {
                           child: Center(
                               child: ListView(
                             children: [
-                              if (controller.friendRequests.length > 0)
                                 Container(
                                   margin: EdgeInsets.fromLTRB(9.5.adaptSize,
                                       10.adaptSize, 5.adaptSize, 9.5.adaptSize),
@@ -143,7 +141,6 @@ class PageFriendsScreen extends GetWidget<PageFriendController> {
                                     ),
                                   ),
                                 ),
-                              if (controller.friendRequests.length > 0)
                                 Obx(() => ListView.separated(
                                     physics: BouncingScrollPhysics(),
                                     shrinkWrap: true,
@@ -155,7 +152,6 @@ class PageFriendsScreen extends GetWidget<PageFriendController> {
                                       return FriendRequestWidget(
                                           controller.friendRequests[index]);
                                     })),
-                              if (controller.friendRequests.length > 0)
                                 Container(
                                   // group35Ehy (16:355)
                                   margin: EdgeInsets.fromLTRB(30.adaptSize,
@@ -191,7 +187,7 @@ class PageFriendsScreen extends GetWidget<PageFriendController> {
                                       ),
                                     ),
                                   ),
-                                ),
+                              ),
                               SizedBox(
                                 height: 15,
                               ),
@@ -215,10 +211,10 @@ class PageFriendsScreen extends GetWidget<PageFriendController> {
                                   separatorBuilder: (context, index) {
                                     return SizedBox(height: 10.v);
                                   },
-                                  itemCount: controller.myFriends.length,
+                                  itemCount: controller.friendSuggest.length,
                                   itemBuilder: (context, index) {
-                                    return MyFriendsWidget(
-                                        controller.myFriends[index]);
+                                    return FriendSuggestWidget(
+                                        controller.friendSuggest[index]);
                                   })),
                               Container(
                                 // group35Ehy (16:355)

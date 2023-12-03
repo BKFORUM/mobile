@@ -1,11 +1,19 @@
+import 'package:bkforum/controller/page_friend_controller.dart';
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/data/models/friend_model.dart';
+import 'package:bkforum/data/models/user_model.dart';
+import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
+
 
 // ignore: must_be_immutable
 class MyFriendsWidget extends StatelessWidget {
   MyFriendsWidget(this.myFriends, {Key? key}) : super(key: key);
-  MyFriendModel myFriends;
+  User myFriends;
+  final PageFriendController controller = Get.put(PageFriendController());
+
+  void deleteFriend(){
+    controller.updateStatusMyFriend(myFriends.id.toString(), "DELETED");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +31,6 @@ class MyFriendsWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          
           Container(
             // ellipse4aW7 (1:121)
             margin: EdgeInsets.fromLTRB(
@@ -34,9 +41,7 @@ class MyFriendsWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(45.adaptSize),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(
-                  myFriends.avatarUrl.toString()
-                ),
+                image: NetworkImage(myFriends.avatarUrl.toString()),
               ),
             ),
           ),
@@ -62,64 +67,59 @@ class MyFriendsWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  // autogroupjrcfwjy (YEE1N2orUZYpXySghqjRCF)
-                  width:  double.maxFinite,
-                  height: 35.adaptSize,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // commentbuttonsNj (1:123)
-                        margin: EdgeInsets.fromLTRB(
-                            0.adaptSize, 0.adaptSize, 9.adaptSize, 0.adaptSize),
-                        width:  120.adaptSize,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xff0001cb),
-                          borderRadius: BorderRadius.circular(8.adaptSize),
-                        ),
-                        child: Center(
-                          child: Center(
-                            child: Text(
-                              'Nhắn tin',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                height: 1.2125,
-                                color: Color(0xfffafafa),
-                              ),
-                            ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(
+                          0.adaptSize, 0.adaptSize, 9.adaptSize, 0.adaptSize),
+                      height: 30.adaptSize,
+                      width: 120.adaptSize,
+                      child: CustomElevatedButton(
+                        text: "Xem",
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff0001cb),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
                           ),
                         ),
-                      ),
-                      Container(
-                        // commentbuttonEEw (4:220)
-                        width:  120.adaptSize,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xffb0b0b0),
-                          borderRadius: BorderRadius.circular(8.adaptSize),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color: Color(0xfffafafa),
                         ),
-                        child: Center(
-                          child: Center(
-                            child: Text(
-                              'Hủy kết bạn',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.adaptSize,
-                                fontWeight: FontWeight.w700,
-                                height: 1.2125,
-                                color: Color(0xff000000),
-                              ),
-                            ),
+                        onTap: () {},
+                      ),
+                    ),
+                    Container(
+                      height: 30.adaptSize,
+                      width: 120.adaptSize,
+                      child: CustomElevatedButton(
+                        text: "Hủy kết bạn",
+                        height: 30.adaptSize,
+                        width: 120.adaptSize,
+                        buttonStyle: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffb0b0b0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // <-- Radius
                           ),
                         ),
+                        buttonTextStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2125,
+                          color: Color(0xff000000),
+                        ),
+                        onTap: () {
+                          deleteFriend();
+                        },
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
