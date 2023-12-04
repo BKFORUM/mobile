@@ -207,7 +207,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                         ]))),
                                 GestureDetector(
                                     onTap: () {
-                                      onTapPageMessageChat();
+                                      //onTapPageMessageChat();
                                     },
                                     child: Container(
                                         decoration:
@@ -389,11 +389,12 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
 
   /// When the action is triggered, this function uses the [Get] package to
   /// push the named route for the pageMessageChatScreen.
-  onTapPageMessageChat() {
-    Get.toNamed(
-      AppRoutes.pageMessageChatScreen,
-    );
-  }
+  
+  // onTapPageMessageChat() {
+  //   Get.toNamed(
+  //     AppRoutes.pageMessageChatScreen,
+  //   );
+  // }
 
   /// Navigates to the pagePostScreen when the action is triggered.
 
