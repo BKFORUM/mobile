@@ -1,12 +1,12 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:flutter/material.dart';
 
-class MessageWidget extends StatefulWidget {
+class MessageReceivedWidget extends StatefulWidget {
   @override
   MessageState createState() => MessageState();
 }
 
-class MessageState extends State<MessageWidget> {
+class MessageState extends State<MessageReceivedWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(

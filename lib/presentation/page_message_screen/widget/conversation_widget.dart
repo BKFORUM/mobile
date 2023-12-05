@@ -35,11 +35,17 @@ class ConversationState extends State<ConversationWidget> {
       return formatTimeDifference(difference);
     }
   }
-  
-  void goToMessageDetail (){
+
+  void goToMessageDetail() {
+    String id = conversation.id.toString();
+    print(id);
      Get.toNamed(
-      AppRoutes.pageMessageDetailScreen,
+      '${AppRoutes.pageMessageDetailScreen}/$id',
     );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) =>  PageMessageDetailScreen()),
+    // );
   }
 
   @override

@@ -4,11 +4,16 @@ import 'package:bkforum/data/models/data_prop/message.dart';
 
 class PageMessageDetailController extends GetxController{
   ConversationAPIClient conversationAPIClient = ConversationAPIClient();
+  PageMessageDetailController({required this.id});
   final messages = <Message>[].obs;
+  String id;
   
   @override
   void onInit() async{
     super.onInit();
+    print("Khang");
+    print(id);
+    getMessageInConversation(id);
   }
 
   @override
