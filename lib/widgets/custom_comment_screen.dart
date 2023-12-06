@@ -1,120 +1,154 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/data/models/comments_model.dart';
+import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
+import 'package:bkforum/widgets/comment_reply_widget.dart';
 import 'package:flutter/material.dart';
-
-import '../data/apiClient/comments_api.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swipe_to/swipe_to.dart';
+import '../controller/comments_controller.dart';
 import 'custom_text_form_field.dart';
-import '../data/models/comments_model.dart';
 
-// ignore: must_be_immutable
-class CustomCommentScreen extends StatefulWidget {
-  String id;
+class CustomCommentScreen extends StatelessWidget {
+  final String id;
+  final CommentController commentController = CommentController();
 
   CustomCommentScreen(this.id, {Key? key}) : super(key: key);
 
-  @override
-  _CustomCommentScreenState createState() => _CustomCommentScreenState();
-}
-
-class _CustomCommentScreenState extends State<CustomCommentScreen> {
-  // double _sheetHeight = 1000.adaptSize; // Chiều cao mặc định của BottomSheet
-
-  List<CommentsModel> commentsList = [];
   TextEditingController _textEditingController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    fetchComments();
-  }
-
-  Future<void> fetchComments() async {
-    try {
-      List<CommentsModel> tempList =
-          await CommentsApiClient().fetchData(widget.id);
-      setState(() {
-        commentsList = tempList;
-      });
-    } catch (error) {
-      print('Error fetching comments: $error');
-    }
-  }
-
-  void uploadComment(String id, String comment) {
-    CommentsApiClient().uploadData(id, comment);
-  }
-
-  void handleSendButtonPressed(String comment) {
-    uploadComment(widget.id, comment);
+  void handleSendButtonPressed(String comment, bool repMode) {
+    commentController.uploadCommentOrReply(id, comment, repMode);
     _textEditingController.text = '';
-    setState(() {
-      fetchComments();
-    });
+    commentController.fetchComments(id);
   }
+
+  Future<bool> checkEditDeleteComment(CommentsModel comment) async {
+    final preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString('user_id');
+
+    if (userId == comment.userCreate?.value)
+      return true;
+    else
+      return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (commentsList.isEmpty) {
+    commentController.refresh();
+    commentController.replyMode = false;
+    return Obx(() {
+      commentController.fetchComments(id);
+      final commentsList = commentController.commentsList;
+      if (commentsList.isEmpty) {
+        return Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: EdgeInsets.all(10.adaptSize),
+            child: Column(children: [
+              Expanded(
+                child: Center(
+                  child: Text(
+                      "Ở đây chưa có bình luận nào, hãy là người đầu tiên bình luận."),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Row(children: [
+                    SizedBox(width: 10),
+                    Expanded(
+                        child: CustomTextFormField(
+                            controller: _textEditingController,
+                            hintText: "msg_th_m_b_nh_lu_n".tr,
+                            hintStyle: theme.textTheme.titleSmall,
+                            textInputAction: TextInputAction.done,
+                            borderDecoration: InputBorder.none,
+                            // TextFormFieldStyleHelper,
+                            filled: false,
+                            fillColor: appTheme.blueGray100,
+                            suffix: IconButton(
+                              icon: Icon(Icons.send),
+                              iconSize: 16.adaptSize,
+                              onPressed: () {
+                                if (_textEditingController.text != '') {
+                                  handleSendButtonPressed(
+                                      _textEditingController.text, false);
+                                }
+                              },
+                            )))
+                  ]))
+            ]));
+      }
+
       return Container(
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
           ),
           padding: EdgeInsets.all(10.adaptSize),
-          child: Column(children: [
+          child: Flex(direction: Axis.vertical, children: [
             Expanded(
-                child: Center(
-                  child: Text(
-                  "Ở đây chưa có bình luận nào, hãy là người đầu tiên bình luận."),
-            )),
-            Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Row(children: [
-                  Padding(
-                      padding: EdgeInsets.only(left: 10.h),
-                      child: CustomImageView(
-                        imagePath: ImageConstant.imgIconavatar28x28,
-                        height: 30.adaptSize,
-                        width: 30.adaptSize,
-                        radius: BorderRadius.circular(14.h),
-                      )),
-                  SizedBox(width: 10),
-                  Expanded(
-                      child: CustomTextFormField(
-                          controller: _textEditingController,
-                          hintText: "msg_th_m_b_nh_lu_n".tr,
-                          hintStyle: theme.textTheme.titleSmall,
-                          textInputAction: TextInputAction.done,
-                          borderDecoration: InputBorder.none,
-                          // TextFormFieldStyleHelper,
-                          filled: false,
-                          fillColor: appTheme.blueGray100,
-                          suffix: IconButton(
-                            icon: Icon(Icons.send),
-                            iconSize: 16.adaptSize,
-                            onPressed: () {
-                              if (_textEditingController.text != ''){
-                                handleSendButtonPressed(
-                                    _textEditingController.text);
-                              }
-                            },
-                          )))
-                ]))
-          ]));
-    }
-    return Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        padding: EdgeInsets.all(10.adaptSize),
-        //height: 500,
-        child: Flex(direction: Axis.vertical, children: [
-          Expanded(
-              child: ListView.builder(
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  if (scrollNotification is ScrollStartNotification) {
+                    setState(() {});
+                  } else if (scrollNotification is ScrollUpdateNotification) {
+                    setState(() {});
+                  } else if (scrollNotification is ScrollEndNotification) {
+                    commentController.fetchMoreComments(
+                      id, commentController.commentsList.length);
+                  }
+                  return true;
+                },
+                child: ListView.builder(
                   itemCount: commentsList.length,
                   itemBuilder: (context, index) {
                     final comment = commentsList[index];
-                    return Container(
-                        margin: EdgeInsets.symmetric(vertical: 8.adaptSize),
+                    final isExpanded = commentController.isExpandedList[index];
+                    return Column(children: [
+                      GestureDetector(
+                        onDoubleTap: () {
+                          commentController.changeToReplyMode(comment);
+                        },
+                        onLongPress: () {
+                          // if (checkEditDeleteComment)
+                          Get.dialog(Dialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Container(
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        // Row(children: [
+                                        //   Icon(Icons.cancel_rounded),
+                                        //   SizedBox(width: 20),
+                                        //   Expanded(
+                                        //       child: Text(
+                                        //     "Xóa bình luận",
+                                        //     style: TextStyle(fontSize: 16),
+                                        //   ))
+                                        // ]),
+                                        ListTile(
+                                          leading:
+                                              Icon(Icons.edit_note_rounded),
+                                          title: Text('Chỉnh sửa bình luận',
+                                              style: TextStyle(fontSize: 16)),
+                                          onTap: () => commentController
+                                              .updateComment(comment),
+                                        ),
+                                        ListTile(
+                                          leading: Icon(Icons.cancel_rounded),
+                                          title: Text('Xóa bình luận',
+                                              style: TextStyle(fontSize: 16)),
+                                          onTap: () => commentController
+                                              .deleteComment(comment),
+                                        )
+                                      ]))));
+                        },
                         child: ListTile(
                           leading: Container(
                               margin:
@@ -139,42 +173,99 @@ class _CustomCommentScreenState extends State<CustomCommentScreen> {
                                       fontWeight: FontWeight.w300,
                                       fontSize: 18.v,
                                       color: Colors.black))),
+                          trailing: GestureDetector(
+                            onTap: () {
+                              isExpanded.toggle();
+                            },
+                            child: Container(
+                                child: (comment.countReplies?.value != 0)
+                                    ? Text(
+                                        'Xem\n${comment.countReplies?.value} trả lời',
+                                        textAlign: TextAlign.right,
+                                      )
+                                    : SizedBox.shrink()),
+                          ),
                           minVerticalPadding: 1.v,
-                        ));
-                  })),
-          Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Row(children: [
-                Padding(
-                    padding: EdgeInsets.only(left: 10.h),
-                    child: CustomImageView(
-                      imagePath: ImageConstant.imgIconavatar28x28,
-                      height: 30.adaptSize,
-                      width: 30.adaptSize,
-                      radius: BorderRadius.circular(14.h),
-                    )),
-                SizedBox(width: 10),
-                Expanded(
-                    child: CustomTextFormField(
-                        controller: _textEditingController,
-                        hintText: "msg_th_m_b_nh_lu_n".tr,
-                        hintStyle: theme.textTheme.titleSmall,
-                        textInputAction: TextInputAction.done,
-                        borderDecoration: InputBorder.none,
-                        // TextFormFieldStyleHelper,
-                        filled: false,
-                        fillColor: appTheme.blueGray100,
-                        suffix: IconButton(
-                          icon: Icon(Icons.send),
-                          iconSize: 16.adaptSize,
-                          onPressed: () {
-                            if (_textEditingController.text.trim().isNotEmpty){
-                              handleSendButtonPressed(
-                                  _textEditingController.text);
-                            }
-                          },
-                        )))
-              ]))
-        ]));
+                        ),
+                      ),
+                      if (isExpanded.value)
+                        ReplyComment(replyId: comment.id!.value)
+                      else
+                        SizedBox.shrink()
+                    ]);
+                  },
+                ),
+              ),
+            ),
+            if (!commentController.replyMode)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(width: 8.adaptSize),
+                    Expanded(
+                      child: Text(
+                        'Chạm vào bình luận 2 lần để trả lời',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Colors.black54, fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    SizedBox(width: 8.adaptSize),
+                  ],
+                ),
+              ),
+            if (commentController.replyMode)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(width: 8.adaptSize),
+                    Expanded(
+                      child: Obx(
+                        () => Text(
+                          commentController.replyLabel.value.value,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () => commentController.cancelReplyMode(),
+                        icon: Icon(Icons.cancel_rounded))
+                  ],
+                ),
+              ),
+            Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(children: [
+                  Expanded(
+                      child: CustomTextFormField(
+                          controller: _textEditingController,
+                          hintText: "msg_th_m_b_nh_lu_n".tr,
+                          hintStyle: theme.textTheme.titleSmall,
+                          textInputAction: TextInputAction.done,
+                          borderDecoration: InputBorder.none,
+                          // TextFormFieldStyleHelper,
+                          filled: false,
+                          fillColor: appTheme.blueGray100,
+                          suffix: IconButton(
+                            icon: Icon(Icons.send),
+                            iconSize: 16.adaptSize,
+                            onPressed: () {
+                              if (_textEditingController.text != '') {
+                                handleSendButtonPressed(
+                                    _textEditingController.text,
+                                    commentController.replyMode);
+                              }
+                            },
+                          )))
+                ]))
+          ]));
+    });
   }
 }

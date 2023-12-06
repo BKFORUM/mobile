@@ -12,19 +12,18 @@ class Data {
   String status;
   DateTime createdAt;
   Count? count;
-  String? likedAt;
+  DateTime? likedAt;
 
-  Data({
-    required this.id,
-    required this.forum,
-    required this.content,
-    this.user,
-    this.documents,
-    required this.status,
-    required this.createdAt,
-    this.count,
-    this.likedAt
-  });
+  Data(
+      {required this.id,
+      required this.forum,
+      required this.content,
+      this.user,
+      this.documents,
+      required this.status,
+      required this.createdAt,
+      this.count,
+      this.likedAt});
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
@@ -32,11 +31,14 @@ class Data {
       forum: Forum.fromJson(json['forum']),
       content: json['content'] ?? 'Default',
       user: User.fromJson(json['user']),
-      documents: List<PostDocument>.from(json['documents'].map((x) => PostDocument.fromJson(x))),
+      documents: List<PostDocument>.from(
+          json['documents'].map((x) => PostDocument.fromJson(x))),
       status: json['status'] ?? 'Default',
       createdAt: DateTime.parse(json['createdAt'] ?? 'Default'),
       count: Count.fromJson(json['_count']),
-      likedAt: json['likedAt'] ?? 'Default'
+      likedAt: json['likedAt'] != null
+          ? DateTime.parse(json['likedAt'])
+          : DateTime(2012, 1, 1),
     );
   }
 }

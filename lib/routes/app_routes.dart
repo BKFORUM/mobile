@@ -1,13 +1,7 @@
-import 'package:bkforum/data/apiClient/profile_api.dart';
-import 'package:bkforum/presentation/page_friend_screen/page_friend_suggest.dart';
-import 'package:bkforum/presentation/page_friend_screen/page_my_friend.dart';
 import 'package:bkforum/presentation/page_login_screen/page_login_screen.dart';
 import 'package:bkforum/presentation/page_login_screen/binding/page_login_binding.dart';
 import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
 import 'package:bkforum/presentation/page_feed_screen/binding/page_feed_binding.dart';
-import 'package:bkforum/presentation/page_friend_screen/binding/page_myfriend_binding.dart';
-import 'package:bkforum/presentation/page_friend_screen/page_friend_home.dart';
-import 'package:bkforum/presentation/page_friend_screen/page_friend_request.dart';
 
 import 'package:bkforum/presentation/page_search_screen/page_search_screen.dart';
 import 'package:bkforum/presentation/page_search_screen/binding/page_search_binding.dart';
@@ -27,11 +21,13 @@ import 'package:bkforum/presentation/page_setting_screen/page_setting_screen.dar
 import 'package:bkforum/presentation/page_setting_screen/binding/page_setting_binding.dart';
 import 'package:bkforum/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:bkforum/presentation/app_navigation_screen/binding/app_navigation_binding.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/apiClient/apiLogin.dart';
+import '../presentation/page_profile_screen/page_profile_screen.dart';
 
 class AppRoutes {
   static const String pageLoginScreen = '/page_login_screen';
@@ -52,15 +48,9 @@ class AppRoutes {
 
   static const String pageNotificationScreen = '/page_notification_screen';
 
-  static const String pageFriendsScreen = '/page_friends_screen';
-
-  static const String pageFriendRequestScreen = '/page_friend_request_screen';
-
-  static const String pageFriendSuggestScreen = '/page_friend_suggest_screen';
-
-  static const String pageMyFriendScreen = '/page_my_friend_screen';
-
   static const String pageSettingScreen = '/page_setting_screen';
+
+  static const String pageProfileScreen = '/page_profile_screen';
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
@@ -138,34 +128,6 @@ class AppRoutes {
         AppNavigationBinding(),
       ],
     ),
-     GetPage(
-      name: pageFriendsScreen,
-      page: () => PageFriendsScreen(),
-      bindings: [
-        PageMyFriendBinding(),
-      ],
-    ),
-     GetPage(
-      name: pageFriendRequestScreen,
-      page: () => PageFriendRequest(),
-      bindings: [
-        PageMyFriendBinding(),
-      ],
-    ),
-     GetPage(
-      name: pageFriendSuggestScreen,
-      page: () => PageFriendSuggest(),
-      bindings: [
-        PageMyFriendBinding(),
-      ],
-    ),
-     GetPage(
-      name: pageMyFriendScreen,
-      page: () => PageMyFriends(),
-      bindings: [
-        PageMyFriendBinding(),
-      ],
-    ),
     GetPage(
       name: initialRoute,
       page: () {
@@ -176,7 +138,6 @@ class AppRoutes {
               return CircularProgressIndicator();
             } else {
               if (snapshot.hasData && snapshot.data!) {
-
                 return PageFeedScreen();
               } else {
                 return PageLoginScreen();
@@ -196,11 +157,7 @@ class AppRoutes {
 Future<bool> checkTokenAndNavigate() async {
   final preferences = await SharedPreferences.getInstance();
   final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
-  final email = preferences.getString('email') ?? '';
-  final password = preferences.getString('password') ?? '';
-  if (isLoggedIn){
-    LoginApiClient().login(email, password);
-    ProfileApi().fetchProfile();
-  }
+  final refreshToken = preferences.getString('refreshToken') ?? '';
+  if (isLoggedIn) LoginApiClient().refreshLogin(refreshToken);
   return isLoggedIn;
 }

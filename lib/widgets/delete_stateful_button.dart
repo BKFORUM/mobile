@@ -21,6 +21,12 @@ class _CancelButtonState extends State<CancelButton> {
           isPressed = !isPressed;
         });
         widget.onPressed();
+        Future.delayed(Duration(milliseconds:80), () {
+          setState(() {
+            isPressed = !isPressed;
+          });
+        });
+
       },
       child: Container(
         decoration: BoxDecoration(

@@ -6,6 +6,7 @@ import '../data/apiClient/profile_api.dart';
 import '../data/models/profile_model.dart';
 import 'package:bkforum/data/models/data_prop/forum.dart';
 import '../data/apiClient/forum_list_api.dart';
+import '../controller/page_forumone_controller.dart';
 import '../presentation/page_forumone_screen/page_forumone_screen.dart';
 import '../controller/page_post_controller.dart';
 
@@ -48,12 +49,14 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
 
   void fetchData() async {
     try {
-      Profile? fetchedProfile = await ProfileApi().fetchProfile();
+      Profile? fetchedProfile = await ProfileApi().fetchProfile('');
+      List<Forum> fetchedForums = await ForumListApiClient().fetchForums(fetchedProfile!.id);
 
       ForumListApiClient().fetchForums(fetchedProfile.id).then((fetchedForums) {
         setState(() {
           forums = fetchedForums.isNotEmpty ? fetchedForums : <Forum>[];
           if (forums.isNotEmpty) {
+            String dropdownValue = forums[0].name;
           }
           // String dropdownValue = forums.first.name;
         });
@@ -67,17 +70,8 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
 
   @override
   Widget build(BuildContext context) {
-    // Profile? fetchedProfile;
-    // ProfileApi().fetchProfile().then((profile) {
-    //   fetchedProfile = Profile(
-    //     id: profile.id,
-    //     fullName: profile.fullName,
-    //   );
-    // }).catchError((error) {
-    //   print('Error: $error');
-    // });
     return FutureBuilder<Profile>(
-        future: ProfileApi().fetchProfile(),
+        future: ProfileApi().fetchProfile(''),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -105,11 +99,8 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
                         setState(() {
                           dropdownValue = value!;
                           int selectedIndex = forums.indexOf(forums.firstWhere((forum) => forum.name == dropdownValue));
-                          // var selectedForum = Get.find<PageForumoneController>().selectedForum;
                           var selectedPostForum = Get.find<PagePostController>().selectedPostForum;
-                          // selectedForum.value = forums[selectedIndex];
                           selectedPostForum.value = forums[selectedIndex];
-                          // Get.find<PageForumoneController>().getPostsByForumId(selectedPostForum.value.id);
                         });
                       },
                       items: forums.map<DropdownMenuItem<String>>((Forum forum) {
@@ -124,7 +115,7 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
                   print('Error: ${snapshot.error}');
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return Container();
                 }
               },
             );

@@ -18,7 +18,7 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
 
     // ignore: unused_local_variable
     Profile? fetchedProfile;
-    ProfileApi().fetchProfile().then((profile) {
+    ProfileApi().fetchProfile('').then((profile) {
       fetchedProfile = Profile(
         id: profile.id,
         fullName: profile.fullName,
@@ -27,13 +27,14 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
         address: profile.address,
         faculty: profile.faculty,
         type: profile.type,
+        forums: profile.forums
       );
     }).catchError((error) {
       print('Error: $error');
     });
     mediaQueryData = MediaQuery.of(context);
     return FutureBuilder<Profile>(
-      future: ProfileApi().fetchProfile(),
+      future: ProfileApi().fetchProfile(''),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -191,16 +192,16 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                               return Scaffold(
                                                 body: GestureDetector(
                                                   onTap: () {
-                                                    Navigator.pop(context); // Đóng trang khi nhấn vào nền
+                                                    Navigator.pop(context);
                                                   },
                                                   child: Container(
-                                                    color: Colors.black.withOpacity(0.5), // Màu nền mờ
+                                                    color: Colors.black.withOpacity(0.5),
                                                     child: Hero(
                                                       tag: 'avatar',
                                                       child: Center(
                                                         child: CustomImageView(
                                                           url: fetchedProfile.avatarUrl,
-                                                          height: 0.6*MediaQuery.of(context).size.height, // Phóng to ảnh để lấp đầy màn hình
+                                                          height: 0.6*MediaQuery.of(context).size.height,
                                                           width: 0.6*MediaQuery.of(context).size.width,
                                                           fit: BoxFit.contain,
                                                         ),
@@ -222,9 +223,89 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                       SizedBox(height: 13.v),
                                       Text(fetchedProfile.fullName,
                                           style: CustomTextStyles.titleMedium18),
-                                      ExpandableListExample()
-                                    ])),
+                                      ListView(
+                                          shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        children: [
+                                          ListTile(
+                                            leading: Icon(Icons.person, color: Colors.orangeAccent),
+                                            title: Text('Hồ sơ'),
+                                            onTap: (){
+                                              controller.onTapCheckProfile();
+                                            },
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.people, color: Colors.blueAccent),
+                                            title: Text('Bạn bè'),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.event, color: Colors.green),
+                                            title: Text('Sự kiện'),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.forum, color: Colors.pinkAccent),
+                                            title: Text('Forum'),
+                                            trailing: IconButton(
+                                              onPressed: (){
 
+                                              },
+                                              icon: Icon(Icons.add_circle_outline_rounded),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 140.adaptSize,
+                                            margin: EdgeInsets.only(left: 50.adaptSize),
+                                            child: ListView.builder(
+                                                shrinkWrap: true,
+                                                scrollDirection: Axis.horizontal,
+                                                itemCount: fetchedProfile.forums?.length,
+                                                itemBuilder: (context, index) {
+                                                  final forum = fetchedProfile.forums?[index];
+                                                  return GestureDetector(
+                                                    onTap: (){
+                                                      Get.toNamed(
+                                                        AppRoutes.pageForumoneScreen,
+                                                        arguments: forum
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                        height: 140.adaptSize,
+                                                        width: 130.adaptSize,
+                                                        margin: EdgeInsets.all(8),
+                                                        padding: EdgeInsets.all(4),
+                                                        decoration: BoxDecoration(
+                                                          border: Border.all(color: Colors.black12),
+                                                          color: (fetchedProfile.id == forum?.modId) ? Colors.black12 : Colors.lightBlueAccent,
+                                                          borderRadius: BorderRadius.circular(20),
+                                                        ),
+                                                        child: Center(
+                                                          child: Column(
+                                                              children: [
+                                                                CustomImageView(
+                                                                  height: 70.adaptSize,
+                                                                  width: 70.adaptSize,
+                                                                  url: forum!.avatarUrl,
+                                                                  fit: BoxFit.cover,
+                                                                  radius: BorderRadius.all(Radius.circular(12)),
+                                                                ),
+                                                                SizedBox(height: 8),
+                                                                Text(
+                                                                    forum!.name,
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    maxLines: 2,
+                                                                    textAlign: TextAlign.center,
+                                                                    style: TextStyle(color: Colors.black87)),
+                                                              ]),
+                                                        )),
+                                                  );
+                                                }),
+                                          ),
+                                          // ListTile(
+                                          //   leading: Icon(Icons.text_snippet_rounded, color: Colors.orange),
+                                          //   title: Text('Bài viết'),
+                                          // ),
+                                        ])
+                                    ])),
                           ]))));
         }
 
@@ -291,10 +372,10 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
     );
   }
 
-  /// Navigates to the pageLoginScreen when the action is triggered.
 
-  /// When the action is triggered, this function uses the [Get] package to
-  /// push the named route for the pageLoginScreen.
+
+
+
   onTapRowiconexitone() async {
     final preferences = await SharedPreferences.getInstance();
     preferences.setString('accessToken', '');
@@ -305,65 +386,4 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
   }
 }
 
-class ExpandableListExample extends StatefulWidget {
-  const ExpandableListExample({Key? key}) : super(key: key);
 
-  @override
-  _ExpandableListExampleState createState() => _ExpandableListExampleState();
-}
-
-class _ExpandableListExampleState extends State<ExpandableListExample> {
-  List<ExpansionPanelItem> _expansionPanelItems = [
-    ExpansionPanelItem(
-      header: 'Hồ sơ',
-      body: Container(
-        child: Text('Content of Panel 1'),
-      ),
-      isExpanded: false,
-    ),
-    ExpansionPanelItem(
-      header: 'Công cụ',
-      body: Container(
-        child: Text('Content of Panel 2'),
-      ),
-      isExpanded: false,
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return
-      ExpansionPanelList(
-        elevation: 1,
-        expandedHeaderPadding: EdgeInsets.zero,
-        expansionCallback: (int index, bool isExpanded) {
-          setState(() {
-            _expansionPanelItems[index].isExpanded = !isExpanded;
-          });
-        },
-        children: _expansionPanelItems.map<ExpansionPanel>((ExpansionPanelItem item) {
-          return ExpansionPanel(
-            headerBuilder: (BuildContext context, bool isExpanded) {
-              return ListTile(
-                title: Text(item.header),
-              );
-            },
-            body: item.body,
-            isExpanded: item.isExpanded,
-          );
-        }).toList(),
-      );
-  }
-}
-
-class ExpansionPanelItem {
-  ExpansionPanelItem({
-    required this.header,
-    required this.body,
-    this.isExpanded = false,
-  });
-
-  String header;
-  Widget body;
-  bool isExpanded;
-}

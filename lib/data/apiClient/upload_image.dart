@@ -15,6 +15,9 @@ Future<PostDocument> uploadImage(File imageFile) async {
 
   var url = Uri.parse('http://52.139.152.154/api/v1/images');
   var request = http.MultipartRequest('POST', url);
+
+
+
   request.files.add(await http.MultipartFile.fromPath('documents', imageFile.path));
   request.headers.addAll(headers);
 

@@ -80,4 +80,6 @@ class ImageConstant {
   static String imgIconavatar40x40 = '$imagePath/img_iconavatar_40x40.png';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
+
+  static String imageNullAvatar = 'assets/images/null_avatar.jpg';
 }

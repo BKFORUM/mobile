@@ -46,17 +46,15 @@ class NotificationApiClient {
           email: Rx(item['sender']['email']),
           dateOfBirth: Rx(item['sender']['dateOfBirth']),
           gender: Rx(item['sender']['gender']),
-          phoneNumber: Rx(item['sender']['phoneNumber']),
-          address: Rx(item['sender']['address']),
+          phoneNumber: Rx(item['sender']?['phoneNumber'] ?? ''),
+          address: Rx(item['sender']['address'] ?? ''),
           password: Rx(item['sender']['password']),
           refreshToken: Rx(item['sender']['refreshToken']),
-          avatarUrl: Rx(item['sender']['avatarUrl']),
+          avatarUrl: Rx(item['sender']['avatarUrl'] ?? ImageConstant.imageNullAvatar),
           type: Rx(item['sender']['type']),
           facultyId: Rx(item['sender']['facultyId']),
         );
         notification.sender = Rx(sender);
-        // print('skip $skip , take hung $take');
-        // print(notification.content);
         notifications.add(notification);
       }
       return notifications;

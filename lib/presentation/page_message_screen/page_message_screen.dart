@@ -19,7 +19,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
   Widget build(BuildContext context) {
 
     Profile? fetchedProfile;
-    ProfileApi().fetchProfile().then((profile) {
+    ProfileApi().fetchProfile('').then((profile) {
       fetchedProfile = Profile(
         id: profile.id,
         fullName: profile.fullName,
@@ -36,7 +36,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
 
     mediaQueryData = MediaQuery.of(context);
     return FutureBuilder<Profile>(
-      future: ProfileApi().fetchProfile(),
+      future: ProfileApi().fetchProfile(''),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(

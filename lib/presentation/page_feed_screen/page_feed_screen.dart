@@ -19,7 +19,7 @@ class PageFeedScreen extends GetView<PageFeedController> {
   Widget build(BuildContext context) {
     Profile? fetchedProfile;
 
-    ProfileApi().fetchProfile().then((profile) async {
+    ProfileApi().fetchProfile('').then((profile) async {
       fetchedProfile = Profile(
         id: profile.id,
         fullName: profile.fullName,
@@ -106,7 +106,6 @@ class PageFeedScreen extends GetView<PageFeedController> {
                   if (scrollNotification is ScrollStartNotification) {
                   } else if (scrollNotification is ScrollUpdateNotification) {
                   } else if (scrollNotification is ScrollEndNotification) {
-                    //Cập nhật bài viết mỗi khi lướt đến cuối danh sách
                     controller.pageFeedModelObj.value.fetchMorePosts(controller
                         .pageFeedModelObj.value.userpostItemList.value.length);
                   }
@@ -139,7 +138,8 @@ class PageFeedScreen extends GetView<PageFeedController> {
                                 return UserpostItemWidget(model);
                               },
                             ),
-                    )))));
+                    )))
+        ));
   }
 
   /// Navigates to the pageForumoneScreen when the action is triggered.
