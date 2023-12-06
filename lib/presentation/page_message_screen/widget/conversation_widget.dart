@@ -38,14 +38,13 @@ class ConversationState extends State<ConversationWidget> {
 
   void goToMessageDetail() {
     String id = conversation.id.toString();
-    print(id);
-     Get.toNamed(
-      '${AppRoutes.pageMessageDetailScreen}/$id',
+    Map<String, String> query = <String, String>{
+      'id': id
+    };
+    Get.toNamed(
+      AppRoutes.pageMessageDetailScreen,
+      parameters: query
     );
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) =>  PageMessageDetailScreen()),
-    // );
   }
 
   @override

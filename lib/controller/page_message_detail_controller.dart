@@ -1,27 +1,35 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/conversation_api_client.dart';
 import 'package:bkforum/data/models/data_prop/message.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PageMessageDetailController extends GetxController{
   ConversationAPIClient conversationAPIClient = ConversationAPIClient();
   PageMessageDetailController({required this.id});
   final messages = <Message>[].obs;
   String id;
+  String myId = '';
   
   @override
   void onInit() async{
     super.onInit();
-    print("Khang");
-    print(id);
-    getMessageInConversation(id);
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    this.myId = preferences.getString('id') ?? '';
+    getMessageInConversation();
   }
 
   @override
   void onClose() async{
     super.onClose();
   }
-  Future<void> getMessageInConversation(String id) async {
+
+  Future<void> getMessageInConversation() async {
     List<Message> list = await conversationAPIClient.getMessagesInConversation(id: id, skip: 0, take: 100);
     messages.assignAll(list);
+  }
+
+  Future<void> sendMessage(String content) async {
+    Message msg = await conversationAPIClient.createMessageInConversation(id: id, content: content);
+    messages.insert(0, msg);
   }
 }

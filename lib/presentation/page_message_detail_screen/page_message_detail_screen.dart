@@ -2,12 +2,14 @@ import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/chat_left_item.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/chat_right_item.dart';
+import 'package:bkforum/widgets/custom_text_form_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
   PageMessageDetailScreen({Key? key}) : super(key: key);
+  TextEditingController textController = TextEditingController();
 
   AppBar _buildAppBar() {
     return AppBar(
@@ -60,69 +62,52 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
             appBar: _buildAppBar(),
             body: ConstrainedBox(
               constraints: BoxConstraints.expand(),
-              child: Stack(
+              child: Column(
                 children: [
-                  Positioned(
-                    bottom: 0.h,
-                    height: 50.h,
-                    child: Container(
-                      //padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
-                      width: double.maxFinite,
-                      height: 50.adaptSize,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: 15.adaptSize, top: 5.adaptSize),
-                            width: 300.adaptSize,
-                            height: 50.adaptSize,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color:
-                                    Colors.black, // Set the border color here
-                                width: 0.2, // Set the border width here
-                              ),
-                              borderRadius: BorderRadius.circular(
-                                  10.0), // Set the border radius here
-                            ),
-                            child: TextField(
-                              keyboardType: TextInputType.multiline,
-                              maxLines: 3,
-                              autofocus: false,
-                              decoration:
-                                  InputDecoration(hintText: "Send messages..."),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: 15.adaptSize, top: 5.adaptSize),
-                            width: 65.adaptSize,
-                            height: 35.adaptSize,
-                            child: ElevatedButton(
-                              child: Text(
-                                "Send",
-                              ),
-                              onPressed: () {},
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                  Expanded(
+                    child: (Obx(() => ListView.separated(
+                        reverse: true,
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: 5.v);
+                        },
+                        itemCount: controller.messages.length,
+                        itemBuilder: (context, index) {
+                          if (controller.myId !=
+                              controller.messages[index].author?.id) {
+                            return ChatLeftItem(controller.messages[index]);
+                          }
+                          return ChatRightItem(controller.messages[index]);
+                        }))),
                   ),
-                  (Obx(() => ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) {
-                        return SizedBox(height: 5.v);
-                      },
-                      itemCount: controller.messages.length,
-                      itemBuilder: (context, index) {
-                        if (index % 2 == 0) {
-                          return ChatLeftItem(controller.messages[index]);
-                        }
-                        return ChatRightItem(controller.messages[index]);
-                      })))
+                  Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(children: [
+                        
+                        SizedBox(width: 20),
+                        Expanded(
+                            child: CustomTextFormField(
+                                controller: textController,
+                                hintText: "msg_th_m_b_nh_lu_n".tr,
+                                hintStyle: theme.textTheme.titleSmall,
+                                textInputAction: TextInputAction.done,
+                                borderDecoration: InputBorder.none,
+                                // TextFormFieldStyleHelper,
+                                filled: false,
+                                fillColor: appTheme.blueGray100,
+                                suffix: IconButton(
+                                  icon: Icon(Icons.send),
+                                  iconSize: 16.adaptSize,
+                                  onPressed: () {
+                                    if (textController.text.isNotEmpty) {
+                                      controller
+                                          .sendMessage(textController.text);
+                                      textController.clear();
+                                    }
+                                  },
+                                ))),
+                      ])),
                 ],
               ),
             )));

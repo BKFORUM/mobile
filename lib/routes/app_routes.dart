@@ -45,7 +45,7 @@ class AppRoutes {
 
   static const String pageMessageScreen = '/page_message_screen';
 
-  static const String pageMessageDetailScreen = '/page_message_screen/:id';
+  static const String pageMessageDetailScreen = '/page_message_screen_detail';
 
   static const String pagePostScreen = '/page_post_screen';
 
@@ -107,7 +107,7 @@ class AppRoutes {
       name: pageMessageDetailScreen,
       page: () => PageMessageDetailScreen(),
       bindings: [
-        PageMessageDetailBinding(id: Get.parameters['id'].toString())
+        PageMessageDetailBinding(),
       ],
     ),
     GetPage(
