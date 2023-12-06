@@ -4,12 +4,13 @@ class ApiEndPoints{
 }
 class _AuthEndPoints{
   final String loginEmail = 'auth/login';
+  final String refresh = 'auth/refresh';
   final String posts = 'posts';
   final String comments = 'comments';
+  final String replies = 'replies';
   final String forums = 'forums';
   final String profile = 'users/profile';
+  final String user = 'users/';
   final String notifications = 'notifications';
-  final String myFriends = 'friends/me';
-  final String friendRequests = 'friends';
-  final String getUser = 'users';
+  final String search = 'search=';
 }

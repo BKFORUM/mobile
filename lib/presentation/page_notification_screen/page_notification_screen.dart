@@ -65,13 +65,9 @@ class PageNotificationScreen extends GetWidget<PageNotificationController> {
                 child: NotificationListener<ScrollNotification>(
                   onNotification: (scrollNotification) {
                     if (scrollNotification is ScrollStartNotification) {
-                      setState(() {
-                        //message = 'Scroll Started';
-                      });
+                      setState(() {});
                     } else if (scrollNotification is ScrollUpdateNotification) {
-                      setState(() {
-                        //message = 'Scroll Updated';
-                      });
+                      setState(() {});
                     } else if (scrollNotification is ScrollEndNotification) {
                         controller.pageNotificationModelObj.value.fetchMoreNotifications(
                             controller.pageNotificationModelObj.value.notifications.length

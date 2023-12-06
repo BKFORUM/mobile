@@ -6,8 +6,8 @@ class Count {
 
   factory Count.fromJson(Map<String, dynamic> json) {
     return Count(
-      likes: json['likes'] ?? 'Default like' ,
-      comments: json['comments'] ?? 'Default comments',
+      likes: json['likes'] ?? 0 ,
+      comments: json['comments'] ?? 0,
     );
   }
 }

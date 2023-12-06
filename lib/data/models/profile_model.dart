@@ -17,6 +17,7 @@ class Profile {
   DateTime? createdAt;
   DateTime? updatedAt;
   List<Role>? roles;
+  String? friendStatus;
 
   Profile({
     required this.id,
@@ -33,6 +34,7 @@ class Profile {
     this.createdAt,
     this.updatedAt,
     this.roles,
+    this.friendStatus
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
@@ -47,10 +49,11 @@ class Profile {
       type: json['type'],
       faculty: Faculty.fromJson(json['faculty']),
       forums: List<Forum>.from(json['forums'].map((x) => Forum.fromJson(x))),
-      avatarUrl: json['avatarUrl'],
+      avatarUrl: json['avatarUrl'] ?? 'defaultURL',
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       roles: List<Role>.from(json['roles'].map((x) => Role.fromJson(x))),
+      friendStatus: json['friendStatus'],
     );
   }
 }

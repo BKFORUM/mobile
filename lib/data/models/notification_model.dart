@@ -88,19 +88,19 @@ class Sender {
   factory Sender.fromJson(Map<String, dynamic> json) {
     return Sender(
       id: json['id'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      fullName: json['fullName'],
-      email: json['email'],
-      dateOfBirth: json['dateOfBirth'],
-      gender: json['gender'],
-      phoneNumber: json['phoneNumber'],
-      address: json['address'],
-      password: json['password'],
-      refreshToken: json['refreshToken'],
-      avatarUrl: json['avatarUrl'],
-      type: json['type'],
-      facultyId: json['facultyId'],
+      createdAt: json['createdAt'] ?? '',
+      updatedAt: json['updatedAt'] ?? '',
+      fullName: json['fullName'] ?? '',
+      email: json['email'] ?? '',
+      dateOfBirth: json['dateOfBirth'] ?? '',
+      gender: json['gender'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      address: json['address'] ?? '',
+      password: json['password'] ?? '',
+      refreshToken: json['refreshToken'] ?? '',
+      avatarUrl: json['avatarUrl'] ?? 'https://bom.so/SjYyN2',
+      type: json['type'] ?? '',
+      facultyId: json['facultyId'] ?? '',
     );
   }
 }

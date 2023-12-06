@@ -1,7 +1,9 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/data/models/userpost_item_model.dart';
 import 'package:bkforum/presentation/page_feed_screen/models/page_feed_model.dart';
 import 'package:flutter/material.dart';
 
+import '../data/apiClient/upload_post_api.dart';
 import '../data/apiClient/userpost_item_api.dart';
 
 /// A controller class for the PageFeedScreen.
@@ -32,6 +34,7 @@ class PageFeedController extends GetxController {
           bool deleted = await PostItemApiClient().deletePost(id);
           Get.back();
           if (deleted) {
+            refreshPageFeedData();
             Get.snackbar(
               'Xóa thành công',
               'Bài viết đã được xóa thành công.',
@@ -57,6 +60,18 @@ class PageFeedController extends GetxController {
         child: Text('Không', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber),),
       ),
     );
+  }
+
+  void changeReaction(UserpostItemModel post) {
+    if(post.likedAt?.value == DateTime(2012, 1, 1)){
+      post.countLikes?.value ++;
+      post.likedAt?.value = DateTime.now();
+      likePostAPI(post.id!.value);
+    } else {
+      post.countLikes?.value --;
+      post.likedAt?.value = DateTime(2012, 1, 1);
+      unlikePostAPI(post.id!.value);
+    }
   }
 }
 
