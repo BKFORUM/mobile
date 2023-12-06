@@ -1,4 +1,5 @@
 import 'package:bkforum/controller/page_message_detail_controller.dart';
+import 'package:bkforum/data/models/data_prop/conversation.dart';
 import 'package:get/get.dart';
 
 class PageMessageDetailBinding extends Bindings {
@@ -6,7 +7,7 @@ class PageMessageDetailBinding extends Bindings {
 
   @override
   void dependencies() {
-    String temp = Get.parameters['id'] ?? '';
-    Get.lazyPut(() => PageMessageDetailController(id: temp));
+    final Conversation conversation = Get.arguments as Conversation;
+    Get.lazyPut(() => PageMessageDetailController(conversation: conversation));
   }
 }

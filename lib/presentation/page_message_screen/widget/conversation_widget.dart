@@ -43,7 +43,8 @@ class ConversationState extends State<ConversationWidget> {
     };
     Get.toNamed(
       AppRoutes.pageMessageDetailScreen,
-      parameters: query
+      parameters: query,
+      arguments: conversation
     );
   }
 

@@ -22,7 +22,7 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
             height: 45.adaptSize,
             child: CachedNetworkImage(
               imageUrl:
-                  'https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/408266063_673683761583264_183572100328065104_n.jpg?stp=cp6_dst-jpg&_nc_cat=105&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=z6PbIrWjXFgAX-mXXWi&_nc_ht=scontent.fsgn2-11.fna&oh=00_AfB_sF8Tyt7trCzLTg6sUxB6uPH2OHQN_9a6Ef8DsdW3Dg&oe=65738968',
+                  controller.conversation.avatarUrl.toString(),
               imageBuilder: ((context, imageProvider) => Container(
                     height: 45.adaptSize,
                     width: 45.adaptSize,
@@ -41,7 +41,7 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
             width: 180.adaptSize,
             padding: EdgeInsets.only(top: 0, bottom: 5, left: 10, right: 0),
             child: Text(
-              'Trương Quang Khang',
+              controller.conversation.displayName.toString(),
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,

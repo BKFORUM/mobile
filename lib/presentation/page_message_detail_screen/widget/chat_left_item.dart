@@ -45,7 +45,7 @@ Widget ChatLeftItem(Message msg) {
                   margin: EdgeInsets.fromLTRB(
                       0.adaptSize, 0.adaptSize, 0.adaptSize, 4.5.adaptSize),
                   child: Text(
-                    msg.author?.fullName ?? '',
+                    msg.author?.displayName ?? (msg.author?.fullName ?? ''),
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
