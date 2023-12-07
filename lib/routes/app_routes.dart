@@ -1,3 +1,8 @@
+import 'package:bkforum/presentation/page_friend_screen/binding/page_myfriend_binding.dart';
+import 'package:bkforum/presentation/page_friend_screen/page_friend_home.dart';
+import 'package:bkforum/presentation/page_friend_screen/page_friend_request.dart';
+import 'package:bkforum/presentation/page_friend_screen/page_friend_suggest.dart';
+import 'package:bkforum/presentation/page_friend_screen/page_my_friend.dart';
 import 'package:bkforum/presentation/page_login_screen/page_login_screen.dart';
 import 'package:bkforum/presentation/page_login_screen/binding/page_login_binding.dart';
 import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
@@ -52,6 +57,14 @@ class AppRoutes {
 
   static const String pageProfileScreen = '/page_profile_screen';
 
+  static const String pageFriendsScreen = '/page_friends_screen';
+
+  static const String pageFriendRequestScreen = '/page_friend_request_screen';
+
+  static const String pageFriendSuggestScreen = '/page_friend_suggest_screen';
+
+  static const String pageMyFriendScreen = '/page_my_friend_screen';
+
   static const String appNavigationScreen = '/app_navigation_screen';
 
   static const String initialRoute = '/initialRoute';
@@ -85,7 +98,6 @@ class AppRoutes {
         PageForumoneBinding(),
       ],
     ),
-
     GetPage(
       name: pageMessageScreen,
       page: () => PageMessageScreen(),
@@ -121,6 +133,34 @@ class AppRoutes {
         PageSettingBinding(),
       ],
     ),
+     GetPage(
+      name: pageFriendsScreen,
+      page: () => PageFriendsScreen(),
+      bindings: [
+        PageMyFriendBinding(),
+      ],
+    ),
+     GetPage(
+      name: pageFriendRequestScreen,
+      page: () => PageFriendRequest(),
+      bindings: [
+        PageMyFriendBinding(),
+      ],
+    ),
+     GetPage(
+      name: pageFriendSuggestScreen,
+      page: () => PageFriendSuggest(),
+      bindings: [
+        PageMyFriendBinding(),
+      ],
+    ),
+     GetPage(
+      name: pageMyFriendScreen,
+      page: () => PageMyFriends(),
+      bindings: [
+        PageMyFriendBinding(),
+      ],
+    ),
     GetPage(
       name: appNavigationScreen,
       page: () => AppNavigationScreen(),
@@ -146,10 +186,7 @@ class AppRoutes {
           },
         );
       },
-      bindings: [
-        PageLoginBinding(),
-        PageFeedBinding()
-      ],
+      bindings: [PageLoginBinding(), PageFeedBinding()],
     )
   ];
 }
