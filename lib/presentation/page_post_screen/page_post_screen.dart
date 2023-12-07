@@ -112,13 +112,14 @@ class PagePostScreen extends GetWidget<PagePostController> {
                               ),
                               onTap: () {
                                 // print('forumId: ${Get.find<PagePostController>().getSelectedForum.id}');
+                                final postId = (Get.find<PagePostController>().getSelectedForum.id == 'default id')
+                                    ? forum?.id
+                                    : Get.find<PagePostController>().getSelectedForum.id;
+                                print(postId);
                                 controller.uploadPost(
                                     context,
-                                    Get.find<PagePostController>()
-                                        .getSelectedForum
-                                        .id,
+                                    postId!,
                                     textFieldValue);
-
                                 onTapIconhomeone();
                               }),
                         ))

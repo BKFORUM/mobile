@@ -1,5 +1,7 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/data/models/data_prop/users.dart';
 
+import '../profile_model.dart';
 import '../topic.dart';
 
 class Forum {
@@ -10,6 +12,7 @@ class Forum {
   String? avatarUrl;
   String? type;
   List<Topic>? topics;
+  List<User>? users;
   String? yourStatus;
 
   Forum(
@@ -20,6 +23,7 @@ class Forum {
       this.avatarUrl,
       this.type,
       this.topics,
+      this.users,
       this.yourStatus});
 
   factory Forum.fromJson(Map<String, dynamic> json) {
@@ -32,6 +36,13 @@ class Forum {
         type: json['type'] ?? 'type',
         topics: (json['topics'] as List<dynamic>?)
             ?.map((topicJson) => Topic.fromJson(topicJson))
+            .toList(),
+        users: (json['users'] as List<dynamic>?)
+            ?.map((userJson) => User(
+            id: userJson['user']['id'],
+            fullName: userJson['user']['fullName'],
+            avatarUrl: userJson['user']['avatarUrl']
+        ))
             .toList(),
         yourStatus: json['yourStatus']);
   }

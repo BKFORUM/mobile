@@ -11,7 +11,10 @@ import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class PageSettingScreen extends GetWidget<PageSettingController> {
-  const PageSettingScreen({Key? key}) : super(key: key);
+  PageSettingScreen({Key? key}) : super(key: key);
+
+  Future<SharedPreferences> preferencesFuture =
+  SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +35,13 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
     }).catchError((error) {
       print('Error: $error');
     });
+    preferencesFuture.then((preferences) {
+      final String token =
+          preferences.getString('accessToken') ?? '';
+      preferences.setString('profileId', fetchedProfile!.id);
+      print(token);
+    });
+
     mediaQueryData = MediaQuery.of(context);
     return FutureBuilder<Profile>(
       future: ProfileApi().fetchProfile(''),
