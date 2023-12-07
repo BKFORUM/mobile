@@ -63,6 +63,9 @@ class ForumListApiClient extends GetConnect {
         topics: (res['topics'] as List<dynamic>?)
             ?.map((topicJson) => Topic.fromJson(topicJson))
             .toList(),
+        users: (res['users'] as List<dynamic>?)
+            ?.map((userJson) => User.fromJson(userJson['user']))
+            .toList(),
         avatarUrl: res['avatarUrl'],
         yourStatus: res['yourStatus']
       );
@@ -72,6 +75,7 @@ class ForumListApiClient extends GetConnect {
           'Failed to search forums, status code ${response.statusCode}');
     }
   }
+
 
   searchForums(String value) async {
     final preferences = await SharedPreferences.getInstance();

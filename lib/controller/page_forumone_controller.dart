@@ -5,6 +5,7 @@ import 'package:bkforum/data/models/data_prop/forum.dart';
 
 import '../data/apiClient/userpost_item_api.dart';
 import '../data/models/data_prop/document.dart';
+import '../data/models/profile_model.dart';
 import '../data/models/userpost_item_model.dart';
 
 /// A controller class for the PageForumoneScreen.
@@ -15,16 +16,8 @@ class PageForumoneController extends GetxController {
   var selectedForum = Forum(id: '', name: '', modName: 'Unknown').obs;
   Forum get getSelectedForum => selectedForum.value;
   var posts = [];
+  RxList<Profile> userResults = <Profile>[].obs;
 
-  // Rx<PageForumoneModel> pageForumOneModelObj = PageForumoneModel().obs;
-
-  // Rx<PageForumoneModel> getPostsByForumId(String forumId) {
-  //   Rx<PageForumoneModel> pageForumoneModelObj = Rx<PageForumoneModel>(PageForumoneModel(forumId));
-  //   pageForumoneModelObj.value.loadForumPost(forumId).then((value) {
-  //     pageForumoneModelObj.value.userpostForumItemList.value.addAll(value);
-  //   });
-  //   return pageForumoneModelObj;
-  // }
   Rx<PageForumoneModel> getPostsByForumId(String forumId) {
     Rx<PageForumoneModel> pageForumoneModelObj = Rx<PageForumoneModel>(PageForumoneModel(forumId));
 
@@ -33,9 +26,14 @@ class PageForumoneController extends GetxController {
       pageForumoneModelObj.value.userpostForumItemList.value.addAll(value);
       print(pageForumoneModelObj.value.userpostForumItemList.value.length);
     });
-    // print(pageForumoneModelObj.value.userpostForumItemList.value.length);
+
     return pageForumoneModelObj;
   }
+
+  getUsersOfForum(){
+
+  }
+
   Future<List<UserpostItemModel>> loadForumPost(final String forumId) async {
     try {
       final apiClient = PostItemApiClient();

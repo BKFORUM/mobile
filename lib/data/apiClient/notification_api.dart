@@ -40,19 +40,19 @@ class NotificationApiClient {
         );
         Sender sender = Sender(
           id: Rx(item['sender']['id']),
-          createdAt: Rx(item['sender']['createdAt']),
-          updatedAt: Rx(item['sender']['updatedAt']),
+          // createdAt: Rx(item['sender']['createdAt']),
+          // updatedAt: Rx(item['sender']['updatedAt']),
           fullName: Rx(item['sender']['fullName']),
           email: Rx(item['sender']['email']),
           dateOfBirth: Rx(item['sender']['dateOfBirth']),
           gender: Rx(item['sender']['gender']),
           phoneNumber: Rx(item['sender']?['phoneNumber'] ?? ''),
           address: Rx(item['sender']['address'] ?? ''),
-          password: Rx(item['sender']['password']),
-          refreshToken: Rx(item['sender']['refreshToken']),
+          // password: Rx(item['sender']['password']),
+          // refreshToken: Rx(item['sender']['refreshToken']),
           avatarUrl: Rx(item['sender']['avatarUrl'] ?? ImageConstant.imageNullAvatar),
-          type: Rx(item['sender']['type']),
-          facultyId: Rx(item['sender']['facultyId']),
+          // type: Rx(item['sender']['type']),
+          // facultyId: Rx(item['sender']['facultyId']),
         );
         notification.sender = Rx(sender);
         notifications.add(notification);

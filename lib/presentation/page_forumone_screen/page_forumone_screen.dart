@@ -1,5 +1,6 @@
 import 'package:bkforum/data/models/topic.dart';
 import 'package:bkforum/widgets/topic_label.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/apiClient/forum_list_api.dart';
 import 'package:bkforum/data/models/data_prop/forum.dart';
@@ -14,11 +15,18 @@ typedef ForumCallback = void Function(Forum selectedForum);
 class PageForumoneScreen extends StatelessWidget {
   PageForumoneScreen({Key? key}) : super(key: key);
   final PageForumoneController controller = Get.put(PageForumoneController());
+  late String profileId = 'hung';
 
   @override
   Widget build(BuildContext context) {
     final forum = Get.arguments as Forum?;
+    Future<SharedPreferences> preferencesFuture =
+    SharedPreferences.getInstance();
 
+    preferencesFuture.then((preferences) {
+      profileId = preferences.getString('profileId') ?? '';
+    });
+    print(profileId);
     mediaQueryData = MediaQuery.of(context);
     return FutureBuilder<Forum>(
         future: ForumListApiClient().forumDetail(forum!.id),
@@ -46,11 +54,10 @@ class PageForumoneScreen extends StatelessWidget {
                         fetchedForum.yourStatus == 'ACTIVE'
                             ? IconButton(
                                 onPressed: () {
-                                  Get.toNamed(
-                                      AppRoutes.pagePostScreen,
-                                      arguments: forum
-                                  );
-                                }, icon: Icon(Icons.add_circle))
+                                  Get.toNamed(AppRoutes.pagePostScreen,
+                                      arguments: forum);
+                                },
+                                icon: Icon(Icons.add_circle))
                             : SizedBox.shrink()
                       ],
                     ),
@@ -85,12 +92,10 @@ class PageForumoneScreen extends StatelessWidget {
                                                 fontSize: 18.adaptSize),
                                           )),
                                           IconButton(
-                                            onPressed: () {
-                                            },
+                                            onPressed: () {},
                                             icon: fetchedForum.yourStatus ==
                                                     'ACTIVE'
-                                                ? Icon(
-                                                    Icons.exit_to_app_rounded)
+                                                ? (profileId != fetchedForum.modId) ? Icon(Icons.exit_to_app_rounded) : SizedBox(height: 18.adaptSize)
                                                 : Icon(Icons.group_add_rounded),
                                           ),
                                         ]),
@@ -154,7 +159,7 @@ class PageForumoneScreen extends StatelessWidget {
                                   ])),
                           Expanded(
                               child: DefaultTabController(
-                            length: 2,
+                            length: 4,
                             child: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 0),
                                 padding: EdgeInsets.symmetric(vertical: 0),
@@ -163,6 +168,7 @@ class PageForumoneScreen extends StatelessWidget {
                                   children: [
                                     TabBar(
                                       indicatorColor: Colors.indigo,
+                                      isScrollable: true,
                                       tabs: [
                                         Tab(
                                             child: Row(
@@ -188,7 +194,7 @@ class PageForumoneScreen extends StatelessWidget {
                                                     .supervised_user_circle_outlined,
                                                 color: Colors.indigo),
                                             SizedBox(width: 8.adaptSize),
-                                            Text('Giới thiệu',
+                                            Text('Thành viên',
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 16,
@@ -198,6 +204,39 @@ class PageForumoneScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                         )),
+                                        Tab(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                    Icons.event,
+                                                    color: Colors.indigo),
+                                                SizedBox(width: 8.adaptSize),
+                                                Text('Sự kiện',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                        FontWeight.w500)),
+                                              ],
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                            )),
+                                        Tab(
+                                            child: Row(
+                                              children: [
+                                                Icon(Icons.history_edu_rounded,
+                                                    color: Colors.indigo),
+                                                SizedBox(width: 8.adaptSize),
+                                                Text('Bài viết chờ duyệt',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                        FontWeight.w500)),
+                                              ],
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                            )),
                                       ],
                                     ),
                                     Expanded(
@@ -265,9 +304,32 @@ class PageForumoneScreen extends StatelessWidget {
                                             }
                                           }),
                                         ),
-                                        Center(
-                                          child: Text('hihi'),
-                                        )
+                                        if (fetchedForum.users!.isEmpty)
+                                          Center(
+                                              child: Text('Chưa có thành viên'))
+                                        else
+                                          ListView.builder(
+                                            itemCount:
+                                                fetchedForum.users?.length,
+                                            itemBuilder: (context, index) {
+                                              final user =
+                                                  fetchedForum.users?[index];
+                                              return ListTile(
+                                                leading: CustomImageView(
+                                                  height: 36.adaptSize,
+                                                  width: 36.adaptSize,
+                                                  radius: BorderRadius.circular(
+                                                      9.h),
+                                                  fit: BoxFit.cover,
+                                                  url: user?.avatarUrl,
+                                                ),
+                                                title:
+                                                    Text(user!.fullName ?? ''),
+                                              );
+                                            },
+                                          ),
+                                        Center(child: Text('hihi'),),
+                                        Center(child: Text('hihi ne'),),
                                       ],
                                     )),
                                   ],

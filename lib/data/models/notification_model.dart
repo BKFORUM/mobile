@@ -54,53 +54,53 @@ class NotificationModel {
 
 class Sender {
   Rx<String>? id;
-  Rx<String>? createdAt;
-  Rx<String>? updatedAt;
+  // Rx<String>? createdAt;
+  // Rx<String>? updatedAt;
   Rx<String>? fullName;
   Rx<String>? email;
   Rx<String>? dateOfBirth;
   Rx<String>? gender;
   Rx<String>? phoneNumber;
   Rx<String>? address;
-  Rx<String>? password;
-  Rx<String>? refreshToken;
+  // Rx<String>? password;
+  // Rx<String>? refreshToken;
   Rx<String>? avatarUrl;
-  Rx<String>? type;
-  Rx<String>? facultyId;
+  // Rx<String>? type;
+  // Rx<String>? facultyId;
 
   Sender({
     this.id,
-    this.createdAt,
-    this.updatedAt,
+    // this.createdAt,
+    // this.updatedAt,
     this.fullName,
     this.email,
     this.dateOfBirth,
     this.gender,
     this.phoneNumber,
     this.address,
-    this.password,
-    this.refreshToken,
+    // this.password,
+    // this.refreshToken,
     this.avatarUrl,
-    this.type,
-    this.facultyId,
+    // this.type,
+    // this.facultyId,
   });
 
   factory Sender.fromJson(Map<String, dynamic> json) {
     return Sender(
       id: json['id'],
-      createdAt: json['createdAt'] ?? '',
-      updatedAt: json['updatedAt'] ?? '',
+      // createdAt: json['createdAt'] ?? '',
+      // updatedAt: json['updatedAt'] ?? '',
       fullName: json['fullName'] ?? '',
       email: json['email'] ?? '',
       dateOfBirth: json['dateOfBirth'] ?? '',
       gender: json['gender'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
       address: json['address'] ?? '',
-      password: json['password'] ?? '',
-      refreshToken: json['refreshToken'] ?? '',
+      // password: json['password'] ?? '',
+      // refreshToken: json['refreshToken'] ?? '',
       avatarUrl: json['avatarUrl'] ?? 'https://bom.so/SjYyN2',
-      type: json['type'] ?? '',
-      facultyId: json['facultyId'] ?? '',
+      // type: json['type'] ?? '',
+      // facultyId: json['facultyId'] ?? '',
     );
   }
 }
