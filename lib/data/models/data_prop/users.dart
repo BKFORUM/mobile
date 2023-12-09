@@ -1,20 +1,34 @@
 class User {
   String? id;
-  String? avatarUrl;
   String? fullName;
+  String? phoneNumber;
+  String? address;
+  String? avatarUrl;
+  String? dateOfBirth;
+  String? email;
+  String? gender;
 
   User({
     this.id,
-    this.avatarUrl,
     this.fullName,
-
+    this.phoneNumber,
+    this.address,
+    this.avatarUrl,
+    this.dateOfBirth,
+    this.email,
+    this.gender,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'] ?? 'default',
-      avatarUrl: json['avatarUrl'] ?? 'https://bom.so/SjYyN2',
-      fullName: json['fullName'] ?? 'default',
+      id: json['id'] ?? '',
+      fullName: json['fullName'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      address: json['address'] ?? '',
+      avatarUrl: json['avatarUrl'] ?? '',
+      dateOfBirth: json['dateOfBirth'] ?? '',
+      email: json['email'] ?? '',
+      gender: json['gender'] ?? '',
     );
   }
 }

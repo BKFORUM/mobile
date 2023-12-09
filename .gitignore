@@ -4,5 +4,6 @@
 /.vscode/
 !/pubspec.lock
 !/.packages
-!/.flutter-plugins-dependencies
-!/.flutter-plugins
+
+.flutter-plugins-dependencies
+.flutter-plugins

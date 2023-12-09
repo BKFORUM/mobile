@@ -82,4 +82,7 @@ class ImageConstant {
   static String imageNotFound = 'assets/images/image_not_found.png';
 
   static String imageNullAvatar = 'assets/images/null_avatar.jpg';
+  static String iconAdd = 'assets/images/add.png';
+
+  static String iconSearchColorBlack = 'assets/images/img_iconblacksearch.png';
 }

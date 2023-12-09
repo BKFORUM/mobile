@@ -7,6 +7,8 @@ import 'package:bkforum/presentation/page_login_screen/page_login_screen.dart';
 import 'package:bkforum/presentation/page_login_screen/binding/page_login_binding.dart';
 import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
 import 'package:bkforum/presentation/page_feed_screen/binding/page_feed_binding.dart';
+import 'package:bkforum/presentation/page_message_detail_screen/binding/page_message_detail_binding.dart';
+import 'package:bkforum/presentation/page_message_detail_screen/page_message_detail_screen.dart';
 
 import 'package:bkforum/presentation/page_search_screen/page_search_screen.dart';
 import 'package:bkforum/presentation/page_search_screen/binding/page_search_binding.dart';
@@ -16,8 +18,6 @@ import 'package:bkforum/presentation/page_forumone_screen/binding/page_forumone_
 
 import 'package:bkforum/presentation/page_message_screen/page_message_screen.dart';
 import 'package:bkforum/presentation/page_message_screen/binding/page_message_binding.dart';
-import 'package:bkforum/presentation/page_message_chat_screen/page_message_chat_screen.dart';
-import 'package:bkforum/presentation/page_message_chat_screen/binding/page_message_chat_binding.dart';
 import 'package:bkforum/presentation/page_post_screen/page_post_screen.dart';
 import 'package:bkforum/presentation/page_post_screen/binding/page_post_binding.dart';
 import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
@@ -26,13 +26,11 @@ import 'package:bkforum/presentation/page_setting_screen/page_setting_screen.dar
 import 'package:bkforum/presentation/page_setting_screen/binding/page_setting_binding.dart';
 import 'package:bkforum/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:bkforum/presentation/app_navigation_screen/binding/app_navigation_binding.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/apiClient/apiLogin.dart';
-import '../presentation/page_profile_screen/page_profile_screen.dart';
 
 class AppRoutes {
   static const String pageLoginScreen = '/page_login_screen';
@@ -47,7 +45,7 @@ class AppRoutes {
 
   static const String pageMessageScreen = '/page_message_screen';
 
-  static const String pageMessageChatScreen = '/page_message_chat_screen';
+  static const String pageMessageDetailScreen = '/page_message_screen_detail';
 
   static const String pagePostScreen = '/page_post_screen';
 
@@ -106,10 +104,10 @@ class AppRoutes {
       ],
     ),
     GetPage(
-      name: pageMessageChatScreen,
-      page: () => PageMessageChatScreen(),
+      name: pageMessageDetailScreen,
+      page: () => PageMessageDetailScreen(),
       bindings: [
-        PageMessageChatBinding(),
+        PageMessageDetailBinding(),
       ],
     ),
     GetPage(

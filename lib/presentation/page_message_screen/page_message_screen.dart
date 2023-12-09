@@ -1,15 +1,14 @@
+import 'package:bkforum/controller/page_messsage_controller.dart';
+import 'package:bkforum/presentation/page_message_screen/widget/conversation_widget.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/apiClient/profile_api.dart';
 import '../../data/models/profile_model.dart';
-import 'controller/page_message_controller.dart';
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/widgets/app_bar/appbar_circleimage.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image_1.dart';
-import 'package:bkforum/widgets/app_bar/appbar_image_2.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
-import 'package:bkforum/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class PageMessageScreen extends GetWidget<PageMessageController> {
@@ -17,7 +16,6 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
 
   @override
   Widget build(BuildContext context) {
-
     Profile? fetchedProfile;
     ProfileApi().fetchProfile('').then((profile) {
       fetchedProfile = Profile(
@@ -36,223 +34,212 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
 
     mediaQueryData = MediaQuery.of(context);
     return FutureBuilder<Profile>(
-      future: ProfileApi().fetchProfile(''),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-                backgroundColor: Colors.white,
-              ));
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          final fetchedProfile = snapshot.data!;
-          return SafeArea(
-              child: Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  appBar: CustomAppBar(
-                      leadingWidth: 44.h,
-                      leading: AppbarImage(
+        future: ProfileApi().fetchProfile(''),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+                child: CircularProgressIndicator(
+              color: Colors.white,
+              backgroundColor: Colors.white,
+            ));
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            return SafeArea(
+                child: Scaffold(
+                    resizeToAvoidBottomInset: false,
+                    appBar: CustomAppBar(
+                        leadingWidth: 44.h,
+                        leading: AppbarImage(
                           imagePath: ImageConstant.imgIconhome,
-                          margin:
-                          EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
-                          onTap: () {
-                            onTapIconhomeone();
-                          }),
-                      title: Padding(
-                          padding: EdgeInsets.only(left: 19.h),
-                          child: Row(children: [
-                            AppbarImage1(
-                                imagePath: ImageConstant.imgIconforum,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconforumone();
-                                }),
-                            AppbarImage1(
-                              imagePath: ImageConstant.imgIconmessage,
-                              margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                            ).animate().tint(color: Colors.amber).shake(),
-                            AppbarImage2(
-                                imagePath: ImageConstant.imgIconadd,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconaddone();
-                                }),
-                            AppbarImage2(
-                                imagePath: ImageConstant.imgIconnotification,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconnotificatio();
-                                }),
-                            AppbarCircleimage(
-                                url: fetchedProfile.avatarUrl,
-                                margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                                onTap: () {
-                                  onTapIconavatarone();
-                                })
-                          ])),
-                      styleType: Style.bgFill),
-                  body: Container(
-                      width: double.maxFinite,
-                      decoration: AppDecoration.fillOnErrorContainer,
-                      child: Column(children: [
-                        Container(
-                            padding:
-                            EdgeInsets.symmetric(horizontal: 16.h, vertical: 4.v),
-                            decoration: AppDecoration.fillOnErrorContainer,
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  SizedBox(height: 8.v),
-                                  CustomTextFormField(
-                                      controller: controller.tmkimController,
-                                      hintText: "lbl_t_m_ki_m".tr,
-                                      hintStyle:
-                                      CustomTextStyles.bodySmallPrimaryContainer,
-                                      textInputAction: TextInputAction.done,
-                                      borderDecoration:
-                                      TextFormFieldStyleHelper.fillBlueGray,
-                                      filled: true,
-                                      fillColor: appTheme.blueGray100)
-                                ])),
-                        //           Container(
-                        //               width: double.maxFinite,
-                        //               padding: EdgeInsets.symmetric(vertical: 8.v),
-                        //               decoration: AppDecoration.fillOnErrorContainer,
-                        //               child: Expanded(
-                        //                 child: ListView(
-                        //                   scrollDirection: Axis.horizontal,
-                        //                   children: [
-                        //                     CustomImageView(
-                        //                         imagePath: ImageConstant.imgIconavatar40x40,
-                        //                         height: 40.adaptSize,
-                        //                         width: 40.adaptSize,
-                        //                         radius: BorderRadius.circular(20.h),
-                        //                         margin: EdgeInsets.only(left: 14.h)),
-                        //                     CustomImageView(
-                        //                         imagePath: ImageConstant.imgIconavatar40x40,
-                        //                         height: 40.adaptSize,
-                        //                         width: 40.adaptSize,
-                        //                         radius: BorderRadius.circular(20.h)),
-                        //                     CustomImageView(
-                        //                         imagePath: ImageConstant.imgIconavatar40x40,
-                        //                         height: 40.adaptSize,
-                        //                         width: 40.adaptSize,
-                        //                         radius: BorderRadius.circular(20.h)),
-                        //                     CustomImageView(
-                        //                         imagePath: ImageConstant.imgIconavatar40x40,
-                        //                         height: 40.adaptSize,
-                        //                         width: 40.adaptSize,
-                        //                         radius: BorderRadius.circular(20.h)),
-                        //                     CustomImageView(
-                        //                         imagePath: ImageConstant.imgIconavatar40x40,
-                        //                         height: 40.adaptSize,
-                        //                         width: 40.adaptSize,
-                        //                         radius: BorderRadius.circular(20.h)),
-                        //                     CustomImageView(
-                        //                         imagePath: ImageConstant.imgIconavatar40x26,
-                        //                         height: 40.v,
-                        //                         width: 26.h,
-                        //                         radius: BorderRadius.circular(13.h))
-                        //                   ],
-                        //                 ),
-                        //               )
-                        // ),
-                        Container(
-                            child:
-                            Expanded(
-                              child: ListView.builder(
-                                // padding: EdgeInsets.symmetric(horizontal: 8.h),
-                                  itemCount: 100,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                        leading: CustomImageView(
-                                            imagePath: ImageConstant.imgIconavatar28x28,
-                                            height: 30.adaptSize,
-                                            width: 30.adaptSize,
-                                            radius: BorderRadius.circular(14.h),
-                                            margin: EdgeInsets.symmetric(vertical: 1.v)),
-                                        title: Text("msg_nguy_n_nh_t_h_ng".tr, style: CustomTextStyles.titleMediumHelvetica),
-                                        subtitle:Text("msg_ho_t_ng_10_ph_t".tr, style: theme.textTheme.bodySmall),
-                                        onTap: (){
-                                          onTapBoxchatboxinfo();
-                                        });
+                          margin: EdgeInsets.only(
+                              left: 24.h, top: 15.v, bottom: 15.v),
+                        ),
+                        title: Padding(
+                            padding: EdgeInsets.only(left: 19.h),
+                            child: Row(children: [
+                              AppbarImage1(
+                                  imagePath: ImageConstant.imgIconWhiteSearch,
+                                  margin:
+                                      EdgeInsets.only(left: 19.h, right: 19.h),
+                                  onTap: () {
+                                    onTapIconsearch();
                                   }),
-                            )
-                          // child: Column(
-                          //     crossAxisAlignment: CrossAxisAlignment.start,
-                          //     children: [
-                          //       SizedBox(height: 12.v),
-                          //       GestureDetector(
-                          //           onTap: () {
-                          //             onTapBoxchatboxinfo();
-                          //           },
-                          //           child: Row(children: [
-                          //             CustomImageView(
-                          //                 imagePath:
-                          //                     ImageConstant.imgIconavatar28x28,
-                          //                 height: 28.adaptSize,
-                          //                 width: 28.adaptSize,
-                          //                 radius: BorderRadius.circular(14.h),
-                          //                 margin: EdgeInsets.symmetric(
-                          //                     vertical: 3.v)),
-                          //             Padding(
-                          //                 padding: EdgeInsets.only(left: 10.h),
-                          //                 child: Column(
-                          //                     crossAxisAlignment:
-                          //                         CrossAxisAlignment.start,
-                          //                     children: [
-                          //                       Text("msg_nguy_n_ph_m_nam".tr,
-                          //                           style: CustomTextStyles
-                          //                               .titleMediumHelvetica),
-                          //                       SizedBox(height: 3.v),
-                          //                       Text("msg_ho_t_ng_10_ph_t".tr,
-                          //                           style: theme
-                          //                               .textTheme.bodySmall)
-                          //                     ]))
-                          //           ])),
-                          //       SizedBox(height: 24.v),
-                          //       Row(children: [
-                          //         CustomImageView(
-                          //             imagePath:
-                          //                 ImageConstant.imgIconavatar28x28,
-                          //             height: 28.adaptSize,
-                          //             width: 28.adaptSize,
-                          //             radius: BorderRadius.circular(14.h),
-                          //             margin:
-                          //                 EdgeInsets.symmetric(vertical: 3.v)),
-                          //         Padding(
-                          //             padding: EdgeInsets.only(left: 10.h),
-                          //             child: Column(
-                          //                 crossAxisAlignment:
-                          //                     CrossAxisAlignment.start,
-                          //                 children: [
-                          //                   Text("msg_nguy_n_nh_t_h_ng".tr,
-                          //                       style: CustomTextStyles
-                          //                           .titleMediumHelvetica),
-                          //                   SizedBox(height: 3.v),
-                          //                   Text("msg_ho_t_ng_10_ph_t".tr,
-                          //                       style:
-                          //                           theme.textTheme.bodySmall)
-                          //                 ]))
-                          //       ]),
-                          //
-                        )
-                      ]))));
-        }
+                              AppbarImage1(
+                                  imagePath: ImageConstant.imgIconadd,
+                                  margin:
+                                      EdgeInsets.only(left: 19.h, right: 19.h),
+                                  onTap: () {
+                                    onTapIconaddone();
+                                  }),
+                              AppbarImage1(
+                                      imagePath: ImageConstant.imgIconmessage,
+                                      margin: EdgeInsets.only(
+                                          left: 19.h, right: 19.h),
+                                      onTap: () {
+                                        onTapIconmessageone();
+                                      })
+                                  .animate()
+                                  .tint(color: Colors.amber)
+                                  .shake(),
+                              AppbarImage1(
+                                  imagePath: ImageConstant.imgIconnotification,
+                                  margin:
+                                      EdgeInsets.only(left: 19.h, right: 19.h),
+                                  onTap: () {
+                                    onTapIconnotificatio();
+                                  }),
+                              AppbarImage1(
+                                  imagePath: ImageConstant.imgIconMenu,
+                                  margin:
+                                      EdgeInsets.only(left: 19.h, right: 19.h),
+                                  onTap: () {
+                                    onTapIconavatarone();
+                                  })
+                            ])),
+                        styleType: Style.bgOutline),
+                    body: SizedBox(
+                        width: double.maxFinite,
+                        child: Column(children: [
+                          Container(
+                            // frame200x8K (83:391)
+                            padding: EdgeInsets.fromLTRB(9.adaptSize,
+                                7.75.adaptSize, 10.adaptSize, 7.75.adaptSize),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0x33000000)),
+                              color: Color(0xffffffff),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Center(
+                                  // tinnhnQFD (83:393)
+                                  child: Container(
+                                    margin: EdgeInsets.fromLTRB(
+                                        10.adaptSize,
+                                        0.adaptSize,
+                                        262.adaptSize,
+                                        0.adaptSize),
+                                    child: Text(
+                                      'Tin nhắn',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.2125,
+                                        color: Color(0xff000000),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  // image3Rg7 (83:396)
+                                  width: 23.adaptSize,
+                                  height: 23.adaptSize,
+                                  child: Image.asset(
+                                    ImageConstant.iconAdd,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                              child: Container(
+                                  decoration:
+                                      AppDecoration.fillOnErrorContainer,
+                                  child: Center(
+                                    child: ListView(
+                                      children: [
+                                        Container(
+                                          // frame148YQK (83:397)
+                                          padding: EdgeInsets.fromLTRB(
+                                              23.adaptSize,
+                                              8.21.adaptSize,
+                                              247.adaptSize,
+                                              8.21.adaptSize),
+                                          margin: EdgeInsets.fromLTRB(
+                                              0.adaptSize,
+                                              15.adaptSize,
+                                              0.adaptSize,
+                                              10.adaptSize),
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Color(0x33000000)),
+                                            color: Color(0xffffffff),
+                                            borderRadius: BorderRadius.circular(
+                                                30.adaptSize),
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.fromLTRB(
+                                                    0.adaptSize,
+                                                    0.adaptSize,
+                                                    10.adaptSize,
+                                                    0.adaptSize),
+                                                height: 20.adaptSize,
+                                                child: Image.asset(
+                                                  ImageConstant.iconSearchColorBlack,
+                                                  width: 20.adaptSize,
+                                                  height: 20.adaptSize,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Tìm kiếm',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w100,
+                                                  height: 1.2175,
+                                                  color: Color(0xff000000),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        (Obx(() => ListView.separated(
+                                            physics: BouncingScrollPhysics(),
+                                            shrinkWrap: true,
+                                            separatorBuilder: (context, index) {
+                                              return SizedBox(height: 5.v);
+                                            },
+                                            itemCount:
+                                                controller.conversations.length,
+                                            itemBuilder: (context, index) {
+                                              return ConversationWidget(
+                                                  conversation: controller
+                                                      .conversations[index]);
+                                            })))
+                                      ],
+                                    ),
+                                  )))
+                        ]))));
+          }
+        });
+  }
 
-      }
+  /// Navigates to the pageForumoneScreen when the action is triggered.
+
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageForumoneScreen.
+  onTapIconhomeone() {
+    Get.toNamed(
+      AppRoutes.pageForumoneScreen,
     );
   }
 
-  /// Navigates to the pageFeedScreen when the action is triggered.
+  /// Navigates to the pageSearchScreen when the action is triggered.
 
   /// When the action is triggered, this function uses the [Get] package to
-  /// push the named route for the pageFeedScreen.
-  onTapIconhomeone() {
+  /// push the named route for the pageSearchScreen.
+  onTapIconsearch() {
     Get.toNamed(
-      AppRoutes.pageFeedScreen,
+      AppRoutes.pageSearchSreen,
     );
   }
 
@@ -263,6 +250,16 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
   onTapIconforumone() {
     Get.toNamed(
       AppRoutes.pageForumoneScreen,
+    );
+  }
+
+  /// Navigates to the pageMessageScreen when the action is triggered.
+
+  /// When the action is triggered, this function uses the [Get] package to
+  /// push the named route for the pageMessageScreen.
+  onTapIconmessageone() {
+    Get.toNamed(
+      AppRoutes.pageMessageScreen,
     );
   }
 
@@ -295,14 +292,9 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
       AppRoutes.pageSettingScreen,
     );
   }
+}
 
-  /// Navigates to the pageMessageChatScreen when the action is triggered.
-
-  /// When the action is triggered, this function uses the [Get] package to
-  /// push the named route for the pageMessageChatScreen.
-  onTapBoxchatboxinfo() {
-    Get.toNamed(
-      AppRoutes.pageMessageChatScreen,
-    );
-  }
+Future<SharedPreferences> getLocalProfile() async {
+  final preferences = await SharedPreferences.getInstance();
+  return preferences;
 }
