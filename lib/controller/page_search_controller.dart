@@ -1,5 +1,4 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/data/models/data_prop/users.dart';
 import 'package:bkforum/data/models/profile_model.dart';
 import 'package:bkforum/presentation/page_search_screen/models/page_search_model.dart';
 

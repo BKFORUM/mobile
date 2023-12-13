@@ -24,7 +24,6 @@ class ReplyComment extends StatelessWidget {
     ),
   ];
   ReplyComment({required this.replyId});
-  TextEditingController _textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     repliesController.fetchReplies(replyId).then((fetchedReplies) {

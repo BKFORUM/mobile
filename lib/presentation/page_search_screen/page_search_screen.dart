@@ -1,21 +1,13 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/controller/page_search_controller.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-import '../../core/utils/image_constant.dart';
-import '../../core/utils/size_utils.dart';
-import '../../routes/app_routes.dart';
-import '../../widgets/app_bar/appbar_circleimage.dart';
 import '../../widgets/app_bar/appbar_image.dart';
 import '../../widgets/app_bar/appbar_image_1.dart';
-import '../../widgets/custom_text_form_field.dart';
 
+// ignore: must_be_immutable
 class PageSearchScreen extends GetView<PageSearchController> {
   PageSearchScreen({Key? key}) : super(key: key);
 
@@ -24,7 +16,6 @@ class PageSearchScreen extends GetView<PageSearchController> {
 
   @override
   Widget build(BuildContext context) {
-    String searchText = '';
 
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
@@ -114,12 +105,14 @@ class PageSearchScreen extends GetView<PageSearchController> {
                         Expanded(
                             child: TabBarView(children: [
                           Obx(() {
+                            // ignore: invalid_use_of_protected_member
                             if (searchController.forumResults.value.isEmpty)
                               return Center(
                                   child: Text('Không tìm thấy kết quả'));
                             else
                               return ListView.builder(
                                 itemCount:
+                                    // ignore: invalid_use_of_protected_member
                                     searchController.forumResults.value.length,
                                 itemBuilder: (context, index) {
                                   final forum =
@@ -144,12 +137,14 @@ class PageSearchScreen extends GetView<PageSearchController> {
                               );
                           }),
                           Obx(() {
+                            // ignore: invalid_use_of_protected_member
                             if (searchController.userResults.value.isEmpty)
                               return Center(
                                   child: Text('Không tìm thấy kết quả'));
                             else
                               return ListView.builder(
                                 itemCount:
+                                    // ignore: invalid_use_of_protected_member
                                     searchController.userResults.value.length,
                                 itemBuilder: (context, index) {
                                   final user =

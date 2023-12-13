@@ -10,6 +10,7 @@ import 'package:bkforum/widgets/app_bar/appbar_image_1.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class PageSettingScreen extends GetWidget<PageSettingController> {
   PageSettingScreen({Key? key}) : super(key: key);
 
@@ -300,7 +301,7 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                                                 ),
                                                                 SizedBox(height: 8),
                                                                 Text(
-                                                                    forum!.name,
+                                                                    forum.name,
                                                                     overflow: TextOverflow.ellipsis,
                                                                     maxLines: 2,
                                                                     textAlign: TextAlign.center,

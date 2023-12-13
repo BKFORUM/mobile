@@ -1,6 +1,5 @@
 import '../../../core/app_export.dart';
 import '../../../data/apiClient/userpost_item_api.dart';
-import 'package:bkforum/data/models/data_prop/forum.dart';
 import '../../../data/models/data_prop/document.dart';
 import '../../../data/models/userpost_item_model.dart';
 
@@ -52,6 +51,7 @@ class PageForumoneModel {
 
   PageForumoneModel(String forumId) {
     loadForumPost(forumId).then((value) {
+      // ignore: invalid_use_of_protected_member
       userpostForumItemList.value.addAll(value);
     });
   }

@@ -1,18 +1,15 @@
 import 'package:bkforum/widgets/custom_comment_screen.dart';
-import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:bkforum/widgets/image_slider.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../presentation/page_post_screen/edit_post_screen.dart';
-import 'custom_elevated_button.dart';
 import 'custom_reaction.dart';
 import '../controller/page_feed_controller.dart';
 import '../data/models/userpost_item_model.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:flutter/material.dart';
 
-import '../presentation/page_feed_screen/page_feed_screen.dart';
 
 // ignore: must_be_immutable
 class UserpostItemWidget extends StatelessWidget {
@@ -153,6 +150,7 @@ class UserpostItemWidget extends StatelessWidget {
               ),
             ),
           ),
+          // ignore: invalid_use_of_protected_member
           ImageSlider(userpostItemModelObj.listImages!.value),
           Align(
             alignment: Alignment.center,

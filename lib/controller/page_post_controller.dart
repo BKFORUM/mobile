@@ -29,7 +29,9 @@ class PagePostController extends GetxController {
     List<PostDocument> documents = [];
 
     if (content.trim().isNotEmpty) {
+      // ignore: invalid_use_of_protected_member
       if (selectedImages.value.isNotEmpty) {
+        // ignore: invalid_use_of_protected_member
         for (final File selectedImage in selectedImages.value) {
 
           final compressedItem = await testCompressAndGetFile(selectedImage, "compressed_");

@@ -3,12 +3,11 @@ import 'package:bkforum/data/models/comments_model.dart';
 import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:bkforum/widgets/comment_reply_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:swipe_to/swipe_to.dart';
 import '../controller/comments_controller.dart';
 import 'custom_text_form_field.dart';
 
+// ignore: must_be_immutable
 class CustomCommentScreen extends StatelessWidget {
   final String id;
   final CommentController commentController = CommentController();
@@ -35,6 +34,7 @@ class CustomCommentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: invalid_use_of_protected_member
     commentController.refresh();
     commentController.replyMode = false;
     return Obx(() {

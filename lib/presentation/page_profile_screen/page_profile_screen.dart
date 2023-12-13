@@ -2,15 +2,14 @@ import 'package:bkforum/controller/page_profile_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/profile_model.dart';
 import 'package:bkforum/widgets/highlightedItem.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 
 import '../../data/models/userpost_item_model.dart';
 import '../../widgets/profile_stats.dart';
 import '../../widgets/userpost_item_widget.dart';
 
+// ignore: must_be_immutable
 class PageProfileScreen extends GetView<PageProfileController> {
 
   Profile userProfile;
@@ -105,6 +104,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                 child: Container(
                                   padding: EdgeInsets.all(20),
                                   child:
+                                  // ignore: unnecessary_null_comparison
                                   (userProfile.id == null)
                                       ? CircularProgressIndicator()
                                       : Column(

@@ -233,6 +233,7 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                       final selectedImage =
                                                           File(pickedImage!
                                                               .path);
+                                                      // ignore: invalid_use_of_protected_member
                                                       selectedImages.value
                                                           .add(selectedImage);
                                                     },
@@ -273,6 +274,7 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                           final selectedImage =
                                                               File(pickedImage
                                                                   .path);
+                                                          // ignore: invalid_use_of_protected_member
                                                           selectedImages.value.add(
                                                               selectedImage);
                                                         } else {
@@ -289,12 +291,15 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                     child:
                                                         SingleChildScrollView(
                                                       child: Obx(() {
+                                                        // ignore: invalid_use_of_protected_member
                                                         if (selectedImages.value.isNotEmpty) {
                                                           return ListView.builder(
                                                             shrinkWrap: true,
                                                             physics: NeverScrollableScrollPhysics(),
+                                                            // ignore: invalid_use_of_protected_member
                                                             itemCount: selectedImages.value.length,
                                                             itemBuilder: (context, index) {
+                                                              // ignore: invalid_use_of_protected_member
                                                               File image = selectedImages.value[index];
                                                               return Stack(
                                                                 children: [
@@ -308,6 +313,7 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                                     right: 6,
                                                                     child: CancelButton(
                                                                       onPressed: () {
+                                                                        // ignore: invalid_use_of_protected_member
                                                                         selectedImages.value.remove(image);
                                                                       },
                                                                     ),
@@ -333,6 +339,7 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                   CustomElevatedButton(
                                                     text: "Chọn".tr,
                                                     onTap: () {
+                                                      // ignore: invalid_use_of_protected_member
                                                       print(selectedImages.value
                                                           .length);
                                                       Navigator.pop(context);

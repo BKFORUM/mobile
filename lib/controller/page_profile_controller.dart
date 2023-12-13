@@ -1,5 +1,4 @@
 import 'package:bkforum/core/app_export.dart';
-import '../../data/apiClient/profile_api.dart';
 import '../data/apiClient/userpost_item_api.dart';
 import '../data/models/profile_model.dart';
 import '../data/models/userpost_item_model.dart';
@@ -24,7 +23,6 @@ class PageProfileController extends GetxController {
   PageProfileController(this.userProfile);
 
   void refreshPostData() {
-    Rx<List<UserpostItemModel>> userpostItemList = Rx<List<UserpostItemModel>>([]);
   }
 
   Future<List<UserpostItemModel>> loadPost(String id) async {
