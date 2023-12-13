@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 typedef ForumCallback = void Function(Forum selectedForum);
 
+// ignore: must_be_immutable
 class PageForumoneScreen extends StatelessWidget {
   PageForumoneScreen({Key? key}) : super(key: key);
   final PageForumoneController controller = Get.put(PageForumoneController());

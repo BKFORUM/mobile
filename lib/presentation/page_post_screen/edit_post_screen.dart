@@ -1,6 +1,5 @@
 import 'package:bkforum/data/models/data_prop/document.dart';
 import 'package:bkforum/data/models/userpost_item_model.dart';
-import 'package:bkforum/widgets/highlightedItem.dart';
 import 'package:flutter/material.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -10,6 +9,7 @@ import '../../controller/page_post_controller.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/delete_stateful_button.dart';
 
+// ignore: must_be_immutable
 class EditPostScreen extends StatelessWidget {
   EditPostScreen(this.userpostItemModelObj, {Key? key}) : super(key: key);
 
@@ -32,6 +32,7 @@ class EditPostScreen extends StatelessWidget {
     RxList<PostDocument>? availableImages = userpostItemModelObj.document;
     // print(userpostItemModelObj.listImages?.length);
     RxList<dynamic> allImages = RxList<dynamic>();
+    // ignore: invalid_use_of_protected_member
     allImages.addAll(selectedImages.value);
     if (availableImages != null) allImages.addAll(availableImages);
     RxBool isLoading = false.obs;
@@ -268,6 +269,7 @@ class EditPostScreen extends StatelessWidget {
                                                             right: 6,
                                                             child: CancelButton(
                                                               onPressed: () {
+                                                                // ignore: invalid_use_of_protected_member
                                                                 allImages.value
                                                                     .remove(
                                                                         item);
@@ -293,6 +295,7 @@ class EditPostScreen extends StatelessWidget {
                                                             right: 6,
                                                             child: CancelButton(
                                                               onPressed: () {
+                                                                // ignore: invalid_use_of_protected_member
                                                                 allImages.value
                                                                     .remove(
                                                                         item);
@@ -323,6 +326,7 @@ class EditPostScreen extends StatelessWidget {
                                       CustomElevatedButton(
                                         text: "Chọn".tr,
                                         onTap: () {
+                                          // ignore: invalid_use_of_protected_member
                                           print(allImages.value.length);
                                           Navigator.pop(context);
                                         },

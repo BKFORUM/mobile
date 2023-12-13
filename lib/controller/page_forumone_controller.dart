@@ -24,6 +24,7 @@ class PageForumoneController extends GetxController {
     pageForumoneModelObj.value.loadForumPost(forumId).then((value) {
       // ignore: invalid_use_of_protected_member
       pageForumoneModelObj.value.userpostForumItemList.value.addAll(value);
+      // ignore: invalid_use_of_protected_member
       print(pageForumoneModelObj.value.userpostForumItemList.value.length);
     });
 

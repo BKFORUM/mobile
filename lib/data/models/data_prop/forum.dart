@@ -1,7 +1,5 @@
-import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/data_prop/users.dart';
 
-import '../profile_model.dart';
 import '../topic.dart';
 
 class Forum {

@@ -1,13 +1,8 @@
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/data/models/reply.dart';
-import 'package:bkforum/widgets/comment_reply_widget.dart';
 import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../data/apiClient/comments_api.dart';
 import '../data/models/comments_model.dart';
-import '../widgets/custom_comment_screen.dart';
 
 class CommentController extends GetxController {
   var commentsList = <CommentsModel>[].obs;

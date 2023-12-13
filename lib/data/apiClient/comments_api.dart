@@ -171,6 +171,5 @@ class CommentsApiClient extends GetConnect {
       print('Failed to update comment, status code ${response.statusCode}');
       return false;
     }
-    return true;
   }
 }
