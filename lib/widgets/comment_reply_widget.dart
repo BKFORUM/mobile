@@ -37,119 +37,75 @@ class ReplyComment extends StatelessWidget {
     // }
 
     return FutureBuilder<List<ReplyModel>>(
-      future: repliesController.fetchReplies(replyId),
-      builder: (context, snapshot) {
-        // if (snapshot.connectionState == ConnectionState.waiting && repliesList.isEmpty) {
-        //   return CircularProgressIndicator();
-        // } else if(snapshot.hasError){
-        //   return Text('Error: ${snapshot.error}');
-        // } else {
-          repliesList = snapshot.data!;
-          return Container(
-            padding: EdgeInsets.only(left: 16.adaptSize),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20.adaptSize))),
-            child: Column(
-              children: [
-                ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: repliesList.length,
-                    itemBuilder: (context, index) {
-                      final reply = repliesList[index];
-                      return ListTile(
-                        leading: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 8.adaptSize),
-                          child: CustomImageView(
-                            url: reply.userAvatar!.value,
-                            fit: BoxFit.cover,
-                            height: 22.adaptSize,
-                            width: 22.adaptSize,
-                            radius: BorderRadius.circular(14.h),
-                          ),
-                        ),
-                        title: Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 4.adaptSize, 6.adaptSize),
-                          child: Text(
-                            reply.userCreate!.value,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.v,
+        future: repliesController.fetchReplies(replyId),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            repliesList = snapshot.data!;
+            return Container(
+              padding: EdgeInsets.only(left: 16.adaptSize),
+              decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(20.adaptSize))),
+              child: Column(
+                children: [
+                  ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: repliesList.length,
+                      itemBuilder: (context, index) {
+                        final reply = repliesList[index];
+                        return ListTile(
+                          leading: Container(
+                            margin:
+                                EdgeInsets.symmetric(horizontal: 8.adaptSize),
+                            child: CustomImageView(
+                              url: reply.userAvatar!.value,
+                              fit: BoxFit.cover,
+                              height: 22.adaptSize,
+                              width: 22.adaptSize,
+                              radius: BorderRadius.circular(14.h),
                             ),
                           ),
-                        ),
-                        subtitle: Container(
-                          margin: EdgeInsets.only(top: 1.adaptSize),
-                          child: Text(
-                            reply.content!.value,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 16.v,
-                              color: Colors.black,
+                          title: Container(
+                            margin: EdgeInsets.fromLTRB(
+                                0, 0, 4.adaptSize, 6.adaptSize),
+                            child: Text(
+                              reply.userCreate!.value,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12.v,
+                              ),
                             ),
                           ),
-                        ),
-                        minVerticalPadding: 1.v,
-                      );
-                    }),
-              ],
-            ),
-          );
-        // }
-
-      }
-    );
-    // return Container(
-    //   padding: EdgeInsets.only(left: 16.adaptSize),
-    //   decoration: BoxDecoration(
-    //       color: Colors.blue.shade50,
-    //       borderRadius: BorderRadius.all(Radius.circular(20.adaptSize))),
-    //   child: Obx(() {
-    //     return ListView.builder(
-    //       physics: NeverScrollableScrollPhysics(),
-    //       shrinkWrap: true,
-    //       itemCount: repliesList.length,
-    //       itemBuilder: (context, index) {
-    //         final reply = repliesList[index];
-    //         return ListTile(
-    //           leading: Container(
-    //             margin: EdgeInsets.symmetric(horizontal: 8.adaptSize),
-    //             child: CustomImageView(
-    //               url: reply.userAvatar!.value,
-    //               fit: BoxFit.cover,
-    //               height: 22.adaptSize,
-    //               width: 22.adaptSize,
-    //               radius: BorderRadius.circular(14.h),
-    //             ),
-    //           ),
-    //           title: Container(
-    //             margin:
-    //             EdgeInsets.fromLTRB(0, 0, 4.adaptSize, 6.adaptSize),
-    //             child: Text(
-    //               reply.userCreate!.value,
-    //               style: TextStyle(
-    //                 fontWeight: FontWeight.w600,
-    //                 fontSize: 12.v,
-    //               ),
-    //             ),
-    //           ),
-    //           subtitle: Container(
-    //             margin: EdgeInsets.only(top: 1.adaptSize),
-    //             child: Text(
-    //               reply.content!.value,
-    //               style: TextStyle(
-    //                 fontWeight: FontWeight.w300,
-    //                 fontSize: 16.v,
-    //                 color: Colors.black,
-    //               ),
-    //             ),
-    //           ),
-    //           minVerticalPadding: 1.v,
-    //         );
-    //       },
-    //     );
-    //   }),
-    // );
+                          subtitle: Container(
+                            margin: EdgeInsets.only(top: 1.adaptSize),
+                            child: Text(
+                              reply.content!.value,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 16.v,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          minVerticalPadding: 1.v,
+                        );
+                      }),
+                ],
+              ),
+            );
+          } else {
+            return Container(
+              padding: const EdgeInsets.only(right: 12.0),
+              height: 14.adaptSize,
+              width: 26.adaptSize,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.0,
+              ),
+            );
+          }
+          // }
+        });
   }
 }
 

@@ -91,10 +91,6 @@ class EditPostScreen extends StatelessWidget {
                       controller.editPost(context, userpostItemModelObj.id, textFieldValue, allImages)
                           .then((_) {
                         isLoading.value = false;
-                        // Future.delayed(Duration(milliseconds: 500), () {
-                        //
-                        // }
-                        // );
                         if(!Get.isSnackbarOpen){
                           Get.back();
                         }

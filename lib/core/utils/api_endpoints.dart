@@ -17,5 +17,6 @@ class _AuthEndPoints {
   final String myFriends = 'friends/me';
   final String friendRequests = 'friends';
   final String getUser = 'users';
+  final String events = 'events';
   final String getConversations = 'conversations';
 }

@@ -68,8 +68,8 @@ class ConversationState extends State<ConversationWidget> {
               // ellipse4bDd (64:376)
               margin: EdgeInsets.fromLTRB(
                   0.adaptSize, 0.adaptSize, 8.adaptSize, 1.adaptSize),
-              width: 90.adaptSize,
-              height: 90.adaptSize,
+              width: 56.adaptSize,
+              height: 56.adaptSize,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(45.adaptSize),
                 image: DecorationImage(
@@ -93,7 +93,7 @@ class ConversationState extends State<ConversationWidget> {
                 children: [
                   Container(
                     margin: EdgeInsets.fromLTRB(
-                        0.adaptSize, 0.adaptSize, 0.adaptSize, 18.adaptSize),
+                        0.adaptSize, 0.adaptSize, 0.adaptSize, 8.adaptSize),
                     child: Text(
                       conversation.displayName.toString(),
                       style: TextStyle(

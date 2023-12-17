@@ -12,9 +12,9 @@ class CommentController extends GetxController {
   bool replyMode = false;
   TextEditingController updateCmtContent = TextEditingController();
 
-  void fetchComments(String id) async {
+  void fetchComments(String id, String type) async {
     try {
-      List<CommentsModel> tempList = await CommentsApiClient().fetchData(id);
+      List<CommentsModel> tempList = await CommentsApiClient().fetchData(id, type);
       commentsList.assignAll(tempList);
       commentsList.forEach((comment) {
         isExpandedList.add(false.obs);
@@ -24,10 +24,10 @@ class CommentController extends GetxController {
     }
   }
 
-  void fetchMoreComments(String id, int length) {
+  void fetchMoreComments(String id, String type, int length) {
     int take = 10;
     int skip = length;
-    CommentsApiClient().fetchData(id, take: take, skip: skip).then((value) {
+    CommentsApiClient().fetchData(id, type, take: take, skip: skip).then((value) {
       commentsList.addAll(value);
     }).catchError((error) {
       print('Error: $error');

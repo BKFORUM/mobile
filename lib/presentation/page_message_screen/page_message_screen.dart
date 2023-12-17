@@ -1,5 +1,6 @@
 import 'package:bkforum/controller/page_messsage_controller.dart';
 import 'package:bkforum/presentation/page_message_screen/widget/conversation_widget.dart';
+import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,11 +38,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
         future: ProfileApi().fetchProfile(''),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-                child: CircularProgressIndicator(
-              color: Colors.white,
-              backgroundColor: Colors.white,
-            ));
+            return CustomProgressIndicator();
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {

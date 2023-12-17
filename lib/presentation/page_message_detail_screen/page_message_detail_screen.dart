@@ -89,7 +89,7 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                         Expanded(
                             child: CustomTextFormField(
                                 controller: textController,
-                                hintText: "msg_th_m_b_nh_lu_n".tr,
+                                hintText: "Thêm tin nhắn".tr,
                                 hintStyle: theme.textTheme.titleSmall,
                                 textInputAction: TextInputAction.done,
                                 borderDecoration: InputBorder.none,

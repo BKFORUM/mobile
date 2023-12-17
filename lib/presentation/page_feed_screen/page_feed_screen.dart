@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/apiClient/profile_api.dart';
 import '../../data/models/profile_model.dart';
+import '../../widgets/progress_indicator.dart';
 import '../../widgets/userpost_item_widget.dart';
 import '../../controller/page_feed_controller.dart';
 import '../../data/models/userpost_item_model.dart';
@@ -116,7 +117,7 @@ class PageFeedScreen extends GetView<PageFeedController> {
                       child: controller.pageFeedModelObj.value.userpostItemList
                               .value.isEmpty
                           ? Center(
-                              child: CircularProgressIndicator(),
+                              child: CustomProgressIndicator(),
                             )
                           : ListView.separated(
                               physics: BouncingScrollPhysics(),

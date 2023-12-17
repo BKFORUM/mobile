@@ -1,5 +1,7 @@
+import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../data/apiClient/profile_api.dart';
 import '../../data/models/profile_model.dart';
@@ -20,40 +22,20 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
   @override
   Widget build(BuildContext context) {
 
-    // ignore: unused_local_variable
-    Profile? fetchedProfile;
-    ProfileApi().fetchProfile('').then((profile) {
-      fetchedProfile = Profile(
-        id: profile.id,
-        fullName: profile.fullName,
-        avatarUrl: profile.avatarUrl,
-        email: profile.email,
-        address: profile.address,
-        faculty: profile.faculty,
-        type: profile.type,
-        forums: profile.forums
-      );
-    }).catchError((error) {
-      print('Error: $error');
-    });
-    preferencesFuture.then((preferences) {
-      final String token =
-          preferences.getString('accessToken') ?? '';
-      preferences.setString('profileId', fetchedProfile!.id);
-      print(token);
-    });
+    // preferencesFuture.then((preferences) {
+    //   final String token =
+    //       preferences.getString('accessToken') ?? '';
+    //   preferences.setString('profileId', fetchedProfile!.id);
+    //   print(token);
+    // });
 
     mediaQueryData = MediaQuery.of(context);
     return FutureBuilder<Profile>(
       future: ProfileApi().fetchProfile(''),
+      // future: controller.openProfile(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: CircularProgressIndicator(
-                color: Colors.white.withOpacity(0.1),
-                backgroundColor: Colors.white,
-              )
-          );
+          return CustomProgressIndicator();
         } else if (snapshot.hasError) {
           // Xử lý lỗi
           return Text('Error: ${snapshot.error}');
@@ -242,16 +224,22 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                             leading: Icon(Icons.person, color: Colors.orangeAccent),
                                             title: Text('Hồ sơ'),
                                             onTap: (){
-                                              controller.onTapCheckProfile();
+                                              controller.onTapCheckProfile(fetchedProfile);
                                             },
                                           ),
                                           ListTile(
                                             leading: Icon(Icons.people, color: Colors.blueAccent),
                                             title: Text('Bạn bè'),
+                                            onTap: (){
+                                              controller.onTapOpenFriendPage();
+                                            },
                                           ),
                                           ListTile(
                                             leading: Icon(Icons.event, color: Colors.green),
                                             title: Text('Sự kiện'),
+                                            onTap: (){
+                                              controller.onTapOpenEventPage();
+                                            },
                                           ),
                                           ListTile(
                                             leading: Icon(Icons.forum, color: Colors.pinkAccent),

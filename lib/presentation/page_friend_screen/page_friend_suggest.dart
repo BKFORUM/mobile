@@ -20,7 +20,6 @@ class PageFriendSuggest extends GetWidget<PageFriendController>{
                 fontWeight: FontWeight.bold
               ),
             ),
-            backgroundColor: Colors.white,
           ),
           body: SizedBox(
                 width: double.maxFinite,

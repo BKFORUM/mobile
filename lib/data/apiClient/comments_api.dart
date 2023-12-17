@@ -10,7 +10,7 @@ import '../models/reply.dart';
 // import 'package:http/http.dart' as http;
 
 class CommentsApiClient extends GetConnect {
-  Future<dynamic> fetchData(String id, {int take = 10, int skip = 0}) async {
+  Future<dynamic> fetchData(String id, String type, {int take = 10, int skip = 0}) async {
     final preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('accessToken') ?? '';
     final headers = {
@@ -18,11 +18,8 @@ class CommentsApiClient extends GetConnect {
     };
     final response = await get(
       ApiEndPoints.baseUrl +
-          ApiEndPoints.authEndpoints.posts +
-          '/' +
-          id +
-          '/' +
-          ApiEndPoints.authEndpoints.comments +
+          type + '/' + id + '/'
+          + (type=='posts' ? 'comments' : 'event-comments') +
       '?take=$take&skip=$skip',
       headers: headers,
     );
@@ -31,10 +28,12 @@ class CommentsApiClient extends GetConnect {
       for (dynamic commentData in response.body['data']) {
         final user = commentData['user'];
         final commentsModel = CommentsModel(
-          userCreate: Rx<String>(user['fullName']),
-          userAvatar: Rx<String>(user['avatarUrl']),
-          content: Rx<String>(commentData['content']),
-          countReplies: Rx<int>(commentData['_count']['replyComments']),
+          userCreate: Rx<String>(user['fullName'] ?? ''),
+          userAvatar: Rx<String>(user['avatarUrl'] ?? ''),
+          content: Rx<String>(commentData['content'] ?? ''),
+          countReplies: Rx<int>(commentData['_count'] != null
+              ? commentData['_count']['replyComments']
+              : 0),
           id: Rx<String>(commentData['id']),
         );
         commentsList.add(commentsModel);

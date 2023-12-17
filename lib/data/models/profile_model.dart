@@ -39,15 +39,15 @@ class Profile {
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      id: json['id'],
-      fullName: json['fullName'],
+      id: json['id'] ?? 'Default id',
+      fullName: json['fullName'] ?? 'Default name',
       dateOfBirth: DateTime.parse(json['dateOfBirth']),
       email: json['email'] ?? 'nhathung12042002@gmail.com',
       address: json['address'] ?? 'Tay An, Dien Phong',
       phoneNumber: json['phoneNumber'] ?? '0123456789',
-      gender: json['gender'] ?? "MALE",
+      gender: json['gender'] ?? "Unknown",
       type: json['type'] ?? "Unknown",
-      faculty: Faculty.fromJson(json['faculty']) ,
+      faculty: Faculty.fromJson(json['faculty']),
       forums: List<Forum>.from(json['forums'].map((x) => Forum.fromJson(x))),
       avatarUrl: json['avatarUrl'] ?? 'defaultURL',
       createdAt: DateTime.parse(json['createdAt']),

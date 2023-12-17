@@ -7,9 +7,9 @@ class NotificationModel {
   Rx<String>? modelName;
   Rx<String>? userId;
   Rx<String>? senderId;
-  Rx<String>? readAt;
-  Rx<String>? createdAt;
-  Rx<String>? updatedAt;
+  Rx<DateTime>? readAt;
+  Rx<DateTime>? createdAt;
+  Rx<DateTime>? updatedAt;
   Rx<Sender>? sender;
 
   NotificationModel({
@@ -30,9 +30,9 @@ class NotificationModel {
     modelName = modelName ?? Rx('');
     userId = userId ?? Rx('');
     senderId = senderId ?? Rx('');
-    readAt = readAt ?? Rx('');
-    createdAt = createdAt ?? Rx('');
-    updatedAt = updatedAt ?? Rx('');
+    readAt = readAt;
+    createdAt = createdAt ?? Rx(DateTime.now());
+    updatedAt = updatedAt ?? Rx(DateTime.now());
     sender = sender ?? Rx(Sender());
   }
 
@@ -54,53 +54,34 @@ class NotificationModel {
 
 class Sender {
   Rx<String>? id;
-  // Rx<String>? createdAt;
-  // Rx<String>? updatedAt;
   Rx<String>? fullName;
   Rx<String>? email;
   Rx<String>? dateOfBirth;
   Rx<String>? gender;
   Rx<String>? phoneNumber;
   Rx<String>? address;
-  // Rx<String>? password;
-  // Rx<String>? refreshToken;
   Rx<String>? avatarUrl;
-  // Rx<String>? type;
-  // Rx<String>? facultyId;
-
   Sender({
     this.id,
-    // this.createdAt,
-    // this.updatedAt,
     this.fullName,
     this.email,
     this.dateOfBirth,
     this.gender,
     this.phoneNumber,
     this.address,
-    // this.password,
-    // this.refreshToken,
     this.avatarUrl,
-    // this.type,
-    // this.facultyId,
   });
 
   factory Sender.fromJson(Map<String, dynamic> json) {
     return Sender(
       id: json['id'],
-      // createdAt: json['createdAt'] ?? '',
-      // updatedAt: json['updatedAt'] ?? '',
       fullName: json['fullName'] ?? '',
       email: json['email'] ?? '',
       dateOfBirth: json['dateOfBirth'] ?? '',
       gender: json['gender'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
       address: json['address'] ?? '',
-      // password: json['password'] ?? '',
-      // refreshToken: json['refreshToken'] ?? '',
       avatarUrl: json['avatarUrl'] ?? 'https://bom.so/SjYyN2',
-      // type: json['type'] ?? '',
-      // facultyId: json['facultyId'] ?? '',
     );
   }
 }
