@@ -90,19 +90,19 @@ class CustomCommentScreen extends StatelessWidget {
           ),
           padding: EdgeInsets.all(10.adaptSize),
           child: Flex(direction: Axis.vertical, children: [
-            Container(
-                padding: EdgeInsets.only(top: 20.adaptSize),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.arrow_back_rounded),
-                      onPressed: () {
-                        Get.back();
-                      },
-                    ),
-                  ],
-                )),
+            // Container(
+            //     padding: EdgeInsets.only(top: 20.adaptSize),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       children: [
+            //         IconButton(
+            //           icon: Icon(Icons.arrow_back_rounded),
+            //           onPressed: () {
+            //             Get.back();
+            //           },
+            //         ),
+            //       ],
+            //     )),
             Expanded(
               child: NotificationListener<ScrollNotification>(
                 onNotification: (scrollNotification) {

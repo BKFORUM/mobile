@@ -29,8 +29,8 @@ class PageLoginController extends GetxController {
 
   void loginController(String email, String password) async{
     final result = await LoginApiClient().login(email, password);
-    if (result == 'Đăng nhập thất bại')
-      Get.snackbar('Đăng nhập thất bại', 'Mã sinh viên, email hoặc mật khẩu không chính xác',
+    if (result.contains('Đăng nhập thất bại'))
+      Get.snackbar('Đăng nhập thất bại', result,
           colorText: Colors.red,
           icon: Icon(Icons.sms_failed_outlined),
           padding: EdgeInsets.symmetric(vertical: 30.adaptSize)

@@ -43,7 +43,7 @@ class UserPostScreen extends StatelessWidget {
                     return Column(
                       children: [
                         UserpostItemWidget(userPostObj!),
-                        Expanded(child: CustomCommentScreen(userPostObj.id!.value, 'posts')),
+                        // Expanded(child: CustomCommentScreen(userPostObj.id!.value, 'posts')),
                       ],
                     );
                   }

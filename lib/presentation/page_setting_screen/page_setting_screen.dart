@@ -2,7 +2,9 @@ import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/apiClient/forum_list_api.dart';
 import '../../data/apiClient/profile_api.dart';
+import '../../data/models/data_prop/forum.dart';
 import '../../data/models/profile_model.dart';
 import '../../controller/page_setting_controller.dart';
 import 'package:bkforum/core/app_export.dart';
@@ -322,80 +324,71 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                                   .add_circle_outline_rounded),
                                             ),
                                           ),
-                                          Container(
-                                            height: 140.adaptSize,
-                                            margin: EdgeInsets.only(
-                                                left: 50.adaptSize),
-                                            child: ListView.builder(
-                                                shrinkWrap: true,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount: fetchedProfile
-                                                    .forums?.length,
-                                                itemBuilder: (context, index) {
-                                                  final forum = fetchedProfile
-                                                      .forums?[index];
-                                                  return GestureDetector(
-                                                    onTap: () {
-                                                      Get.toNamed(
-                                                          AppRoutes
-                                                              .pageForumoneScreen,
-                                                          arguments: forum);
-                                                    },
-                                                    child: Container(
-                                                        height: 140.adaptSize,
-                                                        width: 130.adaptSize,
-                                                        margin:
-                                                            EdgeInsets.all(8),
-                                                        padding:
-                                                            EdgeInsets.all(4),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .black12),
-                                                          color: (fetchedProfile
-                                                                      .id ==
-                                                                  forum?.modId)
-                                                              ? Colors.black12
-                                                              : Colors
-                                                                  .lightBlueAccent,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                        ),
-                                                        child: Center(
-                                                          child:
-                                                              Column(children: [
-                                                            CustomImageView(
-                                                              height:
-                                                                  70.adaptSize,
-                                                              width:
-                                                                  70.adaptSize,
-                                                              url: forum!
-                                                                  .avatarUrl,
-                                                              fit: BoxFit.cover,
-                                                              radius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          12)),
-                                                            ),
-                                                            SizedBox(height: 8),
-                                                            Text(forum.name,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                maxLines: 2,
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black87)),
-                                                          ]),
-                                                        )),
-                                                  );
-                                                }),
+                                          FutureBuilder<List<Forum>>(
+                                            future: ForumListApiClient().fetchForums(fetchedProfile.id),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                final fetchedForum = snapshot.data;
+                                                return Container(
+                                                  height: 140.adaptSize,
+                                                  margin: EdgeInsets.only(left: 50.adaptSize),
+                                                  child: ListView.builder(
+                                                      shrinkWrap: true,
+                                                      scrollDirection: Axis.horizontal,
+                                                      itemCount: fetchedForum?.length,
+                                                      itemBuilder: (context, index) {
+                                                        final forum = fetchedForum?[index];
+                                                        return GestureDetector(
+                                                          onTap: (){
+                                                            Get.toNamed(
+                                                              AppRoutes.pageForumoneScreen,
+                                                              arguments: forum
+                                                            );
+                                                          },
+                                                          child: Container(
+                                                              height: 136.adaptSize,
+                                                              width: 130.adaptSize,
+                                                              margin: EdgeInsets.all(8),
+                                                              padding: EdgeInsets.all(4),
+                                                              decoration: BoxDecoration(
+                                                                border: Border.all(color: Colors.black12),
+                                                                color: (fetchedProfile.id != forum?.modId) ? Colors.grey.shade50 : Colors.blue.shade100,
+                                                                borderRadius: BorderRadius.circular(20),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors.grey.withOpacity(0.5),
+                                                                    spreadRadius: 2,
+                                                                    blurRadius: 5,
+                                                                    offset: Offset(0, 3)
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Center(
+                                                                child: Column(
+                                                                    children: [
+                                                                      CustomImageView(
+                                                                        height: 70.adaptSize,
+                                                                        width: 70.adaptSize,
+                                                                        url: forum!.avatarUrl ?? 'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg' ,
+                                                                        fit: BoxFit.cover,
+                                                                        radius: BorderRadius.all(Radius.circular(12)),
+                                                                      ),
+                                                                      SizedBox(height: 8),
+                                                                      Text(
+                                                                          forum.name,
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                          maxLines: 2,
+                                                                          textAlign: TextAlign.center,
+                                                                          style: TextStyle(color: Colors.black87)),
+                                                                    ]),
+                                                              )),
+                                                        );
+                                                      }),
+                                                );
+                                              } else{
+                                                return SizedBox.shrink();
+                                              }
+                                            }
                                           ),
                                           // ListTile(
                                           //   leading: Icon(Icons.text_snippet_rounded, color: Colors.orange),
@@ -470,8 +463,9 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
 
   onTapRowiconexitone() async {
     final preferences = await SharedPreferences.getInstance();
-    preferences.setString('accessToken', '');
-    preferences.setBool('isLoggedIn', false);
+    await preferences.setString('accessToken', '');
+    await preferences.setString('refreshToken', '');
+    await preferences.setBool('isLoggedIn', false);
     Get.toNamed(
       AppRoutes.pageLoginScreen,
     );
