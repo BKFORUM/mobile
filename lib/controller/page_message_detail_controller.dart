@@ -2,6 +2,7 @@ import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/conversation_api_client.dart';
 import 'package:bkforum/data/models/data_prop/conversation.dart';
 import 'package:bkforum/data/models/data_prop/message.dart';
+import 'package:bkforum/data/socket/socket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PageMessageDetailController extends GetxController{
@@ -17,11 +18,18 @@ class PageMessageDetailController extends GetxController{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     this.myId = preferences.getString('id') ?? '';
     getMessageInConversation();
+    SocketIO().addCallBack("onMessage",((data) => callback(data)));
   }
 
   @override
   void onClose() async{
     super.onClose();
+  }
+
+  void callback (dynamic data){
+    Message msg = Message.fromJson(data);
+    print(msg.content);
+    messages.insert(0, msg);
   }
 
   Future<void> getMessageInConversation() async {
@@ -31,6 +39,6 @@ class PageMessageDetailController extends GetxController{
 
   Future<void> sendMessage(String content) async {
     Message msg = await conversationAPIClient.createMessageInConversation(id: conversation.id.toString(), content: content);
-    messages.insert(0, msg);
+    //messages.insert(0, msg);
   }
 }

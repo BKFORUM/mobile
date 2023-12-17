@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 
 class PageFeedScreen extends GetView<PageFeedController> {
   const PageFeedScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     Profile? fetchedProfile;
