@@ -120,6 +120,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                         child: Center(
                                             child: Container(
                                                 padding: EdgeInsets.all(20),
+                                                // ignore: unnecessary_null_comparison
                                                 child: (fetchedProfile.id == null)
                                                     ? CircularProgressIndicator()
                                                     : Column(

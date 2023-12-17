@@ -6,7 +6,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../widgets/app_bar/appbar_image.dart';
 import '../../widgets/app_bar/appbar_image_1.dart';
-
 // ignore: must_be_immutable
 class PageSearchScreen extends GetView<PageSearchController> {
   PageSearchScreen({Key? key}) : super(key: key);

@@ -23,6 +23,7 @@ class UserpostItemWidget extends StatelessWidget {
   UserpostItemModel userpostItemModelObj;
 
   var controller = Get.find<PageFeedController>();
+  // ignore: non_constant_identifier_names
   final PageFeedController comments_controller = Get.put(PageFeedController());
   bool isOverflowVisible = false;
 

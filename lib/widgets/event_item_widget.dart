@@ -5,9 +5,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 
 import 'custom_comment_screen.dart';
-import 'custom_reaction.dart';
 import 'image_slider.dart';
 
+// ignore: must_be_immutable
 class EventItemWidget extends StatelessWidget {
   EventItemWidget(
     this.eventItemModelObj, {
@@ -88,6 +88,7 @@ class EventItemWidget extends StatelessWidget {
           Html(
             data: eventItemModelObj.content!.value,
           ),
+          // ignore: invalid_use_of_protected_member
           ImageSlider(eventItemModelObj.documents?.value
               .map((document) => document.fileUrl!)
               .toList()),

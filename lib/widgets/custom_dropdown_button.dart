@@ -1,7 +1,6 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/apiClient/profile_api.dart';
 import '../data/models/profile_model.dart';

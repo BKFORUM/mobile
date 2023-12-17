@@ -8,7 +8,6 @@ import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/models/data_prop/forum.dart';
-import '../page_forumone_screen/page_forumone_screen.dart';
 import '../user_post_screen.dart';
 
 class PageNotificationScreen extends GetWidget<PageNotificationController> {

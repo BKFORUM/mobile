@@ -5,7 +5,6 @@ import 'package:bkforum/presentation/page_event_screen/page_event_screen.dart';
 import 'package:bkforum/presentation/page_setting_screen/models/page_setting_model.dart';
 
 import '../data/models/profile_model.dart';
-import '../presentation/page_friend_screen/page_friend_home.dart';
 import '../presentation/page_profile_screen/page_profile_screen.dart';
 
 /// A controller class for the PageSettingScreen.
