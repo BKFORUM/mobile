@@ -57,7 +57,11 @@ class PageProfileController extends GetxController {
       throw error;
     }
   }
-
+  Future<int> getNumberOfPosts(String id) async {
+    final apiClient = PostItemApiClient();
+    final response = await apiClient.fetchUserPostData(userProfile.id, 10, 0);
+    return response.totalRecords;
+  }
   int loadedPosts = 0;
   Future<List<UserpostItemModel>> fetchMorePosts(String id, int loaded) async {
     int take = 10;
@@ -98,5 +102,7 @@ class PageProfileController extends GetxController {
       return [] ;
     }
   }
+
+
 
 }

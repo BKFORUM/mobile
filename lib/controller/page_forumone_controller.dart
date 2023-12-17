@@ -1,8 +1,11 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/data/apiClient/forum_list_api.dart';
+import 'package:bkforum/data/models/event.dart';
 import 'package:bkforum/presentation/page_forumone_screen/models/page_forumone_model.dart';
 
 import 'package:bkforum/data/models/data_prop/forum.dart';
 
+import '../data/apiClient/event_api_client.dart';
 import '../data/apiClient/userpost_item_api.dart';
 import '../data/models/data_prop/document.dart';
 import '../data/models/profile_model.dart';
@@ -17,9 +20,11 @@ class PageForumoneController extends GetxController {
   Forum get getSelectedForum => selectedForum.value;
   var posts = [];
   RxList<Profile> userResults = <Profile>[].obs;
+  var eventsList = <Event>[].obs;
 
   Rx<PageForumoneModel> getPostsByForumId(String forumId) {
-    Rx<PageForumoneModel> pageForumoneModelObj = Rx<PageForumoneModel>(PageForumoneModel(forumId));
+    Rx<PageForumoneModel> pageForumoneModelObj =
+        Rx<PageForumoneModel>(PageForumoneModel(forumId));
 
     pageForumoneModelObj.value.loadForumPost(forumId).then((value) {
       // ignore: invalid_use_of_protected_member
@@ -31,9 +36,7 @@ class PageForumoneController extends GetxController {
     return pageForumoneModelObj;
   }
 
-  getUsersOfForum(){
-
-  }
+  getUsersOfForum() {}
 
   Future<List<UserpostItemModel>> loadForumPost(final String forumId) async {
     try {
@@ -62,14 +65,32 @@ class PageForumoneController extends GetxController {
         }
 
         userpostItem.listImages = RxList<String>(fileUrls);
-        // print(userpostItem.forumName);
         userpostItemList.add(userpostItem);
       }
-      // print(userpostItemList.length);
+
       return userpostItemList;
     } catch (error) {
       print(error);
       throw error;
     }
+  }
+
+  Future<List<Event>> loadForumEvents(String id) async {
+    try {
+      List<Event> tempList = await EventApiClient().fetchData(forumIds: id);
+      eventsList.assignAll(tempList);
+      return eventsList;
+    } catch (error) {
+      print('Error fetching forum event: $error');
+      throw error;
+    }
+  }
+
+  Future<bool> leaveForum(String forumId) {
+    return ForumListApiClient().leaveForum(forumId);
+  }
+
+  Future<bool> kickUser(String? userId, String forumId) {
+    return ForumListApiClient().kickUserFromForum(userId, forumId);
   }
 }

@@ -2,6 +2,7 @@ import 'package:bkforum/controller/page_profile_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/profile_model.dart';
 import 'package:bkforum/widgets/highlightedItem.dart';
+import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -15,6 +16,7 @@ import '../../widgets/userpost_item_widget.dart';
 class PageProfileScreen extends GetView<PageProfileController> {
   Profile userProfile;
   Rx<List<UserpostItemModel>> postList = Rx<List<UserpostItemModel>>([]);
+  Rx<int> allPostsOfUser = Rx(0);
   late final PageProfileController profileController;
 
   PageProfileScreen(this.userProfile, {Key? key}) : super(key: key) {
@@ -24,6 +26,9 @@ class PageProfileScreen extends GetView<PageProfileController> {
     postList.value.clear();
     profileController.loadPost(userProfile.id).then((value) {
       postList.value.addAll(value);
+    });
+    profileController.getNumberOfPosts(userProfile.id).then((value) {
+      allPostsOfUser.value = value;
     });
   }
 
@@ -102,11 +107,6 @@ class PageProfileScreen extends GetView<PageProfileController> {
                             future: ProfileApi().fetchProfile(userProfile.id),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting) {
-                                // return Center(
-                                //     child: CircularProgressIndicator(
-                                //   color: Colors.white.withOpacity(0.1),
-                                //   backgroundColor: Colors.white,
-                                // ));
                                 return Skeleton.ignore(child: Container());
                               } else if (snapshot.hasError) {
                                 return Text('Error: ${snapshot.error}');
@@ -176,7 +176,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                         label:
                                                                             'Bài viết',
                                                                         value:
-                                                                            '23'),
+                                                                        allPostsOfUser.value.toString()),
                                                                     ProfileStat(
                                                                         label:
                                                                             'Bạn bè',
@@ -377,7 +377,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                     .then((newPosts) {
                                   postList.value.addAll(newPosts);
 
-                                  print(postList.value.length);
+                                  // print(postList.value.length);
                                 });
                               }
                               return true;
@@ -386,7 +386,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                   onRefresh: () async => getPost(),
                                   child: postList.value.isEmpty
                                       ? Center(
-                                          child: CircularProgressIndicator(),
+                                          child: CustomProgressIndicator(),
                                         )
                                       : ListView.separated(
                                           physics: BouncingScrollPhysics(),

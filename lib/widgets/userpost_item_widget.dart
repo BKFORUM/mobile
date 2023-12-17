@@ -1,9 +1,13 @@
+import 'package:bkforum/data/models/data_prop/forum.dart';
+import 'package:bkforum/data/models/profile_model.dart';
 import 'package:bkforum/widgets/custom_comment_screen.dart';
 import 'package:bkforum/widgets/image_slider.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../presentation/page_post_screen/edit_post_screen.dart';
+import '../presentation/page_profile_screen/page_profile_screen.dart';
+import '../presentation/user_post_screen.dart';
 import 'custom_reaction.dart';
 import '../controller/page_feed_controller.dart';
 import '../data/models/userpost_item_model.dart';
@@ -70,9 +74,74 @@ class UserpostItemWidget extends StatelessWidget {
                   ),
                   padding: EdgeInsets.fromLTRB(
                       10.adaptSize, 26.adaptSize, 10.adaptSize, 10.adaptSize),
-                  height: 700.adaptSize,
+                  height: 220.adaptSize,
                   child: Column(
-                    children: [],
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => UserPostScreen(),
+                              arguments: userpostItemModelObj.id?.value,
+                              transition: Transition.rightToLeft
+                          );
+                        },
+                        child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 20.h, top: 10.v),
+                            child: Row(children: [
+                              Icon(Icons.bubble_chart_rounded, color: Colors.blue.shade900),
+                              SizedBox(width: 20.adaptSize),
+                              Expanded(
+                                  child: Text("Xem bài viết".tr,
+                                      style: CustomTextStyles
+                                          .bodyLargeInter)),
+                            ])),
+                      ),
+                      SizedBox(height: 16.adaptSize),
+                      GestureDetector(
+                        onTap: () {
+                          final userProfile = Profile(
+                            id: userpostItemModelObj.userCreateId!.value,
+                            fullName: userpostItemModelObj.userCreate!.value
+                          );
+                          Get.to(() => PageProfileScreen(userProfile),
+                              transition: Transition.rightToLeft);
+                        },
+                        child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 20.h, top: 20.v),
+                            child: Row(children: [
+                              Icon(Icons.portrait_sharp, color: Colors.blue.shade900),
+                              SizedBox(width: 20.adaptSize),
+                              Expanded(
+                                  child: Text("Xem trang cá nhân",
+                                      style: CustomTextStyles
+                                          .bodyLargeInter)),
+                            ])),
+                      ),
+                      SizedBox(height: 16.adaptSize),
+                      GestureDetector(
+                        onTap: () {
+                          final forum = Forum(id: userpostItemModelObj.forumId!.value,
+                              name: userpostItemModelObj.forumName!.value,
+                              modName: userpostItemModelObj.forumModName!.value);
+                          Get.toNamed(
+                              AppRoutes.pageForumoneScreen,
+                              arguments: forum
+                          );
+                        },
+                        child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 20.h, top: 20.v),
+                            child: Row(children: [
+                              Icon(Icons.nature_people_rounded, color: Colors.blue.shade900),
+                              SizedBox(width: 20.adaptSize),
+                              Expanded(
+                                  child: Text("Đến trang forum",
+                                      style: CustomTextStyles
+                                          .bodyLargeInter)),
+                            ])),
+                      ),
+                    ],
                   ),
                 ),
                 isScrollControlled: true,
@@ -104,6 +173,18 @@ class UserpostItemWidget extends StatelessWidget {
                       style: CustomTextStyles.titleSmallRobotoBlack900,
                     ),
                   ),
+                  (userpostItemModelObj.forumModId == userpostItemModelObj.userCreateId)
+                  ? Container(
+                    margin: EdgeInsets.only(left: 4.adaptSize),
+                    padding: EdgeInsets.all(2.adaptSize),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(6)), color: Colors.blue.shade100,),
+                    child: Icon(
+                        Icons
+                            .admin_panel_settings_rounded,
+                        size: 12.adaptSize,
+                        color: Colors.blue.shade900),
+                  )
+                      : SizedBox.shrink(),
                   Spacer(),
                   Padding(
                     padding: EdgeInsets.only(top: 3.v),
