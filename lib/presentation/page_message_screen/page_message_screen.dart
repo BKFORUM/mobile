@@ -116,7 +116,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                     margin: EdgeInsets.fromLTRB(
                                         10.adaptSize,
                                         0.adaptSize,
-                                        262.adaptSize,
+                                        200.adaptSize,
                                         0.adaptSize),
                                     child: Text(
                                       'Tin nhắn',
