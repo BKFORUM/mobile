@@ -121,7 +121,7 @@ class EditPostScreen extends StatelessWidget {
                 padding: EdgeInsets.only(left: 4.h, top: 8.v),
                 child: TextFormField(
                   controller: contentTextController,
-                  maxLines: 26,
+                  maxLines: 15,
                   onChanged: (value) {
                     textFieldValue = value;
                   },

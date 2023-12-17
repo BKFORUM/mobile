@@ -9,7 +9,7 @@ class EventController extends GetxController{
   void fetchEvents() async {
     try {
       List<Event> tempList = await EventApiClient().fetchData();
-      print(eventsList.length);
+      // print(eventsList.length);
       eventsList.assignAll(tempList);
     } catch (error) {
       print('Error fetching comments: $error');
@@ -17,4 +17,8 @@ class EventController extends GetxController{
   }
 
   refreshEventData() {}
+
+  void changeParticipate(Event event) {
+
+  }
 }

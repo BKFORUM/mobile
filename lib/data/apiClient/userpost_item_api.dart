@@ -36,7 +36,7 @@ class PostItemApiClient extends GetConnect {
       return apiResponse;
     } else {
       throw Exception(
-          'Failed to fetch data, status code ${response.statusCode}');
+          'Failed to fetch data, ${response.body['error']}');
     }
   }
 
@@ -49,8 +49,10 @@ class PostItemApiClient extends GetConnect {
     final response;
     response = await get(
       ApiEndPoints.baseUrl +
-          ApiEndPoints.authEndpoints.user +'$id/' +'posts'
-          '?order=createdAt%3Adesc&take=${take}&skip=${skip}&status=ACTIVE',
+          ApiEndPoints.authEndpoints.user +
+          '$id/' +
+          'posts'
+              '?order=createdAt%3Adesc&take=${take}&skip=${skip}&status=ACTIVE',
       headers: headers,
     );
     if (response.statusCode == 200) {
@@ -89,28 +91,32 @@ class PostItemApiClient extends GetConnect {
     };
     final response;
     response = await get(
-      ApiEndPoints.baseUrl +
-          ApiEndPoints.authEndpoints.posts+'/$id',
+      ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.posts + '/$id',
       headers: headers,
     );
     if (response.statusCode == 200) {
       final data = response.body;
       final post = UserpostItemModel(
-        userCreate: Rx(data['user']['fullName']),
-        userAvatar: Rx(data['user']['avatarUrl']),
-        userCreateId: Rx('37dd59b2-9e9f-43f4-a5d8-76076b05a5d4'),
-        forumModId: Rx(data['forum']['modId'] ?? ''),
-        forumName: Rx(data['forum']['name'] ?? ''),
-        postContent: Rx(data['content']),
-        document: RxList<PostDocument>(data['documents'] != null
-            ? List<PostDocument>.from(data['documents'].map((document) => PostDocument.fromJson(document)))
-            : []),
-        createdAt: Rx<DateTime>(DateTime.parse(data['createdAt'] ?? '2012-01-01')),
-        likedAt: Rx<DateTime>(DateTime.parse(data['likedAt'] ?? '2012-01-01')),
-        countLikes: Rx(data['_count']['likes'] ?? 0),
-        countComments: Rx(data['_count']['comments'] ?? 0),
-        id:  Rx(data['id'])
-      );
+          userCreate: Rx(data['user']['fullName']),
+          userAvatar: Rx(data['user']['avatarUrl']),
+          userCreateId: Rx(data['user']['id']),
+          forumModId: Rx(data['forum']['modId'] ?? ''),
+          forumName: Rx(data['forum']['name'] ?? ''),
+          postContent: Rx(data['content']),
+          document: RxList(List<PostDocument>.from(
+              data['documents'].map((x) => PostDocument.fromJson(x)))),
+          createdAt:
+              Rx<DateTime>(DateTime.parse(data['createdAt'] ?? '2012-01-01')),
+          likedAt:
+              Rx<DateTime>(DateTime.parse(data['likedAt'] ?? '2012-01-01')),
+          countLikes: Rx(data['_count']['likes'] ?? 0),
+          countComments: Rx(data['_count']['comments'] ?? 0),
+          id: Rx(data['id']));
+      List<String> fileUrls = [];
+      for (var document in post.document!.value) {
+        fileUrls.add(document.fileUrl ?? '');
+      }
+      post.listImages = RxList<String>(fileUrls);
       return post;
     } else {
       throw Exception(

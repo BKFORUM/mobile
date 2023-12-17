@@ -22,7 +22,7 @@ class LoginApiClient extends GetConnect {
       return accessToken;
     } else {
       preferences.setBool('isLoggedIn', false);
-      return('Đăng nhập thất bại');
+      return('Đăng nhập thất bại '+(response.body['message'] ?? ''));
     }
   }
   Future<String> refreshLogin(String refreshToken) async {

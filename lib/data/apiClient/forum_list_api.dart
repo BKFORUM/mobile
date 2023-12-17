@@ -153,4 +153,46 @@ class ForumListApiClient extends GetConnect {
           'Failed to search users, status code ${response.statusCode}');
     }
   }
+
+  Future<bool> leaveForum(String forumId) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final url = ApiEndPoints.baseUrl +'forums/$forumId/exit';
+
+    final response = await patch(url,{}, headers: headers);
+
+    if (response.statusCode == 204) {
+      print('Left the forum successfully');
+      return true;
+    } else {
+      print('Failed to leave the forum. Error: ${response.statusCode}');
+      return false;
+    }
+  }
+
+  Future<bool> kickUserFromForum(String? userId, String forumId) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final url = ApiEndPoints.baseUrl +'forums/$forumId/requests';
+
+    final response = await patch(url,{
+      'userId' : userId,
+      'status' : 'DELETED'
+    }, headers: headers);
+
+    if (response.statusCode == 204) {
+      print('Kick user successfully');
+      return true;
+    } else {
+      // print(userId);
+      print('Failed to kick the user. Error: ${response.statusCode}');
+      return false;
+    }
+  }
 }

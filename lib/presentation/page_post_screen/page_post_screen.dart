@@ -147,7 +147,7 @@ class PagePostScreen extends GetWidget<PagePostController> {
                       Padding(
                           padding: EdgeInsets.only(left: 4.h, top: 8.v),
                           child: TextFormField(
-                            maxLines: 25,
+                            maxLines: 15,
                             onChanged: (value) {
                               textFieldValue = value;
                             },
