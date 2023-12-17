@@ -1,7 +1,5 @@
 import 'package:flutter_animate/flutter_animate.dart';
-
-import '../../data/apiClient/apiLogin.dart';
-import 'controller/page_login_controller.dart';
+import '../../controller/page_login_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:bkforum/widgets/custom_text_form_field.dart';
@@ -49,6 +47,8 @@ class PageLoginScreen extends GetWidget<PageLoginController> {
                                   controller: controller.passwordoneController,
                                   contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 10.v),
                                   hintText: "lbl_m_t_kh_u".tr,
+                                  obscureText: true,
+                                  // obscuringCharacter:'*',
                                   textInputAction: TextInputAction.done
                               ),
                               SizedBox(height: 91.v),

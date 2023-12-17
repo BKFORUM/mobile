@@ -45,6 +45,10 @@ class ImageConstant {
 
   static String imgIconmessage = '$imagePath/img_iconmessage.png';
 
+  static String imgIconMenu = '$imagePath/img_barssort.png';
+
+  static String imgIconWhiteSearch = '$imagePath/img_iconwhitesearch.png';
+
   static String imgIconadd = '$imagePath/img_iconadd.png';
 
   static String imgIconnotification = '$imagePath/img_iconnotification.png';
@@ -76,4 +80,9 @@ class ImageConstant {
   static String imgIconavatar40x40 = '$imagePath/img_iconavatar_40x40.png';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
+
+  static String imageNullAvatar = 'assets/images/null_avatar.jpg';
+  static String iconAdd = 'assets/images/add.png';
+
+  static String iconSearchColorBlack = 'assets/images/img_iconblacksearch.png';
 }

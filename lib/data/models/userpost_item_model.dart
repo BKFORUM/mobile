@@ -1,0 +1,60 @@
+import '../../core/app_export.dart';
+import 'data_prop/document.dart';
+
+/// This class is used in the [userpost_item_widget] screen.
+class UserpostItemModel {
+  UserpostItemModel({
+    this.userCreateId,
+    this.userCreate,
+    this.userAvatar,
+    this.forumModId,
+    this.forumName,
+    this.postContent,
+    this.listImages,
+    this.document,
+    this.createdAt,
+    this.likedAt,
+    this.countLikes,
+    this.countComments,
+    this.id,
+  }) {
+    userCreateId = userCreateId ?? Rx("Id Tác giả");
+    userCreate = userCreate ?? Rx("Tác giả");
+    userAvatar = userAvatar ?? Rx('https://bom.so/SjYyN2');
+    forumModId = forumModId ?? Rx('default mod id');
+    forumName = forumName ?? Rx("Lớp sinh hoạt");
+    postContent = postContent ?? Rx("...");
+    listImages = listImages ?? RxList<String>([]);
+    document = document ?? RxList(<PostDocument>[]);
+    createdAt = createdAt ?? Rx<DateTime>(DateTime.now());
+    likedAt = likedAt ?? Rx<DateTime>(DateTime.now());
+    countLikes = countLikes ?? Rx(0);
+    countComments = countComments ?? Rx(0);
+    id = id ?? Rx("...");
+  }
+  Rx<String>? userCreateId;
+
+  Rx<String>? userCreate;
+
+  Rx<String>? userAvatar;
+
+  Rx<String>? forumName;
+
+  Rx<String>? forumModId;
+
+  Rx<String>? postContent;
+
+  RxList<String>? listImages;
+
+  RxList<PostDocument>? document;
+
+  Rx<DateTime>? createdAt;
+
+  Rx<DateTime>? likedAt;
+
+  Rx<int>? countLikes;
+
+  Rx<int>? countComments;
+
+  Rx<String>? id;
+}

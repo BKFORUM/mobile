@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApiClient extends GetConnect {
   Future<String> login(String email, String password) async {
+    final preferences = await SharedPreferences.getInstance();
     final response = await post(
       ApiEndPoints.baseUrl+ApiEndPoints.authEndpoints.loginEmail,
       {
@@ -12,15 +13,37 @@ class LoginApiClient extends GetConnect {
       },
     );
     if (response.statusCode == 201) {
-      final token = response.body['accessToken'] as String;
-      final preferences = await SharedPreferences.getInstance();
-      print(token);
-      preferences.setString('accessToken', token);
-      preferences.setString('email', email);
-      preferences.setString('password', password);
+      final accessToken = response.body['accessToken'] as String;
+      final refreshToken = response.body['refreshToken'] as String;
+      // print(token);
+      preferences.setString('accessToken', accessToken);
+      preferences.setString('refreshToken', refreshToken);
       preferences.setBool('isLoggedIn', true);
-      return token;
+      return accessToken;
     } else {
+      preferences.setBool('isLoggedIn', false);
+      return('Đăng nhập thất bại');
+    }
+  }
+  Future<String> refreshLogin(String refreshToken) async {
+    final preferences = await SharedPreferences.getInstance();
+    final headers = {
+      'Authorization': 'Bearer $refreshToken',
+    };
+    final response = await get(
+      ApiEndPoints.baseUrl+ApiEndPoints.authEndpoints.refresh,
+      headers: headers
+    );
+    if (response.statusCode == 200) {
+      final accessToken = response.body['accessToken'] as String;
+      final refreshToken = response.body['refreshToken'] as String;
+      // print(token);
+      preferences.setString('accessToken', accessToken);
+      preferences.setString('refreshToken', refreshToken);
+      preferences.setBool('isLoggedIn', true);
+      return accessToken;
+    } else {
+      preferences.setBool('isLoggedIn', false);
       return('Đăng nhập thất bại');
     }
   }
