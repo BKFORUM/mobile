@@ -22,6 +22,7 @@ class PageFriendController extends GetxController {
     super.onInit();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     this.id = preferences.getString('id') ?? '';
+    print(this.id);
     getUser();
   }
 

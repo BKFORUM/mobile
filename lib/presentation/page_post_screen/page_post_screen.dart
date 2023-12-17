@@ -115,7 +115,6 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                 final postId = (Get.find<PagePostController>().getSelectedForum.id == 'default id')
                                     ? forum?.id
                                     : Get.find<PagePostController>().getSelectedForum.id;
-                                print(postId);
                                 controller.uploadPost(
                                     context,
                                     postId!,
@@ -339,9 +338,8 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                   CustomElevatedButton(
                                                     text: "Chọn".tr,
                                                     onTap: () {
-                                                      // ignore: invalid_use_of_protected_member
-                                                      print(selectedImages.value
-                                                          .length);
+                                                      // print(selectedImages.value
+                                                      //     .length);
                                                       Navigator.pop(context);
                                                     },
                                                   ),

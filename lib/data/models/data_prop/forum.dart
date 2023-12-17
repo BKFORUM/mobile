@@ -30,7 +30,7 @@ class Forum {
         name: json['name'] ?? 'Default name',
         modId: json['modId'] ?? 'Default modId',
         modName: 'Một người nào đó',
-        avatarUrl: json['avatarUrl'] ?? 'https://bom.so/put5aG',
+        avatarUrl: json['avatarUrl'] ?? 'https://bom.so/sh8rM8',
         type: json['type'] ?? 'type',
         topics: (json['topics'] as List<dynamic>?)
             ?.map((topicJson) => Topic.fromJson(topicJson))

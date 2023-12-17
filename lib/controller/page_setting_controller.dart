@@ -1,5 +1,7 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/profile_api.dart';
+import 'package:bkforum/presentation/page_event_screen/binding/page_event_binding.dart';
+import 'package:bkforum/presentation/page_event_screen/page_event_screen.dart';
 import 'package:bkforum/presentation/page_setting_screen/models/page_setting_model.dart';
 
 import '../data/models/profile_model.dart';
@@ -24,13 +26,27 @@ class PageSettingController extends GetxController {
           type: profile.type,
           forums: profile.forums
       );
+      // print(fetchedProfile?.id);
     }).catchError((error) {
       print('Error: $error');
     });
   }
-  onTapCheckProfile() {
+  onTapCheckProfile(Profile fetchedProfile) {
     openProfile();
-    Get.to(() => PageProfileScreen(fetchedProfile!),
+    Get.to(() => PageProfileScreen(fetchedProfile),
         transition: Transition.rightToLeft);
+  }
+
+  onTapOpenFriendPage() {
+    Get.toNamed(
+      AppRoutes.pageFriendsScreen
+    );
+  }
+
+  void onTapOpenEventPage() {
+    Get.to(() => PageEventScreen(),
+        transition: Transition.rightToLeft,
+      binding: PageEventBinding()
+    );
   }
 }

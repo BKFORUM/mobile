@@ -17,7 +17,6 @@ class PageFriendsScreen extends GetWidget<PageFriendController> {
                 "Bạn bè",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
-              backgroundColor: Colors.white,
             ),
             body: SizedBox(
                 width: double.maxFinite,

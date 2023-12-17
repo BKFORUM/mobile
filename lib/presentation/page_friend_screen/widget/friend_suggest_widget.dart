@@ -45,8 +45,8 @@ class FriendSuggestWidget extends StatelessWidget {
             // ellipse4aW7 (1:121)
             margin: EdgeInsets.fromLTRB(
                 0.adaptSize, 0.adaptSize, 22.adaptSize, 0.adaptSize),
-            width: 90.adaptSize,
-            height: 90.adaptSize,
+            width: 60.adaptSize,
+            height: 60.adaptSize,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(45.adaptSize),
               image: DecorationImage(

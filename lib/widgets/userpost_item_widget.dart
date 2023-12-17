@@ -23,6 +23,7 @@ class UserpostItemWidget extends StatelessWidget {
   UserpostItemModel userpostItemModelObj;
 
   var controller = Get.find<PageFeedController>();
+  // ignore: non_constant_identifier_names
   final PageFeedController comments_controller = Get.put(PageFeedController());
   bool isOverflowVisible = false;
 
@@ -183,7 +184,7 @@ class UserpostItemWidget extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         Get.bottomSheet(
-                            CustomCommentScreen(userpostItemModelObj.id!.value),
+                            CustomCommentScreen(userpostItemModelObj.id!.value, 'posts'),
                             isScrollControlled: true,
                             ignoreSafeArea: false,
                             enableDrag: true);
@@ -311,16 +312,6 @@ class UserpostItemWidget extends StatelessWidget {
   }
 }
 
-// class ContentOverflowController extends GetxController {
-//   var isOverflowVisible = false.obs;
-//
-//   void toggleOverflow() {
-//     isOverflowVisible.value = !isOverflowVisible.value;
-//     if (isOverflowVisible.value) {
-//       Get.snackbar('Overflow is visible! + $isOverflowVisible', '', duration: Duration(seconds: 2));
-//     }
-//   }
-// }
 Widget buildImage(String urlImage, int index) => Container(
       margin: EdgeInsets.symmetric(horizontal: 1.adaptSize),
       child: Image.network(

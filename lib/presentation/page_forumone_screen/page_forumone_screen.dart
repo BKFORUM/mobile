@@ -1,4 +1,5 @@
 import 'package:bkforum/data/models/topic.dart';
+import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:bkforum/widgets/topic_label.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,15 +26,14 @@ class PageForumoneScreen extends StatelessWidget {
     SharedPreferences.getInstance();
 
     preferencesFuture.then((preferences) {
-      profileId = preferences.getString('profileId') ?? '';
+      profileId = preferences.getString('id') ?? '';
     });
-    print(profileId);
     mediaQueryData = MediaQuery.of(context);
     return FutureBuilder<Forum>(
         future: ForumListApiClient().forumDetail(forum!.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return CustomProgressIndicator();
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {

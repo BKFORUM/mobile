@@ -194,6 +194,6 @@ Future<bool> checkTokenAndNavigate() async {
   final preferences = await SharedPreferences.getInstance();
   final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
   final refreshToken = preferences.getString('refreshToken') ?? '';
-  if (isLoggedIn) LoginApiClient().refreshLogin(refreshToken);
+  if (isLoggedIn) await LoginApiClient().refreshLogin(refreshToken);
   return isLoggedIn;
 }
