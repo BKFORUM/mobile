@@ -9,13 +9,13 @@ class SocketIO {
     final preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('accessToken') ?? '';
     Map<String, dynamic> extraHeaders = {
-      'Authorization': 'Bearer $token',
+      'token': token,
     };
     socket = IO.io(
         "ws://52.139.152.154",
         IO.OptionBuilder()
             .setTransports(['websocket'])
-            .setExtraHeaders(extraHeaders)
+            .setAuth(extraHeaders)
             .build());
     socket.onConnect((_) {
       print('Connect socket');
@@ -29,5 +29,9 @@ class SocketIO {
 
   void addCallBack(String event, callback (dynamic data)){
     socket.on(event, (data) => callback(data));
+  }
+
+  void deleteCallBack(String event, callback (dynamic data)){
+    socket.off(event, (data) => callback(data));
   }
 }

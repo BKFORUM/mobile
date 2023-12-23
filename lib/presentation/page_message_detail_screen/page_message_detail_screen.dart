@@ -49,6 +49,18 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                 color: Color(0xffffffff),
               ),
             ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 0, bottom: 0, left: 35, right: 0),
+            alignment: Alignment.bottomRight,
+            child: IconButton(
+              icon: const Icon(
+                Icons.info
+              ), 
+              onPressed: () { 
+                clickIconSetting();
+              },
+            ),
           )
         ]),
       ),
@@ -111,5 +123,11 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                 ],
               ),
             )));
+  }
+   void clickIconSetting() {
+    Get.toNamed(
+      AppRoutes.pageMessageDetailSetting,
+      arguments: controller.conversation
+    );
   }
 }

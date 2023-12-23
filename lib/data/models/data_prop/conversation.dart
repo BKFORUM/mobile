@@ -9,6 +9,7 @@ class Conversation {
   String? type;
   String? forumId;
   List<UserConversation>? users;
+  bool isRead = false;
 
   Conversation({
     this.avatarUrl,
@@ -18,6 +19,7 @@ class Conversation {
     this.type,
     this.forumId,
     this.users,
+    required this.isRead,
   });
 
   factory Conversation.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class Conversation {
       users: (json['users'] as List<dynamic>?)
           ?.map((userJson) => UserConversation.fromJson(userJson))
           .toList(),
+      isRead: json['isRead'],
     );
   }
 }

@@ -85,4 +85,12 @@ class ImageConstant {
   static String iconAdd = 'assets/images/add.png';
 
   static String iconSearchColorBlack = 'assets/images/img_iconblacksearch.png';
+
+  static String iconGroupChat = 'assets/images/user.png';
+
+  static String iconAddUsertToConversation = "assets/images/plus.png";
+
+  static String iconOutConversation = "assets/images/log-out.png";
+
+
 }

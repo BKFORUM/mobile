@@ -18,11 +18,13 @@ class PageMessageDetailController extends GetxController{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     this.myId = preferences.getString('id') ?? '';
     getMessageInConversation();
-    SocketIO().addCallBack("onMessage",((data) => callback(data)));
+    SocketIO.socket.on("onMessage", callback);
   }
 
   @override
   void onClose() async{
+    SocketIO.socket.off("onMessage", callback);
+    print("close");
     super.onClose();
   }
 
@@ -38,7 +40,7 @@ class PageMessageDetailController extends GetxController{
   }
 
   Future<void> sendMessage(String content) async {
-    Message msg = await conversationAPIClient.createMessageInConversation(id: conversation.id.toString(), content: content);
+    await conversationAPIClient.createMessageInConversation(id: conversation.id.toString(), content: content);
     //messages.insert(0, msg);
   }
 }
