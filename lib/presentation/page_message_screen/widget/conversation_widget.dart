@@ -48,7 +48,6 @@ class ConversationState extends State<ConversationWidget> {
     return GestureDetector(
       onTap: goToMessageDetail,
       child: Container(
-        // frame199wes (64:375)
         padding: EdgeInsets.fromLTRB(
             13.adaptSize, 0.adaptSize, 0.adaptSize, 0.adaptSize),
         width: double.infinity,

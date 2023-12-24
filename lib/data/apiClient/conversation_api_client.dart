@@ -95,4 +95,28 @@ class ConversationAPIClient extends GetConnect {
       throw Exception('Failed to fetch data, status code $code, error $detail');
     }
   }
+
+  Future<dynamic> changeDisplayName(
+      {required String conversationID,  required String userID ,  required String content}) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await put(
+      ApiEndPoints.baseUrl +
+          ApiEndPoints.authEndpoints.getConversations +
+          '/$conversationID' +
+          "/users" +
+          "/$userID",
+      {"displayName": content},
+      headers: headers,
+    );
+    if (response.statusCode! > 300) {
+      final code = response.statusCode;
+      final detail = response.statusText;
+      throw Exception('Failed to fetch data, status code $code, error $detail');
+    }
+  }  
 }

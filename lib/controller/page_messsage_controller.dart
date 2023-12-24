@@ -32,8 +32,8 @@ class PageMessageController extends GetxController {
   Future<void> receiveNewMessage(OnMessage msg) async {
     int index = conversations.indexWhere((element) => element.id == msg.conversationId);
     Conversation conversation = conversations[index];
-    conversations.remove(conversation);
-    update(conversations);
+   conversations.remove(conversation);
+    //update(conversations);
     conversation.lastMessage = LastMessage(
       content: msg.content,
       createdAt: msg.createdAt,
@@ -42,7 +42,8 @@ class PageMessageController extends GetxController {
     );
     conversation.isRead = false;
     conversations.insert(0,conversation);
-    update(conversations);
+   
+    // update(conversations);
   }
 
   Future<void> getAllConversation() async {

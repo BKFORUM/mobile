@@ -85,4 +85,5 @@ class UserConversation {
       user: json['user'] != null ? User.fromJson(json['user']) : null,
     );
   }
+  get avatarUrl => null;
 }

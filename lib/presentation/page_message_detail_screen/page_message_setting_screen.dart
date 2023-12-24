@@ -1,5 +1,6 @@
 import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/presentation/page_message_detail_screen/page_members_in_conversations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -82,13 +83,14 @@ class PageMessageSettingScreen extends GetWidget<PageMessageDetailController> {
                         decoration: BoxDecoration(
                           color: Color(0xffffffff),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: GestureDetector(
+                          onTap: () => {
+                            clickSeeMembers()
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              // colortQ1 (0:13991)
-                              // margin: EdgeInsets.fromLTRB(0.adaptSize,
-                              //     2.adaptSize, 282.adaptSize, 0.adaptSize),
+                           Container(
                               child: Text(
                                 'Xem thành viên',
                                 style: TextStyle(
@@ -111,7 +113,9 @@ class PageMessageSettingScreen extends GetWidget<PageMessageDetailController> {
                               ),
                             ),
                           ],
+                          ),
                         ),
+                        
                       ),
                       Container(
                         padding: EdgeInsets.fromLTRB(16.adaptSize, 14.adaptSize,
@@ -123,10 +127,10 @@ class PageMessageSettingScreen extends GetWidget<PageMessageDetailController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              // colortQ1 (0:13991)
-                              // margin: EdgeInsets.fromLTRB(0.adaptSize,
-                              //     2.adaptSize, 282.adaptSize, 0.adaptSize),
+                            GestureDetector(
+                              onTap: () => {
+
+                              },
                               child: Text(
                                 'Thêm thành viên',
                                 style: TextStyle(
@@ -195,4 +199,11 @@ class PageMessageSettingScreen extends GetWidget<PageMessageDetailController> {
       ),
     ));
   }
+  clickSeeMembers(){
+     Get.toNamed(
+      AppRoutes.pageMembersInConversation,
+      arguments: controller.conversation
+    );
+  }
+
 }

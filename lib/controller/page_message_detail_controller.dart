@@ -10,6 +10,7 @@ class PageMessageDetailController extends GetxController{
   PageMessageDetailController({required this.conversation});
   final messages = <Message>[].obs;
   final Conversation conversation;
+  List<UserConversation> listUser = <UserConversation>[].obs;
   String myId = '';
   
   @override
@@ -18,13 +19,13 @@ class PageMessageDetailController extends GetxController{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     this.myId = preferences.getString('id') ?? '';
     getMessageInConversation();
+    initListUser();
     SocketIO.socket.on("onMessage", callback);
   }
 
   @override
   void onClose() async{
     SocketIO.socket.off("onMessage", callback);
-    print("close");
     super.onClose();
   }
 
@@ -42,5 +43,26 @@ class PageMessageDetailController extends GetxController{
   Future<void> sendMessage(String content) async {
     await conversationAPIClient.createMessageInConversation(id: conversation.id.toString(), content: content);
     //messages.insert(0, msg);
+  }
+
+  Future<void> changeDisplayName(String content, String userID) async {
+    await conversationAPIClient.changeDisplayName(
+      conversationID: conversation.id.toString(), 
+      userID: userID, 
+      content: content
+    );
+    int index = listUser.indexWhere((element) => element.userId == userID);
+    UserConversation user = listUser.elementAt(index);
+    user.displayName = content;
+    listUser[index] = user;
+  }
+
+  void initListUser(){
+    if(conversation.users != null) {
+      for(int i=0; i<conversation.users!.length; i++){
+        UserConversation temp = conversation.users![i];
+        listUser.add(temp);
+      }
+    }
   }
 }
