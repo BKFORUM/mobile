@@ -1,11 +1,20 @@
 import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/data/models/data_prop/conversation.dart';
-import 'package:bkforum/presentation/page_message_detail_screen/widget/member_widget.dart';
+import 'package:bkforum/presentation/page_message_detail_screen/widget/choose_user_widget.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class PageMemberInConversation extends GetWidget<PageMessageDetailController> {
+class PageAddUserToConversation extends GetWidget<PageMessageDetailController> {
+  List<String> userIDs = <String>[];
+
+  void addUserToList(String userID) {
+    userIDs.add(userID);
+  }
+
+  void deleteUserFromList(String userID){
+    userIDs.remove(userID);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,31 +35,26 @@ class PageMemberInConversation extends GetWidget<PageMessageDetailController> {
                         child: Center(
                           child: ListView(
                             children: [
-                              (Obx(() => ListView.separated(
+                              (Obx((){
+                                controller.getUsersOutsideOfForum();
+                                return ListView.separated(
                                   physics: BouncingScrollPhysics(),
                                   shrinkWrap: true,
                                   separatorBuilder: (context, index) {
                                     return SizedBox(height: 5.v);
                                   },
-                                  itemCount: controller.listUser.length,
+                                  itemCount: controller.listUserOutsideOfForum.length,
                                   itemBuilder: (context, index) {
-                                    UserConversation user =
-                                        controller.listUser[index];
-                                    return MemberWidget(
-                                      user: user,
-                                      callback: (content, id) =>
-                                          clickButtonChangeDisplayName(
-                                              content, id),
+                                    return ChooseUserWidget(
+                                      user: controller.listUserOutsideOfForum[index], 
+                                      callbackAdd: (content) => addUserToList(content), 
+                                      callbackDelete: (content) => deleteUserFromList(content),
                                     );
-                                  })))
+                                  });}))
                             ],
                           ),
                         )))
               ]))),
     );
-  }
-
-  void clickButtonChangeDisplayName(String content, String userID) {
-    controller.changeDisplayName(content, userID);
   }
 }

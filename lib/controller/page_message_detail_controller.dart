@@ -1,16 +1,22 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/conversation_api_client.dart';
+import 'package:bkforum/data/apiClient/user_api_client.dart';
 import 'package:bkforum/data/models/data_prop/conversation.dart';
 import 'package:bkforum/data/models/data_prop/message.dart';
+import 'package:bkforum/data/models/user_model.dart';
 import 'package:bkforum/data/socket/socket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PageMessageDetailController extends GetxController{
   ConversationAPIClient conversationAPIClient = ConversationAPIClient();
+  UserApiClient apiUserClient = UserApiClient();
+
   PageMessageDetailController({required this.conversation});
   final messages = <Message>[].obs;
   final Conversation conversation;
   List<UserConversation> listUser = <UserConversation>[].obs;
+  List<User> listUserOutsideOfForum = <User>[].obs;
+
   String myId = '';
   
   @override
@@ -55,6 +61,16 @@ class PageMessageDetailController extends GetxController{
     UserConversation user = listUser.elementAt(index);
     user.displayName = content;
     listUser[index] = user;
+  }
+
+  Future<void> getUsersOutsideOfForum() async {
+    this.listUserOutsideOfForum = await apiUserClient.getUsers(take: 100000);
+    // for(UserConversation u in listUser){
+    //   if(listUserOutsideOfForum.contains(u.user)){
+    //     listUserOutsideOfForum.remove(u.user);
+    //   }
+    // }
+    print(listUserOutsideOfForum.length);
   }
 
   void initListUser(){

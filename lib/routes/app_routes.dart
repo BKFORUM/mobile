@@ -8,6 +8,7 @@ import 'package:bkforum/presentation/page_login_screen/binding/page_login_bindin
 import 'package:bkforum/presentation/page_feed_screen/page_feed_screen.dart';
 import 'package:bkforum/presentation/page_feed_screen/binding/page_feed_binding.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/binding/page_message_detail_binding.dart';
+import 'package:bkforum/presentation/page_message_detail_screen/page_add_user_to_conversation.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/page_members_in_conversations.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/page_message_detail_screen.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/page_message_setting_screen.dart';
@@ -52,6 +53,8 @@ class AppRoutes {
   static const String pageMessageDetailSetting = '/page_message_screen_detail_setting';
 
   static const String pageMembersInConversation = '/page_member_in_conversation';
+
+  static const String pageAddUserToConversation = '/page_add_user_to_conversation';
 
   static const String pagePostScreen = '/page_post_screen';
 
@@ -126,6 +129,13 @@ class AppRoutes {
     GetPage(
       name: pageMembersInConversation,
       page: () => PageMemberInConversation(),
+      bindings: [
+        PageMessageDetailBinding(),
+      ],
+    ),
+    GetPage(
+      name: pageAddUserToConversation,
+      page: () => PageAddUserToConversation(),
       bindings: [
         PageMessageDetailBinding(),
       ],
