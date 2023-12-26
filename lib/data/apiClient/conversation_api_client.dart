@@ -97,7 +97,9 @@ class ConversationAPIClient extends GetConnect {
   }
 
   Future<dynamic> changeDisplayName(
-      {required String conversationID,  required String userID ,  required String content}) async {
+      {required String conversationID,
+      required String userID,
+      required String content}) async {
     final preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('accessToken') ?? '';
 
@@ -118,5 +120,60 @@ class ConversationAPIClient extends GetConnect {
       final detail = response.statusText;
       throw Exception('Failed to fetch data, status code $code, error $detail');
     }
-  }  
+  }
+
+  Future<dynamic> getUsersInConversation(
+      {required String conversationID,
+      }) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await get(
+      ApiEndPoints.baseUrl +
+          ApiEndPoints.authEndpoints.getConversations +
+          '/$conversationID' +
+          "/users",
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      List<UserConversation> messages = [];
+      for (dynamic data in response.body) {
+        messages.add(UserConversation.fromJson(data));
+      }
+      return messages;
+    } else {
+      final code = response.statusCode;
+      final detail = response.statusText;
+      throw Exception('Failed to fetch data, status code $code, error $detail');
+    }
+  }
+
+  Future<dynamic> addUsersToConversation(
+      {required String conversationID,
+      required List<String> userIDs,
+      }) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    //String listIds = userIDs.join(',');
+    final response = await post(
+      ApiEndPoints.baseUrl +
+          ApiEndPoints.authEndpoints.getConversations +
+          '/$conversationID' +
+          "/users",
+      {"userIds": userIDs},
+      headers: headers,
+    );
+    if (response.statusCode! > 300) {
+      final code = response.statusCode;
+      final detail = response.statusText;
+      throw Exception('Failed to fetch data, status code $code, error $detail');
+    }
+  }
 }

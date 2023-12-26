@@ -25,7 +25,7 @@ class PageMessageDetailController extends GetxController{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     this.myId = preferences.getString('id') ?? '';
     getMessageInConversation();
-    initListUser();
+    getUsersInConversation();
     SocketIO.socket.on("onMessage", callback);
   }
 
@@ -64,21 +64,32 @@ class PageMessageDetailController extends GetxController{
   }
 
   Future<void> getUsersOutsideOfForum() async {
-    this.listUserOutsideOfForum = await apiUserClient.getUsers(take: 100000);
-    // for(UserConversation u in listUser){
-    //   if(listUserOutsideOfForum.contains(u.user)){
-    //     listUserOutsideOfForum.remove(u.user);
-    //   }
-    // }
-    print(listUserOutsideOfForum.length);
-  }
-
-  void initListUser(){
-    if(conversation.users != null) {
-      for(int i=0; i<conversation.users!.length; i++){
-        UserConversation temp = conversation.users![i];
-        listUser.add(temp);
+    await getUsersInConversation();
+    List<User> list = await apiUserClient.getUsers(take: 100000);
+    List<String> listID = list.map((e) => e.id.toString()).toList();
+    for(UserConversation u in listUser){
+      if(listID.contains(u.user?.id.toString())){
+        // ignore: unrelated_type_equality_checks
+        list.removeWhere((element) => element.id == u.user?.id.toString());
       }
     }
+    this.listUserOutsideOfForum.assignAll(list);
+  }
+
+  Future<void> addUsersToConversation(List<String> userIds) async {
+    await conversationAPIClient.addUsersToConversation(
+      conversationID: conversation.id.toString(), 
+      userIDs: userIds
+    );
+    List<User> listTemp = this.listUserOutsideOfForum;
+    listTemp.removeWhere((element) => userIds.contains(element.id.toString()));
+    listUserOutsideOfForum.assignAll(listTemp);
+  }
+
+  Future<void> getUsersInConversation() async {
+    List<UserConversation> list = await conversationAPIClient.getUsersInConversation(
+      conversationID: conversation.id.toString()
+    );
+    listUser.assignAll(list);
   }
 }

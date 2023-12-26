@@ -25,7 +25,7 @@ class User {
       fullName: json['fullName'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
       address: json['address'] ?? '',
-      avatarUrl: json['avatarUrl'] ?? '',
+      avatarUrl: json['avatarUrl'] ?? 'https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png',
       dateOfBirth: json['dateOfBirth'] ?? '',
       email: json['email'] ?? '',
       gender: json['gender'] ?? '',

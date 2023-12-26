@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 class PageMemberInConversation extends GetWidget<PageMessageDetailController> {
   @override
   Widget build(BuildContext context) {
+    controller.getUsersInConversation();
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
