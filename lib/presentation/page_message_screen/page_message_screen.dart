@@ -17,22 +17,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
 
   @override
   Widget build(BuildContext context) {
-    Profile? fetchedProfile;
-    ProfileApi().fetchProfile('').then((profile) {
-      fetchedProfile = Profile(
-        id: profile.id,
-        fullName: profile.fullName,
-        avatarUrl: profile.avatarUrl,
-        email: profile.email,
-        address: profile.address,
-        faculty: profile.faculty,
-        type: profile.type,
-      );
-      print(fetchedProfile?.fullName);
-    }).catchError((error) {
-      print('Error: $error');
-    });
-
+    controller.getAllConversation();
     mediaQueryData = MediaQuery.of(context);
     return FutureBuilder<Profile>(
         future: ProfileApi().fetchProfile(''),
@@ -100,43 +85,33 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                         child: Column(children: [
                           Container(
                             // frame200x8K (83:391)
-                            padding: EdgeInsets.fromLTRB(9.adaptSize,
-                                7.75.adaptSize, 10.adaptSize, 7.75.adaptSize),
-                            width: double.infinity,
+                            padding: EdgeInsets.fromLTRB(15.adaptSize,
+                                5.adaptSize, 5.adaptSize, 5.adaptSize),
                             decoration: BoxDecoration(
                               border: Border.all(color: Color(0x33000000)),
                               color: Color(0xffffffff),
                             ),
                             child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Center(
-                                  // tinnhnQFD (83:393)
-                                  child: Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        10.adaptSize,
-                                        0.adaptSize,
-                                        200.adaptSize,
-                                        0.adaptSize),
-                                    child: Text(
-                                      'Tin nhắn',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.2125,
-                                        color: Color(0xff000000),
-                                      ),
+                                Container(
+                                  child: Text(
+                                    'Tin nhắn',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      height: 1.2125,
+                                      color: Color(0xff000000),
                                     ),
                                   ),
                                 ),
                                 Container(
-                                  // image3Rg7 (83:396)
-                                  width: 23.adaptSize,
-                                  height: 23.adaptSize,
-                                  child: Image.asset(
-                                    ImageConstant.iconAdd,
-                                    fit: BoxFit.contain,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.add_circle_outline_outlined
+                                    ),
+                                    onPressed: () => {},
                                   ),
                                 ),
                               ],
@@ -157,10 +132,10 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                               247.adaptSize,
                                               8.21.adaptSize),
                                           margin: EdgeInsets.fromLTRB(
-                                              0.adaptSize,
                                               15.adaptSize,
-                                              0.adaptSize,
-                                              10.adaptSize),
+                                              15.adaptSize,
+                                              15.adaptSize,
+                                              15.adaptSize),
                                           width: double.infinity,
                                           decoration: BoxDecoration(
                                             border: Border.all(
@@ -181,7 +156,8 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                                     0.adaptSize),
                                                 height: 20.adaptSize,
                                                 child: Image.asset(
-                                                  ImageConstant.iconSearchColorBlack,
+                                                  ImageConstant
+                                                      .iconSearchColorBlack,
                                                   width: 20.adaptSize,
                                                   height: 20.adaptSize,
                                                 ),

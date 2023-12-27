@@ -5,32 +5,45 @@ import 'package:bkforum/data/models/data_prop/message.dart';
 import 'package:bkforum/data/models/data_prop/on_message.dart';
 import 'package:bkforum/data/socket/socket.dart';
 
-class PageMessageController extends GetxController{
+class PageMessageController extends GetxController {
   ConversationAPIClient conversationAPIClient = ConversationAPIClient();
   final conversations = <Conversation>[].obs;
   final messages = <Message>[].obs;
-  Map<String, int> mapConversation = {};
+
   @override
-  void onInit() async{
+  void onInit() async {
     super.onInit();
     await getAllConversation();
-    for(int i =0; i< conversations.length; i++){
-      print(conversations[i].lastMessage?.content.toString());
-      mapConversation[conversations[i].id.toString()] = i; 
-    }
-    SocketIO().addCallBack("onMessage",((data) => callback(data)));
+    SocketIO.socket.on("onMessage", ((data) => callback(data)));
   }
 
   @override
-  void onClose() async{
+  void onClose() async {
+    SocketIO.socket.off("onMessage", ((data) => callback(data)));
     super.onClose();
   }
 
-  void callback (dynamic data){
+  Future<void> callback(dynamic data) async {
     OnMessage msg = OnMessage.fromJson(data);
-    int index = mapConversation[msg.conversationId.toString()] ?? 0;
-    print(msg.content);
-    conversations[index].lastMessage?.content = msg.content; 
+    //int index = mapConversation[msg.conversationId.toString()] ?? 0;
+    await receiveNewMessage(msg);
+  }
+
+  Future<void> receiveNewMessage(OnMessage msg) async {
+    int index = conversations.indexWhere((element) => element.id == msg.conversationId);
+    Conversation conversation = conversations[index];
+   conversations.remove(conversation);
+    //update(conversations);
+    conversation.lastMessage = LastMessage(
+      content: msg.content,
+      createdAt: msg.createdAt,
+      updatedAt: msg.updatedAt,
+      type: msg.type,
+    );
+    conversation.isRead = false;
+    conversations.insert(0,conversation);
+   
+    // update(conversations);
   }
 
   Future<void> getAllConversation() async {
@@ -39,8 +52,8 @@ class PageMessageController extends GetxController{
   }
 
   Future<void> getMessageInConversation(String id) async {
-    List<Message> list = await conversationAPIClient.getMessagesInConversation(id: id, skip: 0, take: 100);
+    List<Message> list = await conversationAPIClient.getMessagesInConversation(
+        id: id, skip: 0, take: 100);
     messages.assignAll(list);
   }
-  
 }

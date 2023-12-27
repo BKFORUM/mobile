@@ -37,13 +37,8 @@ class ConversationState extends State<ConversationWidget> {
   }
 
   void goToMessageDetail() {
-    String id = conversation.id.toString();
-    Map<String, String> query = <String, String>{
-      'id': id
-    };
     Get.toNamed(
       AppRoutes.pageMessageDetailScreen,
-      parameters: query,
       arguments: conversation
     );
   }
@@ -53,7 +48,6 @@ class ConversationState extends State<ConversationWidget> {
     return GestureDetector(
       onTap: goToMessageDetail,
       child: Container(
-        // frame199wes (64:375)
         padding: EdgeInsets.fromLTRB(
             13.adaptSize, 0.adaptSize, 0.adaptSize, 0.adaptSize),
         width: double.infinity,
@@ -98,7 +92,7 @@ class ConversationState extends State<ConversationWidget> {
                       conversation.displayName.toString(),
                       style: TextStyle(
                         fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: conversation.isRead?FontWeight.w200:FontWeight.w600,
                         height: 1.2175,
                         color: Color(0xff000000),
                       ),
@@ -122,7 +116,7 @@ class ConversationState extends State<ConversationWidget> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: conversation.isRead?FontWeight.w200:FontWeight.w500,
                                 height: 1.2125,
                                 color: Color(0xff000000),
                               ),
@@ -135,8 +129,8 @@ class ConversationState extends State<ConversationWidget> {
                             showDateTime(conversation.lastMessage?.updatedAt),
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w100,
+                              fontSize: 13,
+                              fontWeight: conversation.isRead?FontWeight.w200:FontWeight.w500,
                               height: 1.2125,
                               color: Color(0xff000000),
                             ),

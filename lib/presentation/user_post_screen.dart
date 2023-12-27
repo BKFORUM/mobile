@@ -8,6 +8,7 @@ import '../widgets/custom_comment_screen.dart';
 import '../widgets/userpost_item_widget.dart';
 
 class UserPostScreen extends StatelessWidget {
+  final postId = Get.arguments as String;
   UserPostScreen({
     Key? key,
   }) : super(key: key);
@@ -15,7 +16,6 @@ class UserPostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final postId = Get.arguments as String;
 
     mediaQueryData = MediaQuery.of(context);
     // print(postId);

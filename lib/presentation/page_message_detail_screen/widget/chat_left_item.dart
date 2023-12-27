@@ -1,5 +1,6 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/data_prop/message.dart';
+import 'package:bkforum/presentation/page_message_detail_screen/widget/message_widget.dart';
 import 'package:flutter/material.dart';
 
 // ignore: non_constant_identifier_names
@@ -54,27 +55,7 @@ Widget ChatLeftItem(Message msg) {
                     ),
                   ),
                 ),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                    maxWidth: 300.adaptSize, minHeight: 40.adaptSize),
-                child: Container(
-                  margin: EdgeInsets.only(right: 10, top: 0, bottom: 0),
-                  padding: EdgeInsets.only(top: 0, left: 10, right: 10),
-                  decoration: BoxDecoration(
-                      color: Color(0xff0001cb),
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(10.adaptSize))),
-                  child: Text(
-                    msg.content.toString(),
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      height: 2,
-                      color: Color(0xffffffff),
-                    ),
-                  ),
-                ),
-              ),
+              MessageWidget(msg)
             ],
           ),
         )
