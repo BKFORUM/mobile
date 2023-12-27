@@ -29,16 +29,18 @@ class PagePostScreen extends GetWidget<PagePostController> {
 
   TextEditingController displayTextController = TextEditingController();
   TextEditingController linkController = TextEditingController();
+  final forum = Get.arguments as Forum?;
 
   @override
   Widget build(BuildContext context) {
-    final forum = Get.arguments as Forum?;
-    // print(forum?.name);
+    RxBool isLoading = false.obs;
+
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: CustomAppBar(
+            appBar:
+            (forum?.id == null) ? CustomAppBar(
                 leadingWidth: 44.h,
                 leading: AppbarImage(
                     imagePath: ImageConstant.imgIconhome,
@@ -81,7 +83,16 @@ class PagePostScreen extends GetWidget<PagePostController> {
                             onTapIconavatarone();
                           })
                     ])),
-                styleType: Style.bgFill),
+                styleType: Style.bgFill)
+            : AppBar(
+              leading: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: Icon(Icons.arrow_back_ios_new_rounded),
+              ),
+              title: Text('Thêm bài viết'),
+            ),
             body: Container(
                 width: 359.h,
                 padding: EdgeInsets.all(14.h),
@@ -110,44 +121,65 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                 backgroundColor: Colors.white,
                                 shadowColor: Colors.white,
                               ),
+                              leftIcon: Obx(() {
+                                return isLoading.value
+                                    ? Container(
+                                        padding:
+                                            const EdgeInsets.only(right: 12.0),
+                                        height: 14.adaptSize,
+                                        width: 26.adaptSize,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                        ),
+                                      )
+                                    : Container();
+                              }),
                               onTap: () {
-                                // print('forumId: ${Get.find<PagePostController>().getSelectedForum.id}');
-                                final postId = (Get.find<PagePostController>().getSelectedForum.id == 'default id')
-                                    ? forum?.id
-                                    : Get.find<PagePostController>().getSelectedForum.id;
-                                controller.uploadPost(
-                                    context,
-                                    postId!,
-                                    textFieldValue);
-                                onTapIconhomeone();
+                                isLoading.value = true;
+                                final forumSelect =
+                                    (Get.find<PagePostController>()
+                                                .getSelectedForum
+                                                .id ==
+                                            'default id')
+                                        ? forum
+                                        : Get.find<PagePostController>()
+                                            .getSelectedForum;
+                                controller
+                                    .uploadPost(
+                                        context, forumSelect!, textFieldValue)
+                                    .then((_) {
+                                  isLoading.value = false;
+                                });
+                                // onTapIconhomeone();
                               }),
                         ))
                       ]),
                       SizedBox(height: 14.v),
-                      if(forum?.id == null)
-                      DropdownButtonExample()
-                      else Container(
-                        margin: EdgeInsets.symmetric(vertical: 8.adaptSize),
-                        padding: EdgeInsets.all(18.adaptSize),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade100,
-                          borderRadius: BorderRadius.circular(20.adaptSize),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                forum!.name,
-                                style: TextStyle(fontSize: 18.adaptSize),
+                      if (forum?.id == null)
+                        DropdownButtonExample()
+                      else
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.adaptSize),
+                          padding: EdgeInsets.all(18.adaptSize),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade100,
+                            borderRadius: BorderRadius.circular(20.adaptSize),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  forum!.name,
+                                  style: TextStyle(fontSize: 18.adaptSize),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
                       Padding(
                           padding: EdgeInsets.only(left: 4.h, top: 8.v),
                           child: TextFormField(
-                            maxLines: 15,
+                            maxLines: 25,
                             onChanged: (value) {
                               textFieldValue = value;
                             },
@@ -161,24 +193,19 @@ class PagePostScreen extends GetWidget<PagePostController> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Padding(
-                                  padding: EdgeInsets.only(left: 10.h),
-                                  child: CustomImageView(
-                                    imagePath: ImageConstant.imgIconimage,
-                                    height: 20.adaptSize,
-                                    width: 20.adaptSize,
-                                  )),
-                              SizedBox(width: 16),
-                              Flexible(
-                                child: CustomElevatedButton(
-                                    width: 60.h,
-                                    text: "lbl_h_nh_nh".tr,
-                                    buttonTextStyle: CustomTextStyles
-                                        .titleMediumHelveticaOnPrimaryContainer,
-                                    buttonStyle: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.transparent,
-                                      shadowColor: Colors.transparent,
+                              Expanded(
+                                child: ListTile(
+                                    leading: CustomImageView(
+                                      imagePath: ImageConstant.imgIconimage,
+                                      height: 20.adaptSize,
+                                      width: 20.adaptSize,
                                     ),
+                                    title: Text(
+                                      "lbl_h_nh_nh".tr,
+                                      style: CustomTextStyles
+                                          .titleMediumHelveticaOnPrimaryContainer,
+                                    ),
+                                    horizontalTitleGap: 0,
                                     onTap: () {
                                       showModalBottomSheet(
                                           context: context,
@@ -274,8 +301,9 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                               File(pickedImage
                                                                   .path);
                                                           // ignore: invalid_use_of_protected_member
-                                                          selectedImages.value.add(
-                                                              selectedImage);
+                                                          selectedImages.value
+                                                              .add(
+                                                                  selectedImage);
                                                         } else {
                                                           print(
                                                               'No image selected.');
@@ -291,29 +319,48 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                         SingleChildScrollView(
                                                       child: Obx(() {
                                                         // ignore: invalid_use_of_protected_member
-                                                        if (selectedImages.value.isNotEmpty) {
-                                                          return ListView.builder(
+                                                        if (selectedImages
+                                                            .value.isNotEmpty) {
+                                                          return ListView
+                                                              .builder(
                                                             shrinkWrap: true,
-                                                            physics: NeverScrollableScrollPhysics(),
+                                                            physics:
+                                                                NeverScrollableScrollPhysics(),
                                                             // ignore: invalid_use_of_protected_member
-                                                            itemCount: selectedImages.value.length,
-                                                            itemBuilder: (context, index) {
+                                                            itemCount:
+                                                                selectedImages
+                                                                    .value
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
                                                               // ignore: invalid_use_of_protected_member
-                                                              File image = selectedImages.value[index];
+                                                              File image =
+                                                                  selectedImages
+                                                                          .value[
+                                                                      index];
                                                               return Stack(
                                                                 children: [
                                                                   CustomImageView(
                                                                     file: image,
-                                                                    width: 0.6 * MediaQuery.of(context).size.height,
-                                                                    fit: BoxFit.cover,
+                                                                    width: 0.6 *
+                                                                        MediaQuery.of(context)
+                                                                            .size
+                                                                            .height,
+                                                                    fit: BoxFit
+                                                                        .cover,
                                                                   ),
                                                                   Positioned(
                                                                     top: 6,
                                                                     right: 6,
-                                                                    child: CancelButton(
-                                                                      onPressed: () {
+                                                                    child:
+                                                                        CancelButton(
+                                                                      onPressed:
+                                                                          () {
                                                                         // ignore: invalid_use_of_protected_member
-                                                                        selectedImages.value.remove(image);
+                                                                        selectedImages
+                                                                            .value
+                                                                            .remove(image);
                                                                       },
                                                                     ),
                                                                   ),
@@ -324,8 +371,11 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                         } else {
                                                           return Container(
                                                             child: Center(
-                                                              child: CustomImageView(
-                                                                imagePath: ImageConstant.imageNotFound,
+                                                              child:
+                                                                  CustomImageView(
+                                                                imagePath:
+                                                                    ImageConstant
+                                                                        .imageNotFound,
                                                                 width: 120,
                                                                 height: 120,
                                                               ),
@@ -360,25 +410,19 @@ class PagePostScreen extends GetWidget<PagePostController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: 10.h),
-                                child: CustomImageView(
-                                  imagePath: ImageConstant.imgIconlink,
-                                  height: 20.adaptSize,
-                                  width: 20.adaptSize,
-                                )),
-                            SizedBox(width: 12),
-                            Flexible(
-                              child: CustomElevatedButton(
-                                  width: 60.h,
-                                  text: "lbl_li_n_k_t".tr,
-                                  buttonTextStyle: CustomTextStyles
-                                      .titleMediumHelveticaOnPrimaryContainer,
-                                  buttonStyle: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    shadowColor: Colors.transparent,
-                                    // maximumSize: Size.square(2)
+                            Expanded(
+                              child: ListTile(
+                                  leading: CustomImageView(
+                                    imagePath: ImageConstant.imgIconlink,
+                                    height: 20.adaptSize,
+                                    width: 20.adaptSize,
                                   ),
+                                  title: Text(
+                                    "lbl_li_n_k_t".tr,
+                                    style: CustomTextStyles
+                                        .titleMediumHelveticaOnPrimaryContainer,
+                                  ),
+                                  horizontalTitleGap: 0,
                                   onTap: () {
                                     Get.bottomSheet(
                                       Container(

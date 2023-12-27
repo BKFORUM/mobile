@@ -18,6 +18,7 @@ class UserpostItemModel {
     this.likedAt,
     this.countLikes,
     this.countComments,
+    this.status,
     this.id,
   }) {
     userCreateId = userCreateId ?? Rx("Id Tác giả");
@@ -34,6 +35,7 @@ class UserpostItemModel {
     likedAt = likedAt ?? Rx<DateTime>(DateTime.now());
     countLikes = countLikes ?? Rx(0);
     countComments = countComments ?? Rx(0);
+    status = status ?? Rx('ACTIVE');
     id = id ?? Rx("...");
   }
   Rx<String>? userCreateId;
@@ -63,6 +65,8 @@ class UserpostItemModel {
   Rx<int>? countLikes;
 
   Rx<int>? countComments;
+
+  Rx<String>? status;
 
   Rx<String>? id;
 }

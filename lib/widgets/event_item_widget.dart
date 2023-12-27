@@ -21,7 +21,7 @@ class EventItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    for (final user in eventItemModelObj.users!.value) {
+    for (final user in eventItemModelObj.users!) {
       usersAvatarUrl.add(user.avatarUrl ?? 'https://bom.so/kPdSYu');
     }
 
@@ -68,7 +68,9 @@ class EventItemWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   color: (eventItemModelObj.status?.value == 'DONE'
                       ? Colors.grey.shade500
-                      : Colors.green.shade400),
+                      : (eventItemModelObj.status?.value == 'UPCOMING'
+                          ? Colors.red.shade400
+                          : Colors.green.shade400)),
                   borderRadius:
                       BorderRadius.all(Radius.circular(10.adaptSize))),
               child: Text(
@@ -106,22 +108,20 @@ class EventItemWidget extends StatelessWidget {
               .toList()),
           SizedBox(height: 4.adaptSize),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Get.dialog(Dialog(
                 child: Column(
-                  mainAxisSize:
-                  MainAxisSize.min,
-                  children: eventItemModelObj.users!
-                      .map((item) {
+                  mainAxisSize: MainAxisSize.min,
+                  children: eventItemModelObj.users!.map((item) {
                     return ListTile(
                       leading: CustomImageView(
                         url: item.avatarUrl ?? 'https://bom.so/kPdSYu',
-                        width: 30.adaptSize, height: 30.adaptSize,
+                        width: 30.adaptSize,
+                        height: 30.adaptSize,
                         fit: BoxFit.cover,
                         radius: BorderRadius.all(Radius.circular(15)),
                       ),
-                      title:
-                      Text(item.fullName ?? ''),
+                      title: Text(item.fullName ?? ''),
                     );
                   }).toList(),
                 ),
@@ -155,8 +155,9 @@ class EventItemWidget extends StatelessWidget {
                   Text(eventItemModelObj.users!.value.isNotEmpty
                       ? (eventItemModelObj.users!.value.length == 1
                           ? (eventItemModelObj.users!.value[0].fullName ?? '')
-                          : ((eventItemModelObj.users!.value[0].fullName ?? '') +
-                              ' và ${eventItemModelObj.users!.value.length-1} người khác'))
+                          : ((eventItemModelObj.users!.value[0].fullName ??
+                                  '') +
+                              ' và ${eventItemModelObj.users!.value.length - 1} người khác'))
                       : (''))
                 ],
               ),

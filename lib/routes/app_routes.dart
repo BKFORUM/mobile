@@ -31,6 +31,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/apiClient/apiLogin.dart';
+import '../widgets/progress_indicator.dart';
 
 class AppRoutes {
   static const String pageLoginScreen = '/page_login_screen';
@@ -173,7 +174,7 @@ class AppRoutes {
           future: checkTokenAndNavigate(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return CustomProgressIndicator();
             } else {
               if (snapshot.hasData && snapshot.data!) {
                 // add

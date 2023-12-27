@@ -13,6 +13,6 @@ String formatTimeDifference(Duration difference) {
   } else if (difference.inMinutes > 0) {
     return '${difference.inMinutes} phút trước';
   } else {
-    return 'Just now';
+    return 'Vừa xong';
   }
 }

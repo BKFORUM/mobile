@@ -48,7 +48,7 @@ class PageFeedController extends GetxController {
             );
           }
         },
-        child: Text('Có', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber),),
+        child: Text('Có', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber)),
       ),
       cancel: ElevatedButton(
         style: ElevatedButton.styleFrom(
