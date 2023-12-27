@@ -105,4 +105,7 @@ class FriendsApiClient extends GetConnect {
     );
     return myfriend;
   }
+
+  getFriendsOfUser(String id) async {
+  }
 }

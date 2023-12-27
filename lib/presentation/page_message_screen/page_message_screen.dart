@@ -39,6 +39,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                           imagePath: ImageConstant.imgIconhome,
                           margin: EdgeInsets.only(
                               left: 24.h, top: 15.v, bottom: 15.v),
+                          onTap: ()=> onTapIconhomeone(),
                         ),
                         title: Padding(
                             padding: EdgeInsets.only(left: 19.h),
@@ -245,7 +246,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
 
   onTapIconhomeone() {
     Get.toNamed(
-      AppRoutes.pageForumoneScreen,
+      AppRoutes.pageFeedScreen,
     );
   }
 

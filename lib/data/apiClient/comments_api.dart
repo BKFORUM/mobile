@@ -29,7 +29,7 @@ class CommentsApiClient extends GetConnect {
         final user = commentData['user'];
         final commentsModel = CommentsModel(
           userCreate: Rx<String>(user['fullName'] ?? ''),
-          userAvatar: Rx<String>(user['avatarUrl'] ?? ''),
+          userAvatar: Rx<String>(user['avatarUrl'] ?? 'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg'),
           content: Rx<String>(commentData['content'] ?? ''),
           countReplies: Rx<int>(commentData['_count'] != null
               ? commentData['_count']['replyComments']
@@ -45,7 +45,7 @@ class CommentsApiClient extends GetConnect {
     }
   }
 
-  Future<void> uploadComment(String id, String comment) async {
+  Future<void> uploadComment(String id, String comment, String type) async {
     final preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('accessToken') ?? '';
 
@@ -56,11 +56,16 @@ class CommentsApiClient extends GetConnect {
     final body = {
       'content': comment,
     };
+    String url = "";
+    if(type == "posts") url = ApiEndPoints.baseUrl +
+        ApiEndPoints.authEndpoints.posts +
+        '/' + id + '/' +
+        ApiEndPoints.authEndpoints.comments;
+    else url = ApiEndPoints.baseUrl +
+        ApiEndPoints.authEndpoints.events +
+        '/' + id + '/event-comments';
     final response = await post(
-      ApiEndPoints.baseUrl +
-          ApiEndPoints.authEndpoints.posts +
-          '/' + id + '/' +
-          ApiEndPoints.authEndpoints.comments,
+      url,
       jsonEncode(body),
       headers: headers,
     );

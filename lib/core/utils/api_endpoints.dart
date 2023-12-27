@@ -6,6 +6,8 @@ class ApiEndPoints {
 class _AuthEndPoints {
   final String loginEmail = 'auth/login';
   final String refresh = 'auth/refresh';
+  final String forgot = 'auth/forgot-password';
+  final String resetPassword = 'auth/reset-password';
   final String posts = 'posts';
   final String comments = 'comments';
   final String replies = 'replies';

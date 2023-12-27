@@ -16,9 +16,10 @@ class CustomParticipate extends StatelessWidget{
         super(key: key);
 
   void toggleCustomImage() {
-    if (event.status == 'HAPPENING') {
+    if (event.status == 'HAPPENING' || event.status == 'UPCOMING') {
       isCustomIconReacted.value = !isCustomIconReacted.value;
       controller.changeParticipate(event);
+      event.count?.value.users = event.count!.value.users!+1;
     } else {
       Get.snackbar('Sự kiện đã kết thúc', 'Không thể tham gia hoặc hủy tham gia',
           backgroundColor: Colors.amber

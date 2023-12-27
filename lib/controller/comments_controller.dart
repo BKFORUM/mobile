@@ -34,11 +34,11 @@ class CommentController extends GetxController {
     });
   }
 
-  void uploadCommentOrReply(String id, String content, bool mode) {
+  void uploadCommentOrReply(String id, String content, bool mode, String type) {
     if (mode) {
       CommentsApiClient().uploadReply(commentId, content);
     } else {
-      CommentsApiClient().uploadComment(id, content);
+      CommentsApiClient().uploadComment(id, content, type);
     }
   }
 

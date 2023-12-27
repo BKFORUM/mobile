@@ -24,7 +24,6 @@ class PageSearchScreen extends GetView<PageSearchController> {
 
   @override
   Widget build(BuildContext context) {
-
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
@@ -130,14 +129,13 @@ class PageSearchScreen extends GetView<PageSearchController> {
                                       width: 36.adaptSize,
                                       radius: BorderRadius.circular(9.h),
                                       fit: BoxFit.cover,
-                                      url: forum.avatarUrl,
+                                      url: forum.avatarUrl ??
+                                          'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg',
                                     ),
                                     title: Text(forum.name),
                                     onTap: () {
-                                      Get.toNamed(
-                                        AppRoutes.pageForumoneScreen,
-                                        arguments: forum
-                                      );
+                                      Get.toNamed(AppRoutes.pageForumoneScreen,
+                                          arguments: forum);
                                     },
                                   );
                                 },
@@ -161,18 +159,19 @@ class PageSearchScreen extends GetView<PageSearchController> {
                                       width: 36.adaptSize,
                                       radius: BorderRadius.circular(9.h),
                                       fit: BoxFit.cover,
-                                      url: user.avatarUrl,
+                                      url: user.avatarUrl ??
+                                          'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg',
                                     ),
                                     title: Text(user.fullName),
                                     trailing: (user.friendStatus == 'ACTIVE')
                                         ? Icon(Icons.people_outline_rounded,
                                             color: Colors.green)
                                         : SizedBox.shrink(),
-                                    onTap: (){
+                                    onTap: () {
                                       final userProfile = Profile(
-                                          id: user.id,
-                                          fullName: user.fullName);
-                                      Get.to(() => PageProfileScreen(userProfile),
+                                          id: user.id, fullName: user.fullName);
+                                      Get.to(
+                                          () => PageProfileScreen(userProfile),
                                           transition: Transition.rightToLeft);
                                     },
                                   );

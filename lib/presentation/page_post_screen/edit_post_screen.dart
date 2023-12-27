@@ -29,11 +29,10 @@ class EditPostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     contentTextController.text = userpostItemModelObj.postContent!.value
         .replaceAll(RegExp(r"<.*?>"), "");
+    textFieldValue = userpostItemModelObj.postContent!.value;
     RxList<PostDocument>? availableImages = userpostItemModelObj.document;
-    // print(userpostItemModelObj.listImages?.length);
     RxList<dynamic> allImages = RxList<dynamic>();
-    // ignore: invalid_use_of_protected_member
-    allImages.addAll(selectedImages.value);
+    allImages.addAll(selectedImages);
     if (availableImages != null) allImages.addAll(availableImages);
     RxBool isLoading = false.obs;
 
@@ -77,25 +76,24 @@ class EditPostScreen extends StatelessWidget {
                     leftIcon: Obx(() {
                       return isLoading.value
                           ? Container(
-                        padding: const EdgeInsets.only(right: 12.0),
-                        height: 14.adaptSize,
-                        width: 26.adaptSize,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.0,
-                        ),
-                      )
+                              padding: const EdgeInsets.only(right: 12.0),
+                              height: 14.adaptSize,
+                              width: 26.adaptSize,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                              ),
+                            )
                           : Container();
                     }),
                     onTap: () {
                       isLoading.value = true;
-                      controller.editPost(context, userpostItemModelObj.id, textFieldValue, allImages)
+                      controller
+                          .editPost(context, userpostItemModelObj.id,
+                              textFieldValue, allImages)
                           .then((_) {
                         isLoading.value = false;
-                        if(!Get.isSnackbarOpen){
-                          Get.back();
-                        }
+                        Get.toNamed(AppRoutes.pageFeedScreen);
                       });
-
                     }),
               ))
             ]),
@@ -121,7 +119,7 @@ class EditPostScreen extends StatelessWidget {
                 padding: EdgeInsets.only(left: 4.h, top: 8.v),
                 child: TextFormField(
                   controller: contentTextController,
-                  maxLines: 15,
+                  maxLines: 26,
                   onChanged: (value) {
                     textFieldValue = value;
                   },
@@ -134,24 +132,19 @@ class EditPostScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
-                        padding: EdgeInsets.only(left: 10.h),
-                        child: CustomImageView(
-                          imagePath: ImageConstant.imgIconimage,
-                          height: 20.adaptSize,
-                          width: 20.adaptSize,
-                        )),
-                    SizedBox(width: 16),
-                    Flexible(
-                      child: CustomElevatedButton(
-                          width: 60.h,
-                          text: "lbl_h_nh_nh".tr,
-                          buttonTextStyle: CustomTextStyles
-                              .titleMediumHelveticaOnPrimaryContainer,
-                          buttonStyle: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
+                    Expanded(
+                      child: ListTile(
+                          leading: CustomImageView(
+                            imagePath: ImageConstant.imgIconimage,
+                            height: 20.adaptSize,
+                            width: 20.adaptSize,
                           ),
+                          title: Text(
+                            "lbl_h_nh_nh".tr,
+                            style: CustomTextStyles
+                                .titleMediumHelveticaOnPrimaryContainer,
+                          ),
+                          horizontalTitleGap: 0,
                           onTap: () {
                             showModalBottomSheet(
                                 context: context,
@@ -274,7 +267,8 @@ class EditPostScreen extends StatelessWidget {
                                                           ),
                                                         ],
                                                       );
-                                                    } else if (item is PostDocument) {
+                                                    } else if (item
+                                                        is PostDocument) {
                                                       return Stack(
                                                         children: [
                                                           CustomImageView(
@@ -342,25 +336,19 @@ class EditPostScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                      padding: EdgeInsets.only(left: 10.h),
-                      child: CustomImageView(
-                        imagePath: ImageConstant.imgIconlink,
-                        height: 20.adaptSize,
-                        width: 20.adaptSize,
-                      )),
-                  SizedBox(width: 12),
-                  Flexible(
-                    child: CustomElevatedButton(
-                        width: 60.h,
-                        text: "lbl_li_n_k_t".tr,
-                        buttonTextStyle: CustomTextStyles
-                            .titleMediumHelveticaOnPrimaryContainer,
-                        buttonStyle: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          // maximumSize: Size.square(2)
+                  Expanded(
+                    child: ListTile(
+                        leading: CustomImageView(
+                          imagePath: ImageConstant.imgIconlink,
+                          height: 20.adaptSize,
+                          width: 20.adaptSize,
                         ),
+                        title: Text(
+                          "lbl_li_n_k_t".tr,
+                          style: CustomTextStyles
+                              .titleMediumHelveticaOnPrimaryContainer,
+                        ),
+                        horizontalTitleGap: 0,
                         onTap: () {
                           Get.bottomSheet(
                             Container(

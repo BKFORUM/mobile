@@ -4,10 +4,13 @@ import 'package:bkforum/data/models/profile_model.dart';
 import 'package:bkforum/widgets/highlightedItem.dart';
 import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../data/apiClient/profile_api.dart';
+import '../../data/models/data_prop/forum.dart';
 import '../../data/models/userpost_item_model.dart';
 import '../../widgets/profile_stats.dart';
 import '../../widgets/userpost_item_widget.dart';
@@ -16,8 +19,9 @@ import '../../widgets/userpost_item_widget.dart';
 class PageProfileScreen extends GetView<PageProfileController> {
   Profile userProfile;
   Rx<List<UserpostItemModel>> postList = Rx<List<UserpostItemModel>>([]);
-  Rx<int> allPostsOfUser = Rx(0);
+  Rx<List<Forum>> forumList = Rx<List<Forum>>([]);
   late final PageProfileController profileController;
+  late String profileId = 'default id';
 
   PageProfileScreen(this.userProfile, {Key? key}) : super(key: key) {
     profileController = PageProfileController(userProfile);
@@ -27,15 +31,25 @@ class PageProfileScreen extends GetView<PageProfileController> {
     profileController.loadPost(userProfile.id).then((value) {
       postList.value.addAll(value);
     });
-    profileController.getNumberOfPosts(userProfile.id).then((value) {
-      allPostsOfUser.value = value;
+  }
+
+  void getForums() {
+    forumList.value.clear();
+    profileController.loadForums(userProfile.id).then((value) {
+      forumList.value.addAll(value);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     getPost();
+    getForums();
+    Future<SharedPreferences> preferencesFuture =
+        SharedPreferences.getInstance();
 
+    preferencesFuture.then((preferences) {
+      profileId = preferences.getString('id') ?? '';
+    });
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
@@ -106,7 +120,8 @@ class PageProfileScreen extends GetView<PageProfileController> {
                         FutureBuilder<Profile>(
                             future: ProfileApi().fetchProfile(userProfile.id),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
                                 return Skeleton.ignore(child: Container());
                               } else if (snapshot.hasError) {
                                 return Text('Error: ${snapshot.error}');
@@ -121,7 +136,8 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                             child: Container(
                                                 padding: EdgeInsets.all(20),
                                                 // ignore: unnecessary_null_comparison
-                                                child: (fetchedProfile.id == null)
+                                                child: (fetchedProfile.id ==
+                                                        null)
                                                     ? CircularProgressIndicator()
                                                     : Column(
                                                         crossAxisAlignment:
@@ -153,30 +169,62 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                 ),
                                                               ],
                                                             ),
-                                                            SizedBox(height: 10.adaptSize),
+                                                            SizedBox(
+                                                                height: 10
+                                                                    .adaptSize),
                                                             Container(
-                                                              padding: EdgeInsets.all(12.adaptSize),
+                                                              padding: EdgeInsets
+                                                                  .all(12
+                                                                      .adaptSize),
                                                               decoration: BoxDecoration(
-                                                                color: Colors.lightBlue.shade50,
-                                                                borderRadius: BorderRadius.all(Radius.circular(15.adaptSize))
-                                                              ),
+                                                                  color: Colors
+                                                                      .lightBlue
+                                                                      .shade50,
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              15.adaptSize))),
                                                               child: Row(
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
                                                                           .center,
                                                                   children: [
-                                                                    ProfileStat(
-                                                                        label:
-                                                                            'Forum',
-                                                                        value: fetchedProfile
-                                                                            .forums!
-                                                                            .length
-                                                                            .toString()),
-                                                                    ProfileStat(
-                                                                        label:
-                                                                            'Bài viết',
-                                                                        value:
-                                                                        allPostsOfUser.value.toString()),
+                                                                    FutureBuilder<
+                                                                            int>(
+                                                                        future: profileController.getNumberOfForums(fetchedProfile
+                                                                            .id),
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
+                                                                          if (snapshot
+                                                                              .hasData) {
+                                                                            return ProfileStat(
+                                                                                label: 'Forum',
+                                                                                value: snapshot.data.toString());
+                                                                          } else {
+                                                                            return ProfileStat(
+                                                                                label: 'Forum',
+                                                                                value: '');
+                                                                          }
+                                                                        }),
+                                                                    FutureBuilder<
+                                                                            int>(
+                                                                        future: profileController.getNumberOfPosts(fetchedProfile
+                                                                            .id),
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
+                                                                          if (snapshot
+                                                                              .hasData) {
+                                                                            return ProfileStat(
+                                                                                label: 'Bài viết',
+                                                                                value: snapshot.data.toString());
+                                                                          } else {
+                                                                            return ProfileStat(
+                                                                                label: 'Bài viết',
+                                                                                value: '');
+                                                                          }
+                                                                        }),
                                                                     ProfileStat(
                                                                         label:
                                                                             'Bạn bè',
@@ -189,8 +237,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                             HighlightedItem(
                                                                 child: Row(
                                                                     children: [
-                                                                  Icon(Icons.cake_rounded,
-                                                                      color: Colors.blue.shade900),
+                                                                  Icon(
+                                                                      Icons
+                                                                          .cake_rounded,
+                                                                      color: Colors
+                                                                          .blue
+                                                                          .shade900),
                                                                   SizedBox(
                                                                       width:
                                                                           10),
@@ -201,7 +253,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                             .now()),
                                                                     style: TextStyle(
                                                                         fontSize:
-                                                                            22),
+                                                                            20),
                                                                   ),
                                                                   SizedBox(
                                                                       height: 30
@@ -210,8 +262,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                             HighlightedItem(
                                                                 child: Row(
                                                                     children: [
-                                                                  Icon(Icons.transgender_rounded,
-                                                                      color: Colors.blue.shade900),
+                                                                  Icon(
+                                                                      Icons
+                                                                          .transgender_rounded,
+                                                                      color: Colors
+                                                                          .blue
+                                                                          .shade900),
                                                                   SizedBox(
                                                                       width:
                                                                           10),
@@ -221,7 +277,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                         'Không có dữ liệu',
                                                                     style: TextStyle(
                                                                         fontSize:
-                                                                            22),
+                                                                            20),
                                                                   ),
                                                                   SizedBox(
                                                                       height: 30
@@ -230,7 +286,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                             HighlightedItem(
                                                                 child: Row(
                                                                     children: [
-                                                                  Icon(Icons.mail_rounded, color: Colors.blue.shade900),
+                                                                  Icon(
+                                                                      Icons
+                                                                          .mail_rounded,
+                                                                      color: Colors
+                                                                          .blue
+                                                                          .shade900),
                                                                   SizedBox(
                                                                       width:
                                                                           10),
@@ -240,7 +301,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                           '',
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              22)),
+                                                                              20)),
                                                                   SizedBox(
                                                                       height: 30
                                                                           .adaptSize)
@@ -248,8 +309,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                             HighlightedItem(
                                                                 child: Row(
                                                                     children: [
-                                                                  Icon(Icons.home_work_rounded,
-                                                                      color: Colors.blue.shade900),
+                                                                  Icon(
+                                                                      Icons
+                                                                          .home_work_rounded,
+                                                                      color: Colors
+                                                                          .blue
+                                                                          .shade900),
                                                                   SizedBox(
                                                                       width:
                                                                           10),
@@ -257,9 +322,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                       fetchedProfile
                                                                               .address ??
                                                                           '',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              22)),
+                                                                              20)),
                                                                   SizedBox(
                                                                       height: 30
                                                                           .adaptSize)
@@ -267,8 +335,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                             HighlightedItem(
                                                                 child: Row(
                                                                     children: [
-                                                                  Icon(Icons.phone_iphone_rounded,
-                                                                  color: Colors.blue.shade900),
+                                                                  Icon(
+                                                                      Icons
+                                                                          .phone_iphone_rounded,
+                                                                      color: Colors
+                                                                          .blue
+                                                                          .shade900),
                                                                   SizedBox(
                                                                       width:
                                                                           10),
@@ -279,7 +351,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                           : 'Không có',
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              22)),
+                                                                              20)),
                                                                   SizedBox(
                                                                       height: 30
                                                                           .adaptSize)
@@ -287,8 +359,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                             HighlightedItem(
                                                                 child: Row(
                                                                     children: [
-                                                                  Icon(Icons.co_present_rounded,
-                                                                      color: Colors.blue.shade900),
+                                                                  Icon(
+                                                                      Icons
+                                                                          .co_present_rounded,
+                                                                      color: Colors
+                                                                          .blue
+                                                                          .shade900),
                                                                   SizedBox(
                                                                       width:
                                                                           10),
@@ -298,7 +374,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                           '',
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              22)),
+                                                                              20)),
                                                                   SizedBox(
                                                                       height: 30
                                                                           .adaptSize)
@@ -306,8 +382,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                             HighlightedItem(
                                                                 child: Row(
                                                                     children: [
-                                                                  Icon(Icons.book_rounded,
-                                                                      color: Colors.blue.shade900),
+                                                                  Icon(
+                                                                      Icons
+                                                                          .book_rounded,
+                                                                      color: Colors
+                                                                          .blue
+                                                                          .shade900),
                                                                   SizedBox(
                                                                       width:
                                                                           10),
@@ -318,7 +398,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                           '',
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              22)),
+                                                                              20)),
                                                                   SizedBox(
                                                                       height: 30
                                                                           .adaptSize)
@@ -326,8 +406,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                             HighlightedItem(
                                                                 child: Row(
                                                                     children: [
-                                                                  Icon(Icons.today_rounded,
-                                                                      color: Colors.blue.shade900),
+                                                                  Icon(
+                                                                      Icons
+                                                                          .today_rounded,
+                                                                      color: Colors
+                                                                          .blue
+                                                                          .shade900),
                                                                   SizedBox(
                                                                       width:
                                                                           10),
@@ -338,27 +422,28 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                               .now()),
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              22)),
+                                                                              20)),
                                                                   SizedBox(
                                                                       height: 30
                                                                           .adaptSize)
                                                                 ]))
                                                           ])))),
-                                    Positioned(
-                                      bottom: 16,
-                                      right: 16,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.blue.shade900,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: IconButton(
-                                          color: Colors.white,
-                                          onPressed: () {},
-                                          icon: Icon(Icons.edit),
+                                    if (profileId == fetchedProfile.id)
+                                      Positioned(
+                                        bottom: 16,
+                                        right: 16,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue.shade900,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: IconButton(
+                                            color: Colors.white,
+                                            onPressed: () {},
+                                            icon: Icon(Icons.edit),
+                                          ),
                                         ),
                                       ),
-                                    ),
                                   ],
                                 );
                               }
@@ -406,12 +491,57 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                           },
                                         ),
                                 ))),
-                        Center(child: Text('Tính năng đang cập nhật'))
-                      ],
-                    ),
+                        NotificationListener<ScrollNotification>(
+                          onNotification: (scrollNotification) {
+                            if (scrollNotification is ScrollStartNotification) {
+                            } else if (scrollNotification
+                                is ScrollUpdateNotification) {
+                            } else if (scrollNotification
+                                is ScrollEndNotification) {}
+                            return true;
+                          },
+                          child: Obx(() {
+                            if (forumList.value.isEmpty)
+                              return CustomProgressIndicator();
+                            else
+                              return ListView.builder(
+                                itemCount:
+                                    forumList.value.length,
+                                itemBuilder: (context, index) {
+                                  final forum = forumList.value[index];
+                                  return ListTile(
+                                    leading: CustomImageView(
+                                      height: 36.adaptSize,
+                                      width: 36.adaptSize,
+                                      radius: BorderRadius.circular(9.h),
+                                      fit: BoxFit.cover,
+                                      url: forum.avatarUrl ??
+                                          'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg',
+                                    ),
+                                    title: Text(
+                                      forum.name,
+                                      style: TextStyle(
+                                          color: forum.modId == userProfile.id
+                                              ? Colors.blue.shade900
+                                              : Colors.black),
+                                    ),
+                                    trailing: forum.modId == userProfile.id
+                                        ? Icon(Icons.admin_panel_settings_rounded,
+                                      color: Colors.blue.shade900,
+                                    )
+                                    : SizedBox.shrink(),
+                                    onTap: () {
+                                      Get.toNamed(AppRoutes.pageForumoneScreen,
+                                          arguments: forum);
+                                    },
+                                  );
+                                },
+                              );
+                          }),
+                        ),
+                      ]),
                   ),
-                ],
-              ),
+                ]),
             ),
           ),
         ),

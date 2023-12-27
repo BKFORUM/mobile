@@ -18,7 +18,7 @@ class CustomCommentScreen extends StatelessWidget {
   TextEditingController _textEditingController = TextEditingController();
 
   void handleSendButtonPressed(String comment, bool repMode) {
-    commentController.uploadCommentOrReply(id, comment, repMode);
+    commentController.uploadCommentOrReply(id, comment, repMode, type);
     _textEditingController.text = '';
     commentController.fetchComments(id, type);
   }
@@ -90,19 +90,19 @@ class CustomCommentScreen extends StatelessWidget {
           ),
           padding: EdgeInsets.all(10.adaptSize),
           child: Flex(direction: Axis.vertical, children: [
-            // Container(
-            //     padding: EdgeInsets.only(top: 20.adaptSize),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.start,
-            //       children: [
-            //         IconButton(
-            //           icon: Icon(Icons.arrow_back_rounded),
-            //           onPressed: () {
-            //             Get.back();
-            //           },
-            //         ),
-            //       ],
-            //     )),
+            Container(
+                padding: EdgeInsets.only(top: 20.adaptSize),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_rounded),
+                      onPressed: () {
+                        Get.back();
+                      },
+                    ),
+                  ],
+                )),
             Expanded(
               child: NotificationListener<ScrollNotification>(
                 onNotification: (scrollNotification) {
@@ -127,7 +127,6 @@ class CustomCommentScreen extends StatelessWidget {
                           commentController.changeToReplyMode(comment);
                         },
                         onLongPress: () {
-                          // if (checkEditDeleteComment)
                           Get.dialog(Dialog(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
@@ -155,42 +154,43 @@ class CustomCommentScreen extends StatelessWidget {
                                       ]))));
                         },
                         child: ListTile(
-                          leading: Container(
-                              margin:
-                                  EdgeInsets.symmetric(horizontal: 8.adaptSize),
-                              child: CustomImageView(
-                                  url: comment.userAvatar!.value,
-                                  fit: BoxFit.cover,
-                                  height: 28.adaptSize,
-                                  width: 28.adaptSize,
-                                  radius: BorderRadius.circular(14.h))),
-                          title: Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  0, 0, 4.adaptSize, 6.adaptSize),
-                              child: Text(comment.userCreate!.value,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14.v))),
-                          subtitle: Container(
-                              margin: EdgeInsets.only(top: 1.adaptSize),
-                              child: Text(comment.content!.value,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 18.v,
-                                      color: Colors.black))),
-                          trailing: GestureDetector(
-                            onTap: () {
-                              isExpanded.toggle();
-                            },
-                            child: Container(
-                                child: (comment.countReplies?.value != 0)
-                                    ? Text(
-                                        'Xem\n${comment.countReplies?.value} trả lời',
-                                        textAlign: TextAlign.right,
-                                      )
-                                    : SizedBox.shrink()),
-                          ),
-                          minVerticalPadding: 1.v,
+                            leading: Container(
+                                child: CustomImageView(
+                                    url: comment.userAvatar?.value ??
+                                        'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg',
+                                    fit: BoxFit.cover,
+                                    height: 28.adaptSize,
+                                    width: 28.adaptSize,
+                                    radius: BorderRadius.circular(14.h))),
+                            title: Container(
+                                margin: EdgeInsets.fromLTRB(
+                                    0, 0, 4.adaptSize, 6.adaptSize),
+                                child: Text(comment.userCreate!.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.v))),
+                            subtitle: Container(
+                                margin: EdgeInsets.only(top: 1.adaptSize),
+                                child: Text(comment.content!.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 18.v,
+                                        color: Colors.black))),
+                            trailing: GestureDetector(
+                              onTap: () {
+                                isExpanded.toggle();
+                              },
+                              child: Container(
+                                  child: (comment.countReplies?.value != 0)
+                                      ? Text(
+                                          'Xem\n${comment.countReplies?.value} trả lời',
+                                          textAlign: TextAlign.right,
+                                        )
+                                      : SizedBox.shrink()),
+                            ),
+                            minVerticalPadding: 1.v,
+                            horizontalTitleGap: 4.adaptSize,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 4.adaptSize, vertical: 0.0)
                         ),
                       ),
                       if (isExpanded.value)
