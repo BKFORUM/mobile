@@ -1,5 +1,6 @@
 import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/presentation/page_message_screen/page_message_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -113,10 +114,50 @@ class PageMessageSettingScreen extends GetWidget<PageMessageDetailController> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                          onTap: () => {
-                            clickAddUserToConversation()
-                          },
+                      if (controller.isGroupChatuser)
+                        GestureDetector(
+                            onTap: () => {clickAddUserToConversation()},
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(16.adaptSize,
+                                  14.adaptSize, 16.adaptSize, 14.adaptSize),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Color(0xffffffff),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => {},
+                                    child: Text(
+                                      'Thêm thành viên',
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2575,
+                                        letterSpacing: -0.4099999964.adaptSize,
+                                        color: Color(0xff000000),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    // ovalPbf (0:13993)
+                                    width: 24.adaptSize,
+                                    height: 24.adaptSize,
+                                    child: Image.asset(
+                                      ImageConstant.iconAddUsertToConversation,
+                                      width: 24.adaptSize,
+                                      height: 24.adaptSize,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      if (controller.isGroupChatuser)
+                        GestureDetector(
+                          onTap: () =>
+                              {showDialogConfirmOutConversation(context)},
                           child: Container(
                             padding: EdgeInsets.fromLTRB(16.adaptSize,
                                 14.adaptSize, 16.adaptSize, 14.adaptSize),
@@ -127,10 +168,9 @@ class PageMessageSettingScreen extends GetWidget<PageMessageDetailController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GestureDetector(
-                                  onTap: () => {},
+                                Container(
                                   child: Text(
-                                    'Thêm thành viên',
+                                    'Rời khỏi nhóm',
                                     style: TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w400,
@@ -145,52 +185,15 @@ class PageMessageSettingScreen extends GetWidget<PageMessageDetailController> {
                                   width: 24.adaptSize,
                                   height: 24.adaptSize,
                                   child: Image.asset(
-                                    ImageConstant.iconAddUsertToConversation,
+                                    ImageConstant.iconOutConversation,
                                     width: 24.adaptSize,
                                     height: 24.adaptSize,
                                   ),
                                 ),
                               ],
                             ),
-                          )),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(16.adaptSize, 14.adaptSize,
-                            16.adaptSize, 14.adaptSize),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xffffffff),
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              // colortQ1 (0:13991)
-                              // margin: EdgeInsets.fromLTRB(0.adaptSize,
-                              //     2.adaptSize, 282.adaptSize, 0.adaptSize),
-                              child: Text(
-                                'Rời khỏi nhóm',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2575,
-                                  letterSpacing: -0.4099999964.adaptSize,
-                                  color: Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              // ovalPbf (0:13993)
-                              width: 24.adaptSize,
-                              height: 24.adaptSize,
-                              child: Image.asset(
-                                ImageConstant.iconOutConversation,
-                                width: 24.adaptSize,
-                                height: 24.adaptSize,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ])),
           ],
         ),
@@ -202,8 +205,50 @@ class PageMessageSettingScreen extends GetWidget<PageMessageDetailController> {
     Get.toNamed(AppRoutes.pageMembersInConversation,
         arguments: controller.conversation);
   }
+
   clickAddUserToConversation() {
     Get.toNamed(AppRoutes.pageAddUserToConversation,
         arguments: controller.conversation);
+  }
+
+  Future<void> showDialogConfirmOutConversation(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Container(
+            alignment: Alignment.center,
+            child: Text('Xác nhận rời'),
+          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  child: const Text('Hủy'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text('Xác nhận'),
+                  onPressed: () {
+                    controller.outConversation();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PageMessageScreen()),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 }

@@ -18,12 +18,14 @@ class PageMessageDetailController extends GetxController{
   List<User> listUserOutsideOfForum = <User>[].obs;
 
   String myId = '';
+  bool isGroupChatuser = false;
   
   @override
   void onInit() async{
     super.onInit();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     this.myId = preferences.getString('id') ?? '';
+    this.isGroupChatuser = (conversation.type.toString() == "GROUP_CHAT" && conversation.forumId.toString() == '');
     getMessageInConversation();
     getUsersInConversation();
     SocketIO.socket.on("onMessage", callback);
@@ -32,6 +34,7 @@ class PageMessageDetailController extends GetxController{
   @override
   void onClose() async{
     SocketIO.socket.off("onMessage", callback);
+    print("close controller detail");
     super.onClose();
   }
 
@@ -91,5 +94,12 @@ class PageMessageDetailController extends GetxController{
       conversationID: conversation.id.toString()
     );
     listUser.assignAll(list);
+  }
+
+  Future<void> outConversation() async {
+    await conversationAPIClient.deleteUserFromConversation(
+      conversationID: conversation.id.toString(), 
+      userId: myId,
+    );
   }
 }

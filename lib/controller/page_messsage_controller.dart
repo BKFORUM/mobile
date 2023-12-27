@@ -47,8 +47,7 @@ class PageMessageController extends GetxController {
   }
 
   Future<void> getAllConversation() async {
-    List<Conversation> list =
-        await conversationAPIClient.getConversation(skip: 0, take: 100);
+    List<Conversation> list = await conversationAPIClient.getConversation(skip: 0, take: 100);
     conversations.assignAll(list);
   }
 

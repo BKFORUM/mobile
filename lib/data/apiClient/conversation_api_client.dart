@@ -122,9 +122,9 @@ class ConversationAPIClient extends GetConnect {
     }
   }
 
-  Future<dynamic> getUsersInConversation(
-      {required String conversationID,
-      }) async {
+  Future<dynamic> getUsersInConversation({
+    required String conversationID,
+  }) async {
     final preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('accessToken') ?? '';
 
@@ -151,10 +151,10 @@ class ConversationAPIClient extends GetConnect {
     }
   }
 
-  Future<dynamic> addUsersToConversation(
-      {required String conversationID,
-      required List<String> userIDs,
-      }) async {
+  Future<dynamic> addUsersToConversation({
+    required String conversationID,
+    required List<String> userIDs,
+  }) async {
     final preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('accessToken') ?? '';
 
@@ -168,6 +168,31 @@ class ConversationAPIClient extends GetConnect {
           '/$conversationID' +
           "/users",
       {"userIds": userIDs},
+      headers: headers,
+    );
+    if (response.statusCode! > 300) {
+      final code = response.statusCode;
+      final detail = response.statusText;
+      throw Exception('Failed to fetch data, status code $code, error $detail');
+    }
+  }
+
+  Future<dynamic> deleteUserFromConversation({
+    required String conversationID,
+    required String userId,
+  }) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await delete(
+      ApiEndPoints.baseUrl +
+          ApiEndPoints.authEndpoints.getConversations +
+          '/$conversationID' +
+          "/users" +
+          '/$userId',
       headers: headers,
     );
     if (response.statusCode! > 300) {

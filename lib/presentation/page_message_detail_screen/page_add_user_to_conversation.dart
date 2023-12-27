@@ -1,7 +1,6 @@
 import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/choose_user_widget.dart';
-import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -18,6 +17,7 @@ class PageAddUserToConversation extends GetWidget<PageMessageDetailController> {
   addUsers() async {
     await controller.addUsersToConversation(userIDs);
     await controller.getUsersOutsideOfForum();
+    userIDs.clear();
   }
 
   @override
