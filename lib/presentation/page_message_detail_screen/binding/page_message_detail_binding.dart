@@ -8,6 +8,7 @@ class PageMessageDetailBinding extends Bindings {
   @override
   void dependencies() {
     final Conversation conversation = Get.arguments as Conversation;
+    print(conversation.displayName);
     Get.lazyPut(() => PageMessageDetailController(conversation: conversation));
   }
 }

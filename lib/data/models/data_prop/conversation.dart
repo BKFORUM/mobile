@@ -35,7 +35,7 @@ class Conversation {
       users: (json['users'] as List<dynamic>?)
           ?.map((userJson) => UserConversation.fromJson(userJson))
           .toList(),
-      isRead: json['isRead'],
+      isRead: json['isRead'] ?? false,
     );
   }
 }

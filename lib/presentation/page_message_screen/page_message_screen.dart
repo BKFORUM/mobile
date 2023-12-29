@@ -1,5 +1,6 @@
 import 'package:bkforum/controller/page_messsage_controller.dart';
 import 'package:bkforum/presentation/page_message_screen/widget/conversation_widget.dart';
+import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,8 +18,9 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.getAllConversation();
-    mediaQueryData = MediaQuery.of(context);
+    setState(() {
+      controller.getAllConversation();
+    });
     return FutureBuilder<Profile>(
         future: ProfileApi().fetchProfile(''),
         builder: (context, snapshot) {
@@ -108,10 +110,10 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                 ),
                                 Container(
                                   child: IconButton(
-                                    icon: Icon(
-                                      Icons.add_circle_outline_outlined
-                                    ),
-                                    onPressed: () => {},
+                                    icon:
+                                        Icon(Icons.add_circle_outline_outlined),
+                                    onPressed: () =>
+                                        {onTapButtonCreateConversation()},
                                   ),
                                 ),
                               ],
@@ -196,10 +198,12 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
         });
   }
 
-  /// Navigates to the pageForumoneScreen when the action is triggered.
+  onTapButtonCreateConversation() {
+    Get.toNamed(
+      AppRoutes.pageCreateConversationScreen,
+    );
+  }
 
-  /// When the action is triggered, this function uses the [Get] package to
-  /// push the named route for the pageForumoneScreen.
   onTapIconhomeone() {
     Get.toNamed(
       AppRoutes.pageForumoneScreen,

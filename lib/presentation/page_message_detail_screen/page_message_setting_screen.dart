@@ -1,6 +1,5 @@
 import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
-import 'package:bkforum/presentation/page_message_screen/page_message_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -234,14 +233,11 @@ class PageMessageSettingScreen extends GetWidget<PageMessageDetailController> {
                   },
                 ),
                 TextButton(
-                  child: const Text('Xác nhận'),
+                  child: Text('Xác nhận'),
                   onPressed: () {
                     controller.outConversation();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PageMessageScreen()),
-                    );
+                    Get.delete<PageMessageDetailController>();
+                    Get.offAndToNamed(AppRoutes.pageMessageScreen);
                   },
                 ),
               ],

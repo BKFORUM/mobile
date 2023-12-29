@@ -201,4 +201,33 @@ class ConversationAPIClient extends GetConnect {
       throw Exception('Failed to fetch data, status code $code, error $detail');
     }
   }
+
+  Future<dynamic> createConversation(
+      {required String name,
+      required String imagelink,
+      required List<String> userIds}) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await post(
+      ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.getConversations,
+      {
+        "displayName": name,
+        "avatarUrl": imagelink,
+        "userIds": userIds,
+      },
+      headers: headers,
+    );
+    if (response.statusCode == 201) {
+      return Conversation.fromJson(response.body);
+    } else {
+      final code = response.statusCode;
+      final detail = response.statusText;
+      final content = response.body.toString();
+      throw Exception(
+          'Failed to fetch data, status code $code, error $detail, $content');
+    }
+  }
 }

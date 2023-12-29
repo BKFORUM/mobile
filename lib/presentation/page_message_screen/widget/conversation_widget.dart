@@ -37,10 +37,7 @@ class ConversationState extends State<ConversationWidget> {
   }
 
   void goToMessageDetail() {
-    Get.toNamed(
-      AppRoutes.pageMessageDetailScreen,
-      arguments: conversation
-    );
+    Get.toNamed(AppRoutes.pageMessageDetailScreen, arguments: conversation);
   }
 
   @override
@@ -92,7 +89,9 @@ class ConversationState extends State<ConversationWidget> {
                       conversation.displayName.toString(),
                       style: TextStyle(
                         fontSize: 15,
-                        fontWeight: conversation.isRead?FontWeight.w200:FontWeight.w600,
+                        fontWeight: conversation.isRead
+                            ? FontWeight.w200
+                            : FontWeight.w600,
                         height: 1.2175,
                         color: Color(0xff000000),
                       ),
@@ -105,35 +104,33 @@ class ConversationState extends State<ConversationWidget> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Center(
-                          // helloworldQaP (64:385)
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(0.adaptSize,
-                                0.adaptSize, 25.adaptSize, 0.adaptSize),
-                            child: Text(
-                              compactMessage(
-                                  conversation.lastMessage?.content, 15),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: conversation.isRead?FontWeight.w200:FontWeight.w500,
-                                height: 1.2125,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          // am4Q3 (64:386)
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0.adaptSize, 0.adaptSize,
+                              25.adaptSize, 0.adaptSize),
                           child: Text(
-                            showDateTime(conversation.lastMessage?.updatedAt),
+                            compactMessage(
+                                conversation.lastMessage?.content, 15),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 13,
-                              fontWeight: conversation.isRead?FontWeight.w200:FontWeight.w500,
+                              fontWeight: conversation.isRead
+                                  ? FontWeight.w200
+                                  : FontWeight.w600,
                               height: 1.2125,
                               color: Color(0xff000000),
                             ),
+                          ),
+                        ),
+                        Text(
+                          showDateTime(conversation.lastMessage?.updatedAt),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: conversation.isRead
+                                ? FontWeight.w200
+                                : FontWeight.w600,
+                            height: 1.2125,
+                            color: Color(0xff000000),
                           ),
                         ),
                       ],

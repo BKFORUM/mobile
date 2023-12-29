@@ -12,6 +12,7 @@ import 'package:bkforum/presentation/page_message_detail_screen/page_add_user_to
 import 'package:bkforum/presentation/page_message_detail_screen/page_members_in_conversations.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/page_message_detail_screen.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/page_message_setting_screen.dart';
+import 'package:bkforum/presentation/page_message_screen/page_create_conversation_screen.dart';
 
 import 'package:bkforum/presentation/page_search_screen/page_search_screen.dart';
 import 'package:bkforum/presentation/page_search_screen/binding/page_search_binding.dart';
@@ -47,6 +48,8 @@ class AppRoutes {
   static const String pageForumtwoScreen = '/page_forumtwo_screen';
 
   static const String pageMessageScreen = '/page_message_screen';
+
+  static const String pageCreateConversationScreen = '/page_create_conversation_screen';
 
   static const String pageMessageDetailScreen = '/page_message_screen_detail';
 
@@ -108,6 +111,13 @@ class AppRoutes {
     GetPage(
       name: pageMessageScreen,
       page: () => PageMessageScreen(),
+      bindings: [
+        PageMessageBinding(),
+      ],
+    ),
+    GetPage(
+      name: pageCreateConversationScreen,
+      page: () => PageCreateConversationScreen(),
       bindings: [
         PageMessageBinding(),
       ],
