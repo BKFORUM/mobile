@@ -326,14 +326,14 @@ class ForumListApiClient extends GetConnect {
       Get.snackbar(
           "Thành công", "Gửi yêu cầu thành công, vui lòng chờ admin kiểm duyệt",
           backgroundColor: Colors.green);
-      Get.toNamed(
+      Get.offNamed(
         AppRoutes.pageSettingScreen,
       );
     } else {
       Get.snackbar("Không thành công",
           "Tạo forum không thành công, ${response.body['message']}",
           backgroundColor: Colors.red.shade200);
-      Get.toNamed(
+      Get.offNamed(
         AppRoutes.pageSettingScreen,
       );
     }
@@ -360,14 +360,14 @@ class ForumListApiClient extends GetConnect {
       Get.snackbar(
           "Thành công", "Lưu thành công",
           backgroundColor: Colors.green);
-      Get.toNamed(
+      Get.offNamed(
         AppRoutes.pageSettingScreen,
       );
     } else {
       Get.snackbar("Không thành công",
           "Thay đổi thông tin forum không thành công, ${response.body['message']}",
           backgroundColor: Colors.red.shade200);
-      Get.toNamed(
+      Get.offNamed(
         AppRoutes.pageSettingScreen,
       );
     }
@@ -440,7 +440,7 @@ class ForumListApiClient extends GetConnect {
     if (response.isOk) {
       Get.snackbar("Thành công", "Thêm thành viên thành công",
           backgroundColor: Colors.green);
-      Get.to(() => PageForumoneScreen(),
+      Get.off(() => PageForumoneScreen(),
           arguments: forum,
         transition: Transition.leftToRight
       );

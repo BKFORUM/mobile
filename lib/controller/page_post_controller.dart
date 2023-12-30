@@ -29,8 +29,8 @@ class PagePostController extends GetxController {
     List<PostDocument> documents = [];
 
     if (content.trim().isNotEmpty) {
-      if (selectedImages.value.isNotEmpty) {
-        for (final File selectedImage in selectedImages.value) {
+      if (selectedImages.isNotEmpty) {
+        for (final File selectedImage in selectedImages.reversed) {
           final compressedItem = await testCompressAndGetFile(selectedImage, "compressed_");
           PostDocument document = await uploadImage(compressedItem);
           documents.add(document);
@@ -59,7 +59,7 @@ class PagePostController extends GetxController {
     List<PostDocument> documents = [];
     if (content.trim().isNotEmpty) {
       if (allImages.isNotEmpty) {
-        for (final item in allImages) {
+        for (final item in allImages.reversed) {
           if (item is File) {
             final compressedItem = await testCompressAndGetFile(item, "compressed_");
             PostDocument document = await uploadImage(compressedItem);

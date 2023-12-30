@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/forum_list_api.dart';
 import 'package:bkforum/data/apiClient/friends_api_client.dart';
+import 'package:bkforum/data/apiClient/profile_api.dart';
+import '../core/utils/conpress_image.dart';
+import '../data/apiClient/upload_image.dart';
 import '../data/apiClient/userpost_item_api.dart';
 import '../data/models/data_prop/document.dart';
 import '../data/models/data_prop/forum.dart';
@@ -78,9 +83,9 @@ class PageProfileController extends GetxController {
     final response = await ForumListApiClient().fetchForums(userProfile.id);
     return response.length;
   }
-
-  getNumberOfFriends(String id) async{
-
+  Future<int> getNumberOfFriends(String id) async{
+    final response = await FriendsApiClient().getFriendsOfUser(userProfile.id);
+    return response.length;
   }
 
 
@@ -126,8 +131,15 @@ class PageProfileController extends GetxController {
     }
   }
 
+  Future<void> editProfile(Profile editedProfile, File? selectedImage) async {
+    if (selectedImage!.isAbsolute) {
+      final compressedItem = await testCompressAndGetFile(selectedImage, "compressed_");
+      PostDocument document = await uploadImage(compressedItem);
+      ProfileApi().editProfile(editedProfile, document.fileUrl);
+    } else {
+      ProfileApi().editProfile(editedProfile, editedProfile.avatarUrl);
+    }
 
-
-
+  }
 
 }

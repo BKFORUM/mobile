@@ -29,6 +29,7 @@ class CommentController extends GetxController {
     int skip = length;
     CommentsApiClient().fetchData(id, type, take: take, skip: skip).then((value) {
       commentsList.addAll(value);
+      print(commentsList.length);
     }).catchError((error) {
       print('Error: $error');
     });

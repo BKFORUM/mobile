@@ -107,5 +107,27 @@ class FriendsApiClient extends GetConnect {
   }
 
   getFriendsOfUser(String id) async {
+    final preferences = await SharedPreferences.getInstance();
+    String token = preferences.getString('accessToken') ?? '';
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await get(
+      ApiEndPoints.baseUrl + ApiEndPoints.authEndpoints.user + id + '/friends',
+      headers: headers,
+    );
+
+    if (response.isOk) {
+      List<MyFriendModel> friends = [];
+      for (dynamic data in response.body['friends']) {
+        friends.add(mapResponseToObj(data));
+      }
+      return friends;
+    } else {
+      final code = response.statusCode;
+      final detail = response.statusText;
+      throw Exception('Failed to fetch data, status code $code, error $detail');
+    }
   }
+
 }

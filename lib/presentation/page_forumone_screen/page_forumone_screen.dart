@@ -1,6 +1,7 @@
 import 'package:bkforum/data/models/data_prop/users.dart';
 import 'package:bkforum/data/models/event.dart';
 import 'package:bkforum/data/models/topic.dart';
+import 'package:bkforum/presentation/page_event_screen/add_forum_event.dart';
 import 'package:bkforum/presentation/page_forumone_screen/page_add_forum.dart';
 import 'package:bkforum/presentation/page_forumone_screen/page_add_member.dart';
 import 'package:bkforum/widgets/event_item_widget.dart';
@@ -76,13 +77,21 @@ class PageForumoneScreen extends StatelessWidget {
                       ),
                       title: Text('Forum'),
                       actions: [
+                        (fetchedForum.yourStatus == 'ACTIVE' && fetchedForum.modId == profileId)
+                            ? IconButton(
+                            onPressed: () {
+                              Get.to(() => AddEventPage(),
+                                  arguments: fetchedForum);
+                            },
+                            icon: Icon(Icons.campaign_rounded))
+                            : SizedBox.shrink(),
                         fetchedForum.yourStatus == 'ACTIVE'
                             ? IconButton(
                                 onPressed: () {
                                   Get.toNamed(AppRoutes.pagePostScreen,
                                       arguments: fetchedForum);
                                 },
-                                icon: Icon(Icons.add_circle))
+                                icon: Icon(Icons.library_add_rounded))
                             : SizedBox.shrink()
                       ],
                     ),
@@ -511,7 +520,7 @@ class PageForumoneScreen extends StatelessWidget {
                                                             transition: Transition.rightToLeft
                                                           );
                                                         },
-                                                        icon: Icon(Icons.add_rounded),
+                                                        icon: Icon(Icons.group_add_rounded),
                                                       ),
                                                     ),
                                                   ).animate()

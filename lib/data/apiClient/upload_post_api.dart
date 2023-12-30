@@ -35,7 +35,7 @@ Future<void> uploadPostAPI(UploadPostModel postModel, Forum forum) async {
     else Get.snackbar('Gửi bài thành công', 'Chờ sự chấp thuận từ moderator',
         duration: Duration(seconds: 2),
         backgroundColor: Colors.green.shade300);
-    Get.toNamed(AppRoutes.appNavigationScreen);
+    Get.offNamed(AppRoutes.appNavigationScreen);
   } else {
     Get.snackbar('Đăng bài không thành công ${response.statusCode}', '',
         duration: Duration(seconds: 2), backgroundColor: Colors.red);

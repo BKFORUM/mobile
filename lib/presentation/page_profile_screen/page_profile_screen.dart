@@ -1,10 +1,10 @@
 import 'package:bkforum/controller/page_profile_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/profile_model.dart';
+import 'package:bkforum/presentation/page_profile_screen/edit_profile_screen.dart';
 import 'package:bkforum/widgets/highlightedItem.dart';
 import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -66,55 +66,54 @@ class PageProfileScreen extends GetView<PageProfileController> {
           child: DefaultTabController(
             length: 3,
             child: Container(
-              child: Column(
-                children: [
-                  TabBar(
-                    indicatorColor: Colors.indigo,
-                    tabs: [
-                      Tab(
-                          child: Row(
-                        children: [
-                          Icon(Icons.supervised_user_circle_outlined,
-                              color: Colors.indigo),
-                          SizedBox(width: 8.adaptSize),
-                          Text('Giới thiệu',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500)),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      )),
-                      Tab(
-                          child: Row(
-                        children: [
-                          Icon(Icons.history_edu_rounded, color: Colors.indigo),
-                          SizedBox(width: 8.adaptSize),
-                          Text('Bài viết',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500)),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      )),
-                      Tab(
-                          child: Row(
-                        children: [
-                          Icon(Icons.attribution_rounded, color: Colors.indigo),
-                          SizedBox(width: 8.adaptSize),
-                          Text('Forum',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500)),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      )),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
+              child: Column(children: [
+                TabBar(
+                  indicatorColor: Colors.indigo,
+                  tabs: [
+                    Tab(
+                        child: Row(
+                      children: [
+                        Icon(Icons.supervised_user_circle_outlined,
+                            color: Colors.indigo),
+                        SizedBox(width: 8.adaptSize),
+                        Text('Giới thiệu',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500)),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    )),
+                    Tab(
+                        child: Row(
+                      children: [
+                        Icon(Icons.history_edu_rounded, color: Colors.indigo),
+                        SizedBox(width: 8.adaptSize),
+                        Text('Bài viết',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500)),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    )),
+                    Tab(
+                        child: Row(
+                      children: [
+                        Icon(Icons.attribution_rounded, color: Colors.indigo),
+                        SizedBox(width: 8.adaptSize),
+                        Text('Forum',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500)),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    )),
+                  ],
+                ),
+                Expanded(
+                  child: TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       children: [
                         FutureBuilder<Profile>(
@@ -225,11 +224,24 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                                 value: '');
                                                                           }
                                                                         }),
-                                                                    ProfileStat(
-                                                                        label:
-                                                                            'Bạn bè',
-                                                                        value:
-                                                                            '5'),
+                                                                    FutureBuilder<
+                                                                        int>(
+                                                                        future: profileController.getNumberOfFriends(fetchedProfile
+                                                                            .id),
+                                                                        builder:
+                                                                            (context,
+                                                                            snapshot) {
+                                                                          if (snapshot
+                                                                              .hasData) {
+                                                                            return ProfileStat(
+                                                                                label: 'Bạn bè',
+                                                                                value: snapshot.data.toString());
+                                                                          } else {
+                                                                            return ProfileStat(
+                                                                                label: 'Bạn bè',
+                                                                                value: '');
+                                                                          }
+                                                                        }),
                                                                   ]),
                                                             ),
                                                             SizedBox(
@@ -272,9 +284,10 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                       width:
                                                                           10),
                                                                   Text(
-                                                                    fetchedProfile
-                                                                            .gender ??
-                                                                        'Không có dữ liệu',
+                                                                    fetchedProfile.gender ==
+                                                                            'MALE'
+                                                                        ? 'Nam'
+                                                                        : 'Nữ',
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             20),
@@ -369,9 +382,10 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                                                       width:
                                                                           10),
                                                                   Text(
-                                                                      fetchedProfile
-                                                                              .type ??
-                                                                          '',
+                                                                      fetchedProfile.type ==
+                                                                              'STUDENT'
+                                                                          ? 'Sinh viên'
+                                                                          : 'Giảng viên',
                                                                       style: TextStyle(
                                                                           fontSize:
                                                                               20)),
@@ -439,7 +453,12 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                           ),
                                           child: IconButton(
                                             color: Colors.white,
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Get.to(() => EditProfileScreen(),
+                                                  arguments: fetchedProfile,
+                                                  transition:
+                                                      Transition.rightToLeft);
+                                            },
                                             icon: Icon(Icons.edit),
                                           ),
                                         ),
@@ -505,8 +524,7 @@ class PageProfileScreen extends GetView<PageProfileController> {
                               return CustomProgressIndicator();
                             else
                               return ListView.builder(
-                                itemCount:
-                                    forumList.value.length,
+                                itemCount: forumList.value.length,
                                 itemBuilder: (context, index) {
                                   final forum = forumList.value[index];
                                   return ListTile(
@@ -526,10 +544,11 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                               : Colors.black),
                                     ),
                                     trailing: forum.modId == userProfile.id
-                                        ? Icon(Icons.admin_panel_settings_rounded,
-                                      color: Colors.blue.shade900,
-                                    )
-                                    : SizedBox.shrink(),
+                                        ? Icon(
+                                            Icons.admin_panel_settings_rounded,
+                                            color: Colors.blue.shade900,
+                                          )
+                                        : SizedBox.shrink(),
                                     onTap: () {
                                       Get.toNamed(AppRoutes.pageForumoneScreen,
                                           arguments: forum);
@@ -540,8 +559,8 @@ class PageProfileScreen extends GetView<PageProfileController> {
                           }),
                         ),
                       ]),
-                  ),
-                ]),
+                ),
+              ]),
             ),
           ),
         ),
