@@ -205,30 +205,17 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                                               .spaceBetween,
                                                       children: [
                                                         AvatarUserWidget(user),
-                                                        // ConstrainedBox(
-                                                        //   constraints:
-                                                        //       BoxConstraints(
-                                                        //           maxWidth:
-                                                        //               15.adaptSize,
-                                                        //           minHeight:
-                                                        //               30.adaptSize),
-                                                        //   child: Container(
-                                                        //     child: Text(
-                                                        //       user.fullName.toString(),
-                                                        //       style: TextStyle(
-                                                        //         fontSize: 3,
-                                                        //         fontWeight:
-                                                        //             FontWeight.w500,
-                                                        //         height: 2,
-                                                        //       ),
-                                                        //     ),
+                                                        // Container(
+                                                        //   width: 60,
+                                                        //   child: Text(
+                                                        //     user.fullName.toString()
                                                         //   ),
-                                                        // ),
+                                                        // )
                                                       ],
                                                     );
                                                   }),
                                             ))),
-                                        SizedBox(height: 20),
+                                        //SizedBox(height: 20),
                                         (Obx(() => ListView.separated(
                                             physics: BouncingScrollPhysics(),
                                             shrinkWrap: true,
