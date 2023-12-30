@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 
 import 'core/app_export.dart';
 
+String myId = '';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([

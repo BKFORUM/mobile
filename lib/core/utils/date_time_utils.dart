@@ -1,8 +1,15 @@
+// ignore: non_constant_identifier_names
+import 'package:intl/intl.dart';
 
 // ignore: non_constant_identifier_names
-DateTime ConvertStringToDataTime(String dateString){
-   DateTime dateTime = DateTime.parse(dateString).toLocal();
-   return dateTime;
+DateTime ConvertStringToDataTime(String dateString) {
+  DateTime dateTime = DateTime.parse(dateString).toLocal();
+  return dateTime;
+}
+
+String formatDateTime(String dateTime) {
+  DateTime temp = ConvertStringToDataTime(dateTime);
+  return DateFormat('dd-MM-yyyy – kk:mm').format(temp);
 }
 
 String formatTimeDifference(Duration difference) {

@@ -88,7 +88,7 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                         itemBuilder: (context, index) {
                           if (controller.myId !=
                               controller.messages[index].author?.id) {
-                            return ChatLeftItem(controller.messages[index]);
+                            return ChatLeftItemWidget(controller.messages[index]);
                           }
                           return ChatRightItem(controller.messages[index]);
                         }))),

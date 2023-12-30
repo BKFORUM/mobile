@@ -1,10 +1,14 @@
 import 'package:bkforum/controller/page_messsage_controller.dart';
+import 'package:bkforum/data/socket/socket.dart';
 import 'package:bkforum/presentation/page_message_screen/widget/conversation_widget.dart';
+import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
+import 'package:bkforum/widgets/avatar_user_widget.dart';
 import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/apiClient/profile_api.dart';
+import '../../data/models/data_prop/users.dart';
 import '../../data/models/profile_model.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/widgets/app_bar/appbar_image.dart';
@@ -13,12 +17,11 @@ import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class PageMessageScreen extends GetWidget<PageMessageController> {
-  const PageMessageScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    controller.getAllConversation();
-    mediaQueryData = MediaQuery.of(context);
+    setState(() {
+      controller.getAllConversation();
+    });
     return FutureBuilder<Profile>(
         future: ProfileApi().fetchProfile(''),
         builder: (context, snapshot) {
@@ -108,10 +111,10 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                 ),
                                 Container(
                                   child: IconButton(
-                                    icon: Icon(
-                                      Icons.add_circle_outline_outlined
-                                    ),
-                                    onPressed: () => {},
+                                    icon:
+                                        Icon(Icons.add_circle_outline_outlined),
+                                    onPressed: () =>
+                                        {onTapButtonCreateConversation()},
                                   ),
                                 ),
                               ],
@@ -175,6 +178,44 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                           ),
                                         ),
                                         SizedBox(height: 10),
+                                        Container(
+                                            height: 80,
+                                            child: (Obx(
+                                              () => ListView.separated(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      10, 5, 10, 5),
+                                                  separatorBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return SizedBox(
+                                                        width: 10.v);
+                                                  },
+                                                  itemCount: SocketIO
+                                                      .listFriendOnline.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    User user = SocketIO
+                                                            .listFriendOnline[
+                                                        index];
+                                                    return Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        AvatarUserWidget(user),
+                                                        // Container(
+                                                        //   width: 60,
+                                                        //   child: Text(
+                                                        //     user.fullName.toString()
+                                                        //   ),
+                                                        // )
+                                                      ],
+                                                    );
+                                                  }),
+                                            ))),
+                                        //SizedBox(height: 20),
                                         (Obx(() => ListView.separated(
                                             physics: BouncingScrollPhysics(),
                                             shrinkWrap: true,
@@ -196,10 +237,12 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
         });
   }
 
-  /// Navigates to the pageForumoneScreen when the action is triggered.
+  onTapButtonCreateConversation() {
+    Get.toNamed(
+      AppRoutes.pageCreateConversationScreen,
+    );
+  }
 
-  /// When the action is triggered, this function uses the [Get] package to
-  /// push the named route for the pageForumoneScreen.
   onTapIconhomeone() {
     Get.toNamed(
       AppRoutes.pageForumoneScreen,
