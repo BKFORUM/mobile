@@ -1,5 +1,8 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/data_prop/conversation.dart';
+import 'package:bkforum/data/models/data_prop/users.dart';
+import 'package:bkforum/main.dart';
+import 'package:bkforum/widgets/avatar_user_widget.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -42,6 +45,15 @@ class ConversationState extends State<ConversationWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool isUserChat = conversation.type.toString() == "CHAT";
+    User user = User();
+    if(isUserChat){
+      if(conversation.users?[0].userId.toString() == myId){
+        user = conversation.users?[1].user ?? User();
+      } else {
+        user = conversation.users?[0].user ?? User();
+      }
+    }
     return GestureDetector(
       onTap: goToMessageDetail,
       child: Container(
@@ -55,20 +67,22 @@ class ConversationState extends State<ConversationWidget> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              // ellipse4bDd (64:376)
-              margin: EdgeInsets.fromLTRB(
-                  0.adaptSize, 0.adaptSize, 8.adaptSize, 1.adaptSize),
-              width: 56.adaptSize,
-              height: 56.adaptSize,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(45.adaptSize),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(conversation.avatarUrl.toString()),
-                ),
-              ),
-            ),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                child: isUserChat
+                    ? AvatarUserWidget(user)
+                    : Container(
+                        width: 56.adaptSize,
+                        height: 56.adaptSize,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(45.adaptSize),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image:
+                                NetworkImage(conversation.avatarUrl.toString()),
+                          ),
+                        ),
+                      )),
             SizedBox(width: 10),
             Container(
               // frame193Hs9 (64:377)

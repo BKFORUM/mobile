@@ -15,7 +15,8 @@ class PageMessageDetailController extends GetxController {
   PageMessageDetailController({required this.conversation});
   final messages = <Message>[].obs;
   final Conversation conversation;
-  final PageMessageController pageMessageController = Get.put(PageMessageController());
+  final PageMessageController pageMessageController =
+      Get.put(PageMessageController());
   List<UserConversation> listUser = <UserConversation>[].obs;
   List<User> listUserOutsideOfForum = <User>[].obs;
   String myId = '';
@@ -24,7 +25,6 @@ class PageMessageDetailController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    print("Init controller detail");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     this.myId = preferences.getString('id') ?? '';
     this.isGroupChatuser = (conversation.type.toString() == "GROUP_CHAT" &&
@@ -32,19 +32,29 @@ class PageMessageDetailController extends GetxController {
     getMessageInConversation();
     getUsersInConversation();
     SocketIO.socket.on("onMessage", callback);
+    if (!conversation.isRead) emitEventOnReadMessage();
   }
 
   @override
   void onClose() async {
     SocketIO.socket.off("onMessage", callback);
-    print("close controller detail");
     super.onClose();
   }
 
   void callback(dynamic data) {
     Message msg = Message.fromJson(data);
-    print(msg.content);
     messages.insert(0, msg);
+  }
+
+  void emitEventOnReadMessage() {
+    SocketIO.socket.emit("onReadMessage", {
+      "conversationId": conversation.id,
+      "messageId": conversation.lastMessage?.id
+    });
+    this.conversation.isRead = true;
+    int index = pageMessageController.conversations
+        .indexWhere((element) => element.id == conversation.id);
+    pageMessageController.conversations[index] = conversation;
   }
 
   Future<void> getMessageInConversation() async {
@@ -102,6 +112,7 @@ class PageMessageDetailController extends GetxController {
       conversationID: conversation.id.toString(),
       userId: myId,
     );
-    pageMessageController.conversations.removeWhere((element) => element.id == conversation.id);
+    pageMessageController.conversations
+        .removeWhere((element) => element.id == conversation.id);
   }
 }

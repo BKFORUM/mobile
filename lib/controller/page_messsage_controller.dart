@@ -36,9 +36,8 @@ class PageMessageController extends GetxController {
 
   Future<void> receiveNewMessage(OnMessage msg) async {
     int index = conversations.indexWhere((element) => element.id == msg.conversationId);
-    Conversation conversation = conversations[index];
-   conversations.remove(conversation);
-    //update(conversations);
+    Conversation conversation =  conversations.removeAt(index);
+    // Update
     conversation.lastMessage = LastMessage(
       content: msg.content,
       createdAt: msg.createdAt,
@@ -46,11 +45,12 @@ class PageMessageController extends GetxController {
       type: msg.type,
     );
     conversation.isRead = false;
-    conversations.insert(0,conversation);
+    conversations.insert(0, conversation);
   }
 
   Future<void> getAllConversation() async {
-    List<Conversation> list = await conversationAPIClient.getConversation(skip: 0, take: 100);
+    List<Conversation> list =
+        await conversationAPIClient.getConversation(skip: 0, take: 100);
     conversations.assignAll(list);
   }
 
@@ -61,10 +61,7 @@ class PageMessageController extends GetxController {
   }
 
   Future<void> geAllUser() async {
-    List<User> list = await apiUserClient.getUsers(
-      skip: 0,
-      take: 1000
-    );
+    List<User> list = await apiUserClient.getUsers(skip: 0, take: 1000);
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String id = preferences.getString('id') ?? '';
     // ignore: unrelated_type_equality_checks
@@ -72,10 +69,11 @@ class PageMessageController extends GetxController {
     users.assignAll(list);
   }
 
-  Future<void> addConversation(String name, String imageLink, List<String> userIds) async{
+  Future<void> addConversation(
+      String name, String imageLink, List<String> userIds) async {
     Conversation conversation = await conversationAPIClient.createConversation(
-      name: name, 
-      imagelink: imageLink, 
+      name: name,
+      imagelink: imageLink,
       userIds: userIds.toList(),
     );
     this.conversations.insert(0, conversation);

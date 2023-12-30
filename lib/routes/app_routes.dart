@@ -1,3 +1,4 @@
+import 'package:bkforum/main.dart';
 import 'package:bkforum/presentation/page_friend_screen/binding/page_myfriend_binding.dart';
 import 'package:bkforum/presentation/page_friend_screen/page_friend_home.dart';
 import 'package:bkforum/presentation/page_friend_screen/page_friend_request.dart';
@@ -235,5 +236,7 @@ Future<bool> checkTokenAndNavigate() async {
   final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
   final refreshToken = preferences.getString('refreshToken') ?? '';
   if (isLoggedIn) await LoginApiClient().refreshLogin(refreshToken);
+  myId = preferences.getString('id') ?? '';
   return isLoggedIn;
 }
+
