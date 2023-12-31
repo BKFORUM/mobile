@@ -15,14 +15,14 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
     return AppBar(
       backgroundColor: Color(0xff0001cb),
       title: Container(
-        padding: EdgeInsets.only(top: 0, bottom: 0, left: 0, right: 0),
-        child: Row(children: [
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
           SizedBox(
             width: 45.adaptSize,
             height: 45.adaptSize,
             child: CachedNetworkImage(
-              imageUrl:
-                  controller.conversation.avatarUrl.toString(),
+              imageUrl: controller.conversation.avatarUrl.toString(),
               imageBuilder: ((context, imageProvider) => Container(
                     height: 45.adaptSize,
                     width: 45.adaptSize,
@@ -38,7 +38,7 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
             ),
           ),
           Container(
-            width: 180.adaptSize,
+            width: 150.adaptSize,
             padding: EdgeInsets.only(top: 0, bottom: 5, left: 10, right: 0),
             child: Text(
               controller.conversation.displayName.toString(),
@@ -54,10 +54,8 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
             margin: EdgeInsets.only(top: 0, bottom: 0, left: 35, right: 0),
             alignment: Alignment.bottomRight,
             child: IconButton(
-              icon: const Icon(
-                Icons.info
-              ), 
-              onPressed: () { 
+              icon: const Icon(Icons.info),
+              onPressed: () {
                 clickIconSetting();
               },
             ),
@@ -88,15 +86,15 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                         itemBuilder: (context, index) {
                           if (controller.myId !=
                               controller.messages[index].author?.id) {
-                            return ChatLeftItemWidget(controller.messages[index]);
+                            return ChatLeftItemWidget(
+                                controller.messages[index]);
                           }
-                          return ChatRightItem(controller.messages[index]);
+                          return ChatRightItemWidget(controller.messages[index]);
                         }))),
                   ),
                   Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Row(children: [
-                        
                         SizedBox(width: 20),
                         Expanded(
                             child: CustomTextFormField(
@@ -124,10 +122,9 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
               ),
             )));
   }
-   void clickIconSetting() {
-    Get.toNamed(
-      AppRoutes.pageMessageDetailSetting,
-      arguments: controller.conversation
-    );
+
+  void clickIconSetting() {
+    Get.toNamed(AppRoutes.pageMessageDetailSetting,
+        arguments: controller.conversation);
   }
 }

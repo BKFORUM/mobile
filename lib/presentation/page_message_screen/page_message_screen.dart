@@ -129,18 +129,16 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                     child: ListView(
                                       children: [
                                         Container(
-                                          // frame148YQK (83:397)
                                           padding: EdgeInsets.fromLTRB(
-                                              23.adaptSize,
-                                              8.21.adaptSize,
-                                              247.adaptSize,
-                                              8.21.adaptSize),
+                                              10.adaptSize,
+                                              10.adaptSize,
+                                              10.adaptSize,
+                                              10.adaptSize),
                                           margin: EdgeInsets.fromLTRB(
                                               15.adaptSize,
                                               15.adaptSize,
                                               15.adaptSize,
                                               15.adaptSize),
-                                          width: double.infinity,
                                           decoration: BoxDecoration(
                                             border: Border.all(
                                                 color: Color(0x33000000)),
@@ -148,9 +146,10 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                             borderRadius: BorderRadius.circular(
                                                 30.adaptSize),
                                           ),
+                                          alignment: Alignment.centerRight,
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               Container(
                                                 margin: EdgeInsets.fromLTRB(
@@ -179,6 +178,7 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                           ),
                                         ),
                                         SizedBox(height: 10),
+                                        SocketIO.listFriendOnline.isNotEmpty ?
                                         Container(
                                             height: 80,
                                             child: (Obx(
@@ -215,7 +215,8 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                                       ],
                                                     );
                                                   }),
-                                            ))),
+                                            ))) :
+                                            SizedBox(),
                                         //SizedBox(height: 20),
                                         (Obx(() => ListView.separated(
                                             physics: BouncingScrollPhysics(),

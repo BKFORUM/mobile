@@ -41,7 +41,12 @@ class ChatLeftItemState extends State<ChatLeftItemWidget> {
         children: [
           if (this.isShowTime)
             Container(
-              child: Text(formatDateTime(msg.updatedAt.toString())),
+              child: Text(
+                formatDateTime(msg.updatedAt.toString()),
+                style: TextStyle(
+                  fontSize: 12
+                ),
+              ),
             ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
