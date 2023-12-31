@@ -18,7 +18,7 @@ class CustomCommentScreen extends StatelessWidget {
   TextEditingController _textEditingController = TextEditingController();
 
   void handleSendButtonPressed(String comment, bool repMode) {
-    commentController.uploadCommentOrReply(id, comment, repMode);
+    commentController.uploadCommentOrReply(id, comment, repMode, type);
     _textEditingController.text = '';
     commentController.fetchComments(id, type);
   }
@@ -38,10 +38,11 @@ class CustomCommentScreen extends StatelessWidget {
     // ignore: invalid_use_of_protected_member
     commentController.refresh();
     commentController.replyMode = false;
+
     return Obx(() {
       commentController.fetchComments(id, type);
-      final commentsList = commentController.commentsList;
-      if (commentsList.isEmpty) {
+      // final commentsList = commentController.commentsList;
+      if (commentController.commentsList.isEmpty) {
         return Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -117,9 +118,9 @@ class CustomCommentScreen extends StatelessWidget {
                   return true;
                 },
                 child: ListView.builder(
-                  itemCount: commentsList.length,
+                  itemCount: commentController.commentsList.length,
                   itemBuilder: (context, index) {
-                    final comment = commentsList[index];
+                    final comment = commentController.commentsList[index];
                     final isExpanded = commentController.isExpandedList[index];
                     return Column(children: [
                       GestureDetector(
@@ -127,7 +128,6 @@ class CustomCommentScreen extends StatelessWidget {
                           commentController.changeToReplyMode(comment);
                         },
                         onLongPress: () {
-                          // if (checkEditDeleteComment)
                           Get.dialog(Dialog(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
@@ -154,43 +154,56 @@ class CustomCommentScreen extends StatelessWidget {
                                         )
                                       ]))));
                         },
-                        child: ListTile(
-                          leading: Container(
-                              margin:
-                                  EdgeInsets.symmetric(horizontal: 8.adaptSize),
-                              child: CustomImageView(
-                                  url: comment.userAvatar!.value,
-                                  fit: BoxFit.cover,
-                                  height: 28.adaptSize,
-                                  width: 28.adaptSize,
-                                  radius: BorderRadius.circular(14.h))),
-                          title: Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  0, 0, 4.adaptSize, 6.adaptSize),
-                              child: Text(comment.userCreate!.value,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14.v))),
-                          subtitle: Container(
-                              margin: EdgeInsets.only(top: 1.adaptSize),
-                              child: Text(comment.content!.value,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 18.v,
-                                      color: Colors.black))),
-                          trailing: GestureDetector(
-                            onTap: () {
-                              isExpanded.toggle();
-                            },
-                            child: Container(
-                                child: (comment.countReplies?.value != 0)
-                                    ? Text(
-                                        'Xem\n${comment.countReplies?.value} trả lời',
-                                        textAlign: TextAlign.right,
-                                      )
-                                    : SizedBox.shrink()),
-                          ),
-                          minVerticalPadding: 1.v,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    CustomImageView(
+                                        url: comment.userAvatar?.value ??
+                                            'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg',
+                                        fit: BoxFit.cover,
+                                        height: 28.adaptSize,
+                                        width: 28.adaptSize,
+                                        radius: BorderRadius.circular(14.h)),
+                                    Container(
+                                        margin:
+                                            EdgeInsets.only(left: 8.adaptSize),
+                                        child: Text(comment.userCreate!.value,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 14.v))),
+                                  ],
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    isExpanded.toggle();
+                                  },
+                                  child: Container(
+                                      child: (comment.countReplies?.value != 0)
+                                          ? Text(
+                                              'Xem ${comment.countReplies?.value} trả lời',
+                                              textAlign: TextAlign.right,
+                                            )
+                                          : SizedBox.shrink()),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                                margin:
+                                    EdgeInsets.fromLTRB(32.adaptSize, 0, 0, 0),
+                                child: Text(comment.content!.value,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        height: 1.2,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 16.v,
+                                        color: Colors.black))),
+                            SizedBox(height: 14.adaptSize)
+                          ],
                         ),
                       ),
                       if (isExpanded.value)

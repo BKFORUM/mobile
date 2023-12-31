@@ -4,7 +4,6 @@ import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
 
 import '../data/apiClient/userpost_item_api.dart';
-import '../widgets/custom_comment_screen.dart';
 import '../widgets/userpost_item_widget.dart';
 
 class UserPostScreen extends StatelessWidget {
@@ -16,9 +15,7 @@ class UserPostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     mediaQueryData = MediaQuery.of(context);
-    // print(postId);
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
@@ -40,18 +37,22 @@ class UserPostScreen extends StatelessWidget {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     final userPostObj = snapshot.data;
-                    return Column(
-                      children: [
-                        UserpostItemWidget(userPostObj!),
-                        Expanded(child: CustomCommentScreen(userPostObj.id!.value, 'posts')),
-                      ],
+                    if(userPostObj?.status?.value == 'ACTIVE'){
+                      return SingleChildScrollView(
+                        child: Column(
+                            children: [
+                              UserpostItemWidget(userPostObj!),
+                              // Expanded(child: CustomCommentScreen(userPostObj.id!.value, 'posts')),
+                            ]),
+                      );
+                    } else return Center(
+                      child: Text(
+                        'Bài viết không tồn tại'
+                      ),
                     );
                   }
-                },
-              ),
-            )
-        )
-    );
+                }
+              ))));
   }
 }
 

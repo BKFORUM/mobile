@@ -8,7 +8,9 @@ class UserpostItemModel {
     this.userCreate,
     this.userAvatar,
     this.forumModId,
+    this.forumId,
     this.forumName,
+    this.forumModName,
     this.postContent,
     this.listImages,
     this.document,
@@ -16,13 +18,16 @@ class UserpostItemModel {
     this.likedAt,
     this.countLikes,
     this.countComments,
+    this.status,
     this.id,
   }) {
     userCreateId = userCreateId ?? Rx("Id Tác giả");
     userCreate = userCreate ?? Rx("Tác giả");
     userAvatar = userAvatar ?? Rx('https://bom.so/SjYyN2');
-    forumModId = forumModId ?? Rx('default mod id');
+    forumId = forumId ?? Rx('forum id');
     forumName = forumName ?? Rx("Lớp sinh hoạt");
+    forumModName = forumModName ?? Rx("");
+    forumModId = forumModId ?? Rx('default mod id');
     postContent = postContent ?? Rx("...");
     listImages = listImages ?? RxList<String>([]);
     document = document ?? RxList(<PostDocument>[]);
@@ -30,6 +35,7 @@ class UserpostItemModel {
     likedAt = likedAt ?? Rx<DateTime>(DateTime.now());
     countLikes = countLikes ?? Rx(0);
     countComments = countComments ?? Rx(0);
+    status = status ?? Rx('ACTIVE');
     id = id ?? Rx("...");
   }
   Rx<String>? userCreateId;
@@ -39,6 +45,10 @@ class UserpostItemModel {
   Rx<String>? userAvatar;
 
   Rx<String>? forumName;
+
+  Rx<String>? forumModName;
+
+  Rx<String>? forumId;
 
   Rx<String>? forumModId;
 
@@ -55,6 +65,8 @@ class UserpostItemModel {
   Rx<int>? countLikes;
 
   Rx<int>? countComments;
+
+  Rx<String>? status;
 
   Rx<String>? id;
 }

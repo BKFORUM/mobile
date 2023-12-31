@@ -19,6 +19,9 @@ class PageSearchController extends GetxController {
   Rx<PageSearchModel> pageSearchModelObj =
       PageSearchModel().obs;
 
+
+
+  // LOADMORE ==> them SKIP, them LOAD
   void handleSearch(String value) {
     ForumListApiClient apiClient = ForumListApiClient();
     apiClient.searchForums(value).then((searchedForums) {

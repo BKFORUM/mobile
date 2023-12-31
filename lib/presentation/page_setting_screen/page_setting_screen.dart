@@ -1,8 +1,11 @@
+import 'package:bkforum/presentation/page_forumone_screen/page_add_forum.dart';
 import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/apiClient/forum_list_api.dart';
 import '../../data/apiClient/profile_api.dart';
+import '../../data/models/data_prop/forum.dart';
 import '../../data/models/profile_model.dart';
 import '../../controller/page_setting_controller.dart';
 import 'package:bkforum/core/app_export.dart';
@@ -19,13 +22,6 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
 
   @override
   Widget build(BuildContext context) {
-    // preferencesFuture.then((preferences) {
-    //   final String token =
-    //       preferences.getString('accessToken') ?? '';
-    //   preferences.setString('profileId', fetchedProfile!.id);
-    //   print(token);
-    // });
-
     mediaQueryData = MediaQuery.of(context);
     return FutureBuilder<Profile>(
         future: ProfileApi().fetchProfile(''),
@@ -40,6 +36,7 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
             final fetchedProfile = snapshot.data!;
             return SafeArea(
                 child: Scaffold(
+                  resizeToAvoidBottomInset: false,
                     appBar: CustomAppBar(
                         leadingWidth: 44.h,
                         leading: AppbarImage(
@@ -116,28 +113,88 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                                 10.adaptSize),
                                             height: 170.adaptSize,
                                             child: Column(children: [
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 20.h, top: 20.v),
-                                                  child: Row(children: [
-                                                    CustomImageView(
-                                                        imagePath: ImageConstant
-                                                            .imgIconswap,
-                                                        height: 20.adaptSize,
-                                                        width: 20.adaptSize),
-                                                    Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 20.h,
-                                                                top:
-                                                                    2.adaptSize,
-                                                                bottom: 2
-                                                                    .adaptSize),
-                                                        child: Text(
-                                                            "lbl_i_m_t_kh_u".tr,
-                                                            style: CustomTextStyles
-                                                                .bodyLargeInter))
-                                                  ])),
+                                              GestureDetector(
+                                                onTap: (){
+                                                  Get.back();
+                                                  final emailController = TextEditingController();
+                                                  final passwordController = TextEditingController();
+                                                  final confirmPasswordController = TextEditingController();
+                                                  final newPasswordController = TextEditingController();
+                                                  Get.defaultDialog(
+                                                    title: 'Đổi mật khẩu',
+                                                    content: Column(
+                                                      children: [
+                                                        TextField(
+                                                          controller: emailController,
+                                                          keyboardType: TextInputType.emailAddress,
+                                                          decoration: InputDecoration(hintText: 'Email'),
+                                                        ),
+                                                        TextField(
+                                                          controller: passwordController,
+                                                          keyboardType: TextInputType.visiblePassword,
+                                                          decoration: InputDecoration(hintText: 'Mật khẩu cũ'),
+                                                        ),
+                                                        TextField(
+                                                          controller: confirmPasswordController,
+                                                          keyboardType: TextInputType.visiblePassword,
+                                                          decoration: InputDecoration(hintText: 'Nhập lại mật khẩu cũ'),
+                                                        ),
+                                                        TextField(
+                                                          controller: newPasswordController,
+                                                          keyboardType: TextInputType.visiblePassword,
+                                                          decoration: InputDecoration(hintText: 'Nhập mật khẩu mới'),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    confirm: ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                        padding: EdgeInsets.all(30.adaptSize),
+                                                      ),
+                                                      child: Text('OK', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber)),
+                                                      onPressed: () {
+                                                        String email = emailController.text.trim();
+                                                        String password = passwordController.text.trim();
+                                                        String confirmPassword = confirmPasswordController.text.trim();
+                                                        String newPassword = newPasswordController.text.trim();
+                                                        if(password == confirmPassword && password != newPassword){
+                                                          controller.changePassword(newPassword, email);
+                                                        } else Get.snackbar('Lỗi nhập liệu', 'Xác nhận mật khẩu chưa chính xác', backgroundColor: Colors.red.shade300);
+                                                      },
+                                                    ),
+                                                    cancel: ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                        padding: EdgeInsets.all(30.adaptSize),
+                                                      ),
+                                                      child: Text('Hủy', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber)),
+                                                      onPressed: () {
+                                                        Get.back();
+                                                      },
+                                                    ),
+                                                  );
+                                                  },
+                                                child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 20.h, top: 20.v),
+                                                    child: Row(children: [
+                                                      CustomImageView(
+                                                          imagePath: ImageConstant
+                                                              .imgIconswap,
+                                                          height: 20.adaptSize,
+                                                          width: 20.adaptSize),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 20.h,
+                                                                  top:
+                                                                      2.adaptSize,
+                                                                  bottom: 2
+                                                                      .adaptSize),
+                                                          child: Text(
+                                                              "lbl_i_m_t_kh_u".tr,
+                                                              style: CustomTextStyles
+                                                                  .bodyLargeInter))
+                                                    ])),
+                                              ),
                                               GestureDetector(
                                                   onTap: () {
                                                     onTapRowiconexitone();
@@ -317,85 +374,80 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                                 color: Colors.pinkAccent),
                                             title: Text('Forum'),
                                             trailing: IconButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Get.to(() => PageAddForum(),
+                                                  transition: Transition.rightToLeft
+                                                );
+                                              },
                                               icon: Icon(Icons
                                                   .add_circle_outline_rounded),
                                             ),
                                           ),
-                                          Container(
-                                            height: 140.adaptSize,
-                                            margin: EdgeInsets.only(
-                                                left: 50.adaptSize),
-                                            child: ListView.builder(
-                                                shrinkWrap: true,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount: fetchedProfile
-                                                    .forums?.length,
-                                                itemBuilder: (context, index) {
-                                                  final forum = fetchedProfile
-                                                      .forums?[index];
-                                                  return GestureDetector(
-                                                    onTap: () {
-                                                      Get.toNamed(
-                                                          AppRoutes
-                                                              .pageForumoneScreen,
-                                                          arguments: forum);
-                                                    },
-                                                    child: Container(
-                                                        height: 140.adaptSize,
-                                                        width: 130.adaptSize,
-                                                        margin:
-                                                            EdgeInsets.all(8),
-                                                        padding:
-                                                            EdgeInsets.all(4),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .black12),
-                                                          color: (fetchedProfile
-                                                                      .id ==
-                                                                  forum?.modId)
-                                                              ? Colors.black12
-                                                              : Colors
-                                                                  .lightBlueAccent,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                        ),
-                                                        child: Center(
-                                                          child:
-                                                              Column(children: [
-                                                            CustomImageView(
-                                                              height:
-                                                                  70.adaptSize,
-                                                              width:
-                                                                  70.adaptSize,
-                                                              url: forum!
-                                                                  .avatarUrl,
-                                                              fit: BoxFit.cover,
-                                                              radius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          12)),
-                                                            ),
-                                                            SizedBox(height: 8),
-                                                            Text(forum.name,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                maxLines: 2,
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black87)),
-                                                          ]),
-                                                        )),
-                                                  );
-                                                }),
+                                          FutureBuilder<List<Forum>>(
+                                            future: ForumListApiClient().fetchForums(fetchedProfile.id),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                final fetchedForum = snapshot.data;
+                                                return Container(
+                                                  height: 140.adaptSize,
+                                                  margin: EdgeInsets.only(left: 50.adaptSize),
+                                                  child: ListView.builder(
+                                                      shrinkWrap: true,
+                                                      scrollDirection: Axis.horizontal,
+                                                      itemCount: fetchedForum?.length,
+                                                      itemBuilder: (context, index) {
+                                                        final forum = fetchedForum?[index];
+                                                        return GestureDetector(
+                                                          onTap: (){
+                                                            Get.toNamed(
+                                                              AppRoutes.pageForumoneScreen,
+                                                              arguments: forum
+                                                            );
+                                                          },
+                                                          child: Container(
+                                                              height: 136.adaptSize,
+                                                              width: 130.adaptSize,
+                                                              margin: EdgeInsets.all(8),
+                                                              padding: EdgeInsets.all(4),
+                                                              decoration: BoxDecoration(
+                                                                border: Border.all(color: Colors.black12),
+                                                                color: (fetchedProfile.id != forum?.modId) ? Colors.grey.shade50 : Colors.blue.shade100,
+                                                                borderRadius: BorderRadius.circular(20),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors.grey.withOpacity(0.5),
+                                                                    spreadRadius: 2,
+                                                                    blurRadius: 5,
+                                                                    offset: Offset(0, 3)
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Center(
+                                                                child: Column(
+                                                                    children: [
+                                                                      CustomImageView(
+                                                                        height: 70.adaptSize,
+                                                                        width: 70.adaptSize,
+                                                                        url: forum!.avatarUrl ?? 'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg' ,
+                                                                        fit: BoxFit.cover,
+                                                                        radius: BorderRadius.all(Radius.circular(12)),
+                                                                      ),
+                                                                      SizedBox(height: 8),
+                                                                      Text(
+                                                                          forum.name,
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                          maxLines: 2,
+                                                                          textAlign: TextAlign.center,
+                                                                          style: TextStyle(color: Colors.black87)),
+                                                                    ]),
+                                                              )),
+                                                        );
+                                                      }),
+                                                );
+                                              } else{
+                                                return SizedBox.shrink();
+                                              }
+                                            }
                                           ),
                                           // ListTile(
                                           //   leading: Icon(Icons.text_snippet_rounded, color: Colors.orange),
@@ -470,9 +522,10 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
 
   onTapRowiconexitone() async {
     final preferences = await SharedPreferences.getInstance();
-    preferences.setString('accessToken', '');
-    preferences.setBool('isLoggedIn', false);
-    Get.toNamed(
+    await preferences.setString('accessToken', '');
+    await preferences.setString('refreshToken', '');
+    await preferences.setBool('isLoggedIn', false);
+    Get.offAllNamed(
       AppRoutes.pageLoginScreen,
     );
   }

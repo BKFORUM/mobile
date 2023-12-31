@@ -1,3 +1,4 @@
+import 'package:bkforum/presentation/page_event_screen/event_details.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import '../../controller/page_notification_controller.dart';
@@ -109,10 +110,11 @@ class PageNotificationScreen extends GetWidget<PageNotificationController> {
                                       ? (notification
                                               .sender!.value.fullName!.value +
                                           ' ')
-                                      : '')+
+                                      : '') +
                                   notification.content!.value,
                               style: TextStyle(
-                                fontWeight: notification.readAt?.value == DateTime(2012, 1, 1)
+                                fontWeight: notification.readAt?.value ==
+                                        DateTime(2012, 1, 1)
                                     ? FontWeight.bold
                                     : FontWeight.normal,
                               ),
@@ -120,19 +122,23 @@ class PageNotificationScreen extends GetWidget<PageNotificationController> {
                             subtitle: Container(
                               padding: EdgeInsets.only(top: 4.adaptSize),
                               child: Text(
-                                DateFormat('dd/MM/yyyy HH:mm').format(notification.createdAt!.value),
+                                DateFormat('dd/MM/yyyy HH:mm')
+                                    .format(notification.createdAt!.value),
                                 style: TextStyle(
-                                  color: notification.readAt?.value == DateTime(2012, 1, 1)
-                                      ? Colors.blue
-                                      : Colors.black54
-                                ),
+                                    color: notification.readAt?.value ==
+                                            DateTime(2012, 1, 1)
+                                        ? Colors.blue
+                                        : Colors.black54),
                               ),
                             ),
-                            trailing: (notification.readAt?.value == DateTime(2012, 1, 1))
-                              ? Icon(Icons.fiber_manual_record, color: Colors.blue, size: 12.adaptSize)
-                              : SizedBox.shrink(),
+                            trailing: (notification.readAt?.value ==
+                                    DateTime(2012, 1, 1))
+                                ? Icon(Icons.fiber_manual_record,
+                                    color: Colors.blue, size: 12.adaptSize)
+                                : SizedBox.shrink(),
                             onTap: () {
-                              controller.setNotificationRead(notification.id?.value);
+                              controller
+                                  .setNotificationRead(notification.id?.value);
                               notification.readAt?.value = DateTime(2023);
                               String? modelName = notification.modelName?.value;
                               if (modelName == 'forum') {
@@ -145,12 +151,13 @@ class PageNotificationScreen extends GetWidget<PageNotificationController> {
                               } else if (modelName == 'post') {
                                 Get.to(() => UserPostScreen(),
                                     arguments: notification.modelId?.value,
-                                  transition: Transition.rightToLeft
-                                );
+                                    transition: Transition.rightToLeft);
                               } else if (modelName == 'friendship') {
                                 // Get.to(FriendshipScreen(id: modelId));
-                              } else if (modelName == 'event'){
-
+                              } else if (modelName == 'event') {
+                                Get.to(() => EventDetail(),
+                                    arguments: notification.modelId?.value,
+                                    transition: Transition.rightToLeft);
                               }
                             },
                           );

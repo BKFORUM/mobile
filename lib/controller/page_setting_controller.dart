@@ -3,6 +3,7 @@ import 'package:bkforum/data/apiClient/profile_api.dart';
 import 'package:bkforum/presentation/page_event_screen/binding/page_event_binding.dart';
 import 'package:bkforum/presentation/page_event_screen/page_event_screen.dart';
 import 'package:bkforum/presentation/page_setting_screen/models/page_setting_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/models/profile_model.dart';
 import '../presentation/page_profile_screen/page_profile_screen.dart';
@@ -31,13 +32,13 @@ class PageSettingController extends GetxController {
       print('Error: $error');
     });
   }
-  onTapCheckProfile(Profile fetchedProfile) {
+  void onTapCheckProfile(Profile fetchedProfile) {
     openProfile();
     Get.to(() => PageProfileScreen(fetchedProfile),
         transition: Transition.rightToLeft);
   }
 
-  onTapOpenFriendPage() {
+  void onTapOpenFriendPage() {
     Get.toNamed(
       AppRoutes.pageFriendsScreen
     );
@@ -48,5 +49,22 @@ class PageSettingController extends GetxController {
         transition: Transition.rightToLeft,
       binding: PageEventBinding()
     );
+  }
+  void onTapRowiconexitone() async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString('accessToken', '');
+    await preferences.setString('refreshToken', '');
+    await preferences.setBool('isLoggedIn', false);
+    Get.offAllNamed(
+      AppRoutes.pageLoginScreen,
+    );
+  }
+
+  refreshProfile() {
+    update();
+  }
+
+  void changePassword(String newPassword, String email) {
+    ProfileApi().changePassword(newPassword, email);
   }
 }

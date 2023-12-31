@@ -21,6 +21,8 @@ class PageFeedModel {
           userCreate: Rx(res.user.fullName),
           userAvatar: Rx(res.user.avatarUrl),
           forumModId: Rx(res.forum.modId),
+          forumId: Rx(res.forum.id),
+          forumModName: Rx(res.forum.modName),
           forumName: Rx(res.forum.name),
           postContent: Rx(res.content),
           document: RxList<PostDocument>(res.documents),
@@ -28,6 +30,7 @@ class PageFeedModel {
           likedAt: Rx(res.likedAt ?? DateTime.now()),
           countLikes: Rx(res.count.likes),
           countComments: Rx(res.count.comments),
+          status: Rx(res.status),
           id: Rx(res.id),
         );
         List<String> fileUrls = [];
@@ -69,12 +72,15 @@ class PageFeedModel {
           userAvatar: Rx(res.user.avatarUrl),
           forumModId: Rx(res.forum.modId),
           forumName: Rx(res.forum.name),
+          forumId: Rx(res.forum.id),
+          forumModName: Rx(res.forum.modName),
           postContent: Rx(res.content),
           document: RxList<PostDocument>(res.documents),
           createdAt: Rx(res.createdAt),
           likedAt: Rx(res.likedAt),
           countLikes: Rx(res.count.likes),
           countComments: Rx(res.count.comments),
+          status: Rx(res.status),
           id: Rx(res.id),
         );
         List<String> fileUrls = [];

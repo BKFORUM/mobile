@@ -1,11 +1,14 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/controller/page_search_controller.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
+import 'package:bkforum/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
+import '../../data/models/profile_model.dart';
 import '../../widgets/app_bar/appbar_image.dart';
 import '../../widgets/app_bar/appbar_image_1.dart';
+import '../page_profile_screen/page_profile_screen.dart';
+
 // ignore: must_be_immutable
 class PageSearchScreen extends GetView<PageSearchController> {
   PageSearchScreen({Key? key}) : super(key: key);
@@ -15,7 +18,6 @@ class PageSearchScreen extends GetView<PageSearchController> {
 
   @override
   Widget build(BuildContext context) {
-
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
@@ -106,8 +108,7 @@ class PageSearchScreen extends GetView<PageSearchController> {
                           Obx(() {
                             // ignore: invalid_use_of_protected_member
                             if (searchController.forumResults.value.isEmpty)
-                              return Center(
-                                  child: Text('Không tìm thấy kết quả'));
+                              return CustomProgressIndicator();
                             else
                               return ListView.builder(
                                 itemCount:
@@ -122,14 +123,13 @@ class PageSearchScreen extends GetView<PageSearchController> {
                                       width: 36.adaptSize,
                                       radius: BorderRadius.circular(9.h),
                                       fit: BoxFit.cover,
-                                      url: forum.avatarUrl,
+                                      url: forum.avatarUrl ??
+                                          'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg',
                                     ),
                                     title: Text(forum.name),
                                     onTap: () {
-                                      Get.toNamed(
-                                        AppRoutes.pageForumoneScreen,
-                                        arguments: forum
-                                      );
+                                      Get.toNamed(AppRoutes.pageForumoneScreen,
+                                          arguments: forum);
                                     },
                                   );
                                 },
@@ -138,8 +138,7 @@ class PageSearchScreen extends GetView<PageSearchController> {
                           Obx(() {
                             // ignore: invalid_use_of_protected_member
                             if (searchController.userResults.value.isEmpty)
-                              return Center(
-                                  child: Text('Không tìm thấy kết quả'));
+                              return CustomProgressIndicator();
                             else
                               return ListView.builder(
                                 itemCount:
@@ -154,13 +153,21 @@ class PageSearchScreen extends GetView<PageSearchController> {
                                       width: 36.adaptSize,
                                       radius: BorderRadius.circular(9.h),
                                       fit: BoxFit.cover,
-                                      url: user.avatarUrl,
+                                      url: user.avatarUrl ??
+                                          'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg',
                                     ),
                                     title: Text(user.fullName),
                                     trailing: (user.friendStatus == 'ACTIVE')
                                         ? Icon(Icons.people_outline_rounded,
                                             color: Colors.green)
                                         : SizedBox.shrink(),
+                                    onTap: () {
+                                      final userProfile = Profile(
+                                          id: user.id, fullName: user.fullName);
+                                      Get.to(
+                                          () => PageProfileScreen(userProfile),
+                                          transition: Transition.rightToLeft);
+                                    },
                                   );
                                 },
                               );

@@ -29,16 +29,17 @@ class CommentController extends GetxController {
     int skip = length;
     CommentsApiClient().fetchData(id, type, take: take, skip: skip).then((value) {
       commentsList.addAll(value);
+      print(commentsList.length);
     }).catchError((error) {
       print('Error: $error');
     });
   }
 
-  void uploadCommentOrReply(String id, String content, bool mode) {
+  void uploadCommentOrReply(String id, String content, bool mode, String type) {
     if (mode) {
       CommentsApiClient().uploadReply(commentId, content);
     } else {
-      CommentsApiClient().uploadComment(id, content);
+      CommentsApiClient().uploadComment(id, content, type);
     }
   }
 

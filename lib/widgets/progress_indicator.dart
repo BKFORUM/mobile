@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class CustomProgressIndicator extends StatelessWidget {
-  final String gifUrl = 'https://res.cloudinary.com/dy7he6gby/image/upload/v1702484463/ioqhf86xbmyjmwo99hgw.png';
+  final String gifUrl = 'https://res.cloudinary.com/dy7he6gby/image/upload/v1703859936/y0yzsfm1hhyjgjxs7qpl.png';
 
   CustomProgressIndicator();
 

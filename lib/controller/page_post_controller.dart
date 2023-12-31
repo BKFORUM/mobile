@@ -25,15 +25,12 @@ class PagePostController extends GetxController {
   Rx<PagePostModel> pagePostModelObj = PagePostModel().obs;
 
   Future<void> uploadPost(
-      BuildContext context, String forumId, String content) async {
+      BuildContext context, Forum forum, String content) async {
     List<PostDocument> documents = [];
 
     if (content.trim().isNotEmpty) {
-      // ignore: invalid_use_of_protected_member
-      if (selectedImages.value.isNotEmpty) {
-        // ignore: invalid_use_of_protected_member
-        for (final File selectedImage in selectedImages.value) {
-
+      if (selectedImages.isNotEmpty) {
+        for (final File selectedImage in selectedImages.reversed) {
           final compressedItem = await testCompressAndGetFile(selectedImage, "compressed_");
           PostDocument document = await uploadImage(compressedItem);
           documents.add(document);
@@ -45,21 +42,12 @@ class PagePostController extends GetxController {
         }
       }
       var postUpload = UploadPostModel(
-          forumId: forumId,
+          forumId: forum.id,
           content: '<p>' + content + '</p>',
           document: documents);
       // print(postUpload.document?[0].fileUrl);
-      statusCode = await uploadPostAPI(postUpload);
-
-      if (statusCode == 201) {
-        postUpload.reset();
-        Get.snackbar('Đăng bài thành công', '',
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.amberAccent);
-      } else {
-        Get.snackbar('Đăng bài không thành công $statusCode', '',
-            duration: Duration(seconds: 2), backgroundColor: Colors.red);
-      }
+      await uploadPostAPI(postUpload, forum);
+      postUpload.reset();
     } else {
       Get.snackbar('Đăng bài không thành công, vui lòng nhập nội dung', '',
           duration: Duration(seconds: 2), backgroundColor: Colors.red);
@@ -71,7 +59,7 @@ class PagePostController extends GetxController {
     List<PostDocument> documents = [];
     if (content.trim().isNotEmpty) {
       if (allImages.isNotEmpty) {
-        for (final item in allImages) {
+        for (final item in allImages.reversed) {
           if (item is File) {
             final compressedItem = await testCompressAndGetFile(item, "compressed_");
             PostDocument document = await uploadImage(compressedItem);

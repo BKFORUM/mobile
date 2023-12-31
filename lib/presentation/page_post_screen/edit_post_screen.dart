@@ -29,11 +29,10 @@ class EditPostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     contentTextController.text = userpostItemModelObj.postContent!.value
         .replaceAll(RegExp(r"<.*?>"), "");
+    textFieldValue = userpostItemModelObj.postContent!.value;
     RxList<PostDocument>? availableImages = userpostItemModelObj.document;
-    // print(userpostItemModelObj.listImages?.length);
     RxList<dynamic> allImages = RxList<dynamic>();
-    // ignore: invalid_use_of_protected_member
-    allImages.addAll(selectedImages.value);
+    allImages.addAll(selectedImages);
     if (availableImages != null) allImages.addAll(availableImages);
     RxBool isLoading = false.obs;
 
@@ -77,25 +76,24 @@ class EditPostScreen extends StatelessWidget {
                     leftIcon: Obx(() {
                       return isLoading.value
                           ? Container(
-                        padding: const EdgeInsets.only(right: 12.0),
-                        height: 14.adaptSize,
-                        width: 26.adaptSize,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.0,
-                        ),
-                      )
+                              padding: const EdgeInsets.only(right: 12.0),
+                              height: 14.adaptSize,
+                              width: 26.adaptSize,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                              ),
+                            )
                           : Container();
                     }),
                     onTap: () {
                       isLoading.value = true;
-                      controller.editPost(context, userpostItemModelObj.id, textFieldValue, allImages)
+                      controller
+                          .editPost(context, userpostItemModelObj.id,
+                              textFieldValue, allImages)
                           .then((_) {
                         isLoading.value = false;
-                        if(!Get.isSnackbarOpen){
-                          Get.back();
-                        }
+                        Get.offNamed(AppRoutes.pageFeedScreen);
                       });
-
                     }),
               ))
             ]),
@@ -121,7 +119,7 @@ class EditPostScreen extends StatelessWidget {
                 padding: EdgeInsets.only(left: 4.h, top: 8.v),
                 child: TextFormField(
                   controller: contentTextController,
-                  maxLines: 26,
+                  maxLines: 15,
                   onChanged: (value) {
                     textFieldValue = value;
                   },
@@ -134,24 +132,19 @@ class EditPostScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
-                        padding: EdgeInsets.only(left: 10.h),
-                        child: CustomImageView(
-                          imagePath: ImageConstant.imgIconimage,
-                          height: 20.adaptSize,
-                          width: 20.adaptSize,
-                        )),
-                    SizedBox(width: 16),
-                    Flexible(
-                      child: CustomElevatedButton(
-                          width: 60.h,
-                          text: "lbl_h_nh_nh".tr,
-                          buttonTextStyle: CustomTextStyles
-                              .titleMediumHelveticaOnPrimaryContainer,
-                          buttonStyle: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
+                    Expanded(
+                      child: ListTile(
+                          leading: CustomImageView(
+                            imagePath: ImageConstant.imgIconimage,
+                            height: 20.adaptSize,
+                            width: 20.adaptSize,
                           ),
+                          title: Text(
+                            "lbl_h_nh_nh".tr,
+                            style: CustomTextStyles
+                                .titleMediumHelveticaOnPrimaryContainer,
+                          ),
+                          horizontalTitleGap: 0,
                           onTap: () {
                             showModalBottomSheet(
                                 context: context,
@@ -165,7 +158,7 @@ class EditPostScreen extends StatelessWidget {
                                         16.adaptSize,
                                         10.adaptSize,
                                         10.adaptSize),
-                                    height: 700.adaptSize,
+                                    height: 540.adaptSize,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(20),
@@ -188,11 +181,8 @@ class EditPostScreen extends StatelessWidget {
                                           final pickedImage =
                                               await ImagePicker().pickImage(
                                                   source: ImageSource.gallery);
-                                          // final pickedImagePath = pickedImage?.path;
                                           final selectedImage =
                                               File(pickedImage!.path);
-                                          // selectedImages.value
-                                          //     .add(selectedImage);
                                           allImages.add(selectedImage);
                                         },
                                       )
@@ -217,92 +207,102 @@ class EditPostScreen extends StatelessWidget {
                                           final pickedImage =
                                               await ImagePicker().pickImage(
                                                   source: ImageSource.camera);
-                                          setState(() {
                                             if (pickedImage != null) {
                                               final selectedImage =
                                                   File(pickedImage.path);
-                                              // selectedImages.value
-                                              //     .add(selectedImage);
                                               allImages.add(selectedImage);
                                             } else {
                                               print('No image selected.');
                                             }
-                                          });
                                         },
                                       )
                                           .animate()
                                           .fade()
                                           .slideY(curve: Curves.easeIn),
                                       const SizedBox(height: 20),
-                                      // selectedImages.isNotEmpty ? Text("Okeee"): const Text("Chưa có ảnh"),
                                       Expanded(
                                         child: SingleChildScrollView(
                                           child: Column(children: [
                                             if (allImages.isNotEmpty)
                                               Obx(() {
-                                                return ListView.builder(
-                                                  shrinkWrap: true,
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  itemCount: allImages.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    var item = allImages[index];
-                                                    if (item is File) {
-                                                      return Stack(
-                                                        children: [
-                                                          CustomImageView(
-                                                            file: item,
-                                                            width: 0.6 *
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height,
-                                                            fit: BoxFit.cover,
+                                                return Container(
+                                                  height: 300.adaptSize,
+                                                  child: ListView.builder(
+                                                    // shrinkWrap: true,
+                                                    // physics:
+                                                    //     NeverScrollableScrollPhysics(),
+                                                    scrollDirection: Axis.horizontal,
+                                                    itemCount: allImages.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      var item = allImages[index];
+                                                      if (item is File) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Stack(
+                                                            children: [
+                                                              CustomImageView(
+                                                                height: 270.adaptSize,
+                                                                width: 270.adaptSize,
+                                                                file: item,
+                                                                // width: 0.6 *
+                                                                //     MediaQuery.of(
+                                                                //             context)
+                                                                //         .size
+                                                                //         .height,
+                                                                fit: BoxFit.cover,
+                                                                radius: BorderRadius.circular(32),
+                                                              ),
+                                                              Positioned(
+                                                                top: 6,
+                                                                right: 6,
+                                                                child: CancelButton(
+                                                                  onPressed: () {
+                                                                    allImages
+                                                                        .remove(
+                                                                            item);
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                          Positioned(
-                                                            top: 6,
-                                                            right: 6,
-                                                            child: CancelButton(
-                                                              onPressed: () {
-                                                                // ignore: invalid_use_of_protected_member
-                                                                allImages.value
-                                                                    .remove(
-                                                                        item);
-                                                              },
-                                                            ),
+                                                        );
+                                                      } else if (item
+                                                          is PostDocument) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Stack(
+                                                            children: [
+                                                              CustomImageView(
+                                                                height: 270.adaptSize,
+                                                                width: 270.adaptSize,
+                                                                url: item.fileUrl,
+                                                                // width: 0.6 *
+                                                                //     MediaQuery.of(
+                                                                //             context)
+                                                                //         .size
+                                                                //         .height,
+                                                                fit: BoxFit.cover,
+                                                                radius: BorderRadius.circular(32),
+                                                              ),
+                                                              Positioned(
+                                                                top: 6,
+                                                                right: 6,
+                                                                child: CancelButton(
+                                                                  onPressed: () {
+                                                                    allImages
+                                                                        .remove(
+                                                                            item);
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                        ],
-                                                      );
-                                                    } else if (item is PostDocument) {
-                                                      return Stack(
-                                                        children: [
-                                                          CustomImageView(
-                                                            url: item.fileUrl,
-                                                            width: 0.6 *
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                          Positioned(
-                                                            top: 6,
-                                                            right: 6,
-                                                            child: CancelButton(
-                                                              onPressed: () {
-                                                                // ignore: invalid_use_of_protected_member
-                                                                allImages.value
-                                                                    .remove(
-                                                                        item);
-                                                              },
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    }
-                                                    return SizedBox.shrink();
-                                                  },
+                                                        );
+                                                      }
+                                                      return SizedBox.shrink();
+                                                    },
+                                                  ),
                                                 );
                                               }),
                                             if (allImages.isEmpty)
@@ -322,8 +322,7 @@ class EditPostScreen extends StatelessWidget {
                                       CustomElevatedButton(
                                         text: "Chọn".tr,
                                         onTap: () {
-                                          // ignore: invalid_use_of_protected_member
-                                          print(allImages.value.length);
+                                          print(allImages.length);
                                           Navigator.pop(context);
                                         },
                                       ),
@@ -342,25 +341,19 @@ class EditPostScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                      padding: EdgeInsets.only(left: 10.h),
-                      child: CustomImageView(
-                        imagePath: ImageConstant.imgIconlink,
-                        height: 20.adaptSize,
-                        width: 20.adaptSize,
-                      )),
-                  SizedBox(width: 12),
-                  Flexible(
-                    child: CustomElevatedButton(
-                        width: 60.h,
-                        text: "lbl_li_n_k_t".tr,
-                        buttonTextStyle: CustomTextStyles
-                            .titleMediumHelveticaOnPrimaryContainer,
-                        buttonStyle: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          // maximumSize: Size.square(2)
+                  Expanded(
+                    child: ListTile(
+                        leading: CustomImageView(
+                          imagePath: ImageConstant.imgIconlink,
+                          height: 20.adaptSize,
+                          width: 20.adaptSize,
                         ),
+                        title: Text(
+                          "lbl_li_n_k_t".tr,
+                          style: CustomTextStyles
+                              .titleMediumHelveticaOnPrimaryContainer,
+                        ),
+                        horizontalTitleGap: 0,
                         onTap: () {
                           Get.bottomSheet(
                             Container(

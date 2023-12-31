@@ -1,5 +1,6 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/comments_api.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../data/models/reply.dart';
 
@@ -51,44 +52,52 @@ class ReplyComment extends StatelessWidget {
                   ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
+                      padding: EdgeInsets.all(0),
                       itemCount: repliesList.length,
                       itemBuilder: (context, index) {
                         final reply = repliesList[index];
-                        return ListTile(
-                          leading: Container(
-                            margin:
-                                EdgeInsets.symmetric(horizontal: 8.adaptSize),
-                            child: CustomImageView(
-                              url: reply.userAvatar!.value,
-                              fit: BoxFit.cover,
-                              height: 22.adaptSize,
-                              width: 22.adaptSize,
-                              radius: BorderRadius.circular(14.h),
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 8.adaptSize),
+                                  child: CustomImageView(
+                                    url: reply.userAvatar!.value,
+                                    fit: BoxFit.cover,
+                                    height: 20.adaptSize,
+                                    width: 20.adaptSize,
+                                    radius: BorderRadius.circular(10.h),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      0, 0, 4.adaptSize, 6.adaptSize),
+                                  child: Text(
+                                    reply.userCreate!.value,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12.v,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          title: Container(
-                            margin: EdgeInsets.fromLTRB(
-                                0, 0, 4.adaptSize, 6.adaptSize),
-                            child: Text(
-                              reply.userCreate!.value,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12.v,
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(left: 34.adaptSize),
+                              child: Text(
+                                reply.content!.value,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 16.v,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
-                          ),
-                          subtitle: Container(
-                            margin: EdgeInsets.only(top: 1.adaptSize),
-                            child: Text(
-                              reply.content!.value,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 16.v,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          minVerticalPadding: 1.v,
+                            SizedBox(height: 14.adaptSize)
+                          ],
                         );
                       }),
                 ],

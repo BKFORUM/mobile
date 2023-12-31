@@ -1,4 +1,4 @@
- import 'controller/app_navigation_controller.dart';
+import 'controller/app_navigation_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                             child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20.h, vertical: 10.v),
-                                child: Text("lbl_app_navigation".tr,
+                                child: Text("Trở về".tr,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: appTheme.black900,
@@ -32,7 +32,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                                 padding: EdgeInsets.only(left: 20.h),
-                                child: Text("msg_check_your_app_s".tr,
+                                child: Text("Trở về màn hình".tr,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: appTheme.blueGray400,
@@ -52,42 +52,15 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                               child: Column(children: [
                                 GestureDetector(
                                     onTap: () {
-                                      onTapPageLogin();
-                                    },
-                                    child: Container(
-                                        decoration:
-                                            AppDecoration.fillOnErrorContainer,
-                                        child: Column(children: [
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 20.h,
-                                                      vertical: 10.v),
-                                                  child: Text(
-                                                      "lbl_page_login".tr,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color:
-                                                              appTheme.black900,
-                                                          fontSize: 20.fSize,
-                                                          fontFamily: 'Roboto',
-                                                          fontWeight: FontWeight
-                                                              .w400)))),
-                                          SizedBox(height: 5.v),
-                                          Divider(
-                                              height: 1.v,
-                                              thickness: 1.v,
-                                              color: appTheme.blueGray400)
-                                        ]))),
-                                GestureDetector(
-                                    onTap: () {
                                       onTapPageFeed();
                                     },
                                     child: Container(
-                                        decoration:
-                                            AppDecoration.fillOnErrorContainer,
+                                        margin: EdgeInsets.all(4.adaptSize),
+                                        padding: EdgeInsets.all(4.adaptSize),
+                                        decoration: BoxDecoration(
+                                            color: Colors.blue.shade100,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(16.adaptSize))),
                                         child: Column(children: [
                                           Align(
                                               alignment: Alignment.centerLeft,
@@ -95,8 +68,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 20.h,
                                                       vertical: 10.v),
-                                                  child: Text(
-                                                      "lbl_page_feed".tr,
+                                                  child: Text("Newsfeed".tr,
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -106,81 +78,18 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                           fontFamily: 'Roboto',
                                                           fontWeight: FontWeight
                                                               .w400)))),
-                                          SizedBox(height: 5.v),
-                                          Divider(
-                                              height: 1.v,
-                                              thickness: 1.v,
-                                              color: appTheme.blueGray400)
-                                        ]))),
-                                GestureDetector(
-                                    onTap: () {
-                                      onTapPageForumOne();
-                                    },
-                                    child: Container(
-                                        decoration:
-                                            AppDecoration.fillOnErrorContainer,
-                                        child: Column(children: [
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 20.h,
-                                                      vertical: 10.v),
-                                                  child: Text(
-                                                      "lbl_page_forumone".tr,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color:
-                                                              appTheme.black900,
-                                                          fontSize: 20.fSize,
-                                                          fontFamily: 'Roboto',
-                                                          fontWeight: FontWeight
-                                                              .w400)))),
-                                          SizedBox(height: 5.v),
-                                          Divider(
-                                              height: 1.v,
-                                              thickness: 1.v,
-                                              color: appTheme.blueGray400)
-                                        ]))),
-                                GestureDetector(
-                                    onTap: () {
-                                      onTapPageForumTwo();
-                                    },
-                                    child: Container(
-                                        decoration:
-                                            AppDecoration.fillOnErrorContainer,
-                                        child: Column(children: [
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 20.h,
-                                                      vertical: 10.v),
-                                                  child: Text(
-                                                      "lbl_page_forumtwo".tr,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color:
-                                                              appTheme.black900,
-                                                          fontSize: 20.fSize,
-                                                          fontFamily: 'Roboto',
-                                                          fontWeight: FontWeight
-                                                              .w400)))),
-                                          SizedBox(height: 5.v),
-                                          Divider(
-                                              height: 1.v,
-                                              thickness: 1.v,
-                                              color: appTheme.blueGray400)
                                         ]))),
                                 GestureDetector(
                                     onTap: () {
                                       onTapPageMessage();
                                     },
                                     child: Container(
-                                        decoration:
-                                            AppDecoration.fillOnErrorContainer,
+                                        margin: EdgeInsets.all(4.adaptSize),
+                                        padding: EdgeInsets.all(4.adaptSize),
+                                        decoration: BoxDecoration(
+                                            color: Colors.blue.shade100,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(16.adaptSize))),
                                         child: Column(children: [
                                           Align(
                                               alignment: Alignment.centerLeft,
@@ -188,8 +97,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 20.h,
                                                       vertical: 10.v),
-                                                  child: Text(
-                                                      "lbl_page_message".tr,
+                                                  child: Text("Tin nhắn".tr,
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -199,82 +107,18 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                           fontFamily: 'Roboto',
                                                           fontWeight: FontWeight
                                                               .w400)))),
-                                          SizedBox(height: 5.v),
-                                          Divider(
-                                              height: 1.v,
-                                              thickness: 1.v,
-                                              color: appTheme.blueGray400)
-                                        ]))),
-                                GestureDetector(
-                                    onTap: () {
-                                      //onTapPageMessageChat();
-                                    },
-                                    child: Container(
-                                        decoration:
-                                            AppDecoration.fillOnErrorContainer,
-                                        child: Column(children: [
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 20.h,
-                                                      vertical: 10.v),
-                                                  child: Text(
-                                                      "msg_page_message_chat"
-                                                          .tr,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color:
-                                                              appTheme.black900,
-                                                          fontSize: 20.fSize,
-                                                          fontFamily: 'Roboto',
-                                                          fontWeight: FontWeight
-                                                              .w400)))),
-                                          SizedBox(height: 5.v),
-                                          Divider(
-                                              height: 1.v,
-                                              thickness: 1.v,
-                                              color: appTheme.blueGray400)
-                                        ]))),
-                                GestureDetector(
-                                    onTap: () {
-                                      onTapPagePost();
-                                    },
-                                    child: Container(
-                                        decoration:
-                                            AppDecoration.fillOnErrorContainer,
-                                        child: Column(children: [
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 20.h,
-                                                      vertical: 10.v),
-                                                  child: Text(
-                                                      "lbl_page_post".tr,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color:
-                                                              appTheme.black900,
-                                                          fontSize: 20.fSize,
-                                                          fontFamily: 'Roboto',
-                                                          fontWeight: FontWeight
-                                                              .w400)))),
-                                          SizedBox(height: 5.v),
-                                          Divider(
-                                              height: 1.v,
-                                              thickness: 1.v,
-                                              color: appTheme.blueGray400)
                                         ]))),
                                 GestureDetector(
                                     onTap: () {
                                       onTapPageNotification();
                                     },
                                     child: Container(
-                                        decoration:
-                                            AppDecoration.fillOnErrorContainer,
+                                        margin: EdgeInsets.all(4.adaptSize),
+                                        padding: EdgeInsets.all(4.adaptSize),
+                                        decoration: BoxDecoration(
+                                            color: Colors.blue.shade100,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(16.adaptSize))),
                                         child: Column(children: [
                                           Align(
                                               alignment: Alignment.centerLeft,
@@ -282,9 +126,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 20.h,
                                                       vertical: 10.v),
-                                                  child: Text(
-                                                      "msg_page_notification"
-                                                          .tr,
+                                                  child: Text("Thông báo".tr,
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -294,19 +136,18 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                           fontFamily: 'Roboto',
                                                           fontWeight: FontWeight
                                                               .w400)))),
-                                          SizedBox(height: 5.v),
-                                          Divider(
-                                              height: 1.v,
-                                              thickness: 1.v,
-                                              color: appTheme.blueGray400)
                                         ]))),
                                 GestureDetector(
                                     onTap: () {
                                       onTapPageSetting();
                                     },
                                     child: Container(
-                                        decoration:
-                                            AppDecoration.fillOnErrorContainer,
+                                        margin: EdgeInsets.all(4.adaptSize),
+                                        padding: EdgeInsets.all(4.adaptSize),
+                                        decoration: BoxDecoration(
+                                            color: Colors.blue.shade100,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(16.adaptSize))),
                                         child: Column(children: [
                                           Align(
                                               alignment: Alignment.centerLeft,
@@ -314,8 +155,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 20.h,
                                                       vertical: 10.v),
-                                                  child: Text(
-                                                      "lbl_page_setting".tr,
+                                                  child: Text("Cài đặt".tr,
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -325,11 +165,6 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
                                                           fontFamily: 'Roboto',
                                                           fontWeight: FontWeight
                                                               .w400)))),
-                                          SizedBox(height: 5.v),
-                                          Divider(
-                                              height: 1.v,
-                                              thickness: 1.v,
-                                              color: appTheme.blueGray400)
                                         ])))
                               ]))))
                 ]))));
@@ -340,7 +175,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
   /// When the action is triggered, this function uses the [Get] package to
   /// push the named route for the pageLoginScreen.
   onTapPageLogin() {
-    Get.toNamed(
+    Get.offAllNamed(
       AppRoutes.pageLoginScreen,
     );
   }
@@ -389,7 +224,7 @@ class AppNavigationScreen extends GetWidget<AppNavigationController> {
 
   /// When the action is triggered, this function uses the [Get] package to
   /// push the named route for the pageMessageChatScreen.
-  
+
   // onTapPageMessageChat() {
   //   Get.toNamed(
   //     AppRoutes.pageMessageChatScreen,
