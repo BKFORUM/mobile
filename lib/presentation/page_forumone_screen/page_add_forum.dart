@@ -52,8 +52,8 @@ class PageAddForum extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Container(
-                height: 200.adaptSize,
-                width: 200.adaptSize,
+                height: 140.adaptSize,
+                width: 140.adaptSize,
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                     color: Colors.grey.shade200,
@@ -135,7 +135,7 @@ class PageAddForum extends StatelessWidget {
               SizedBox(height: 14),
               Obx(() {
                 return Container(
-                  height: 80.adaptSize,
+                  height: 76.adaptSize,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: addedTopics.length,
@@ -191,12 +191,13 @@ class PageAddForum extends StatelessWidget {
                                 contentPadding: EdgeInsets.all(10.adaptSize)),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
-                                value: (topic.value.name == '')
+                                value: (topic.value.name != '')
                                     ? topic.value.name
                                     : topics?.first.name,
                                 icon: const Icon(Icons.arrow_drop_down),
                                 isExpanded: true,
                                 elevation: 8,
+                                menuMaxHeight: 400.adaptSize,
                                 padding:
                                     EdgeInsets.fromLTRB(3.h, 2.v, 3.h, 2.v),
                                 focusColor: CupertinoColors.opaqueSeparator,
@@ -231,7 +232,8 @@ class PageAddForum extends StatelessWidget {
                         return SizedBox(height: 20.adaptSize);
                     }),
               ),
-              SizedBox(height: 14),
+              // SizedBox(height: 14),
+              Spacer(),
               CustomElevatedButton(
                 onTap: () {
                   if (forumName == '' && forum?.name != null) forumName = forum?.name ?? '' ;

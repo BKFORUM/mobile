@@ -2,7 +2,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../controller/page_login_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/widgets/custom_elevated_button.dart';
-import 'package:bkforum/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class PageLoginScreen extends GetWidget<PageLoginController> {
@@ -10,6 +9,8 @@ class PageLoginScreen extends GetWidget<PageLoginController> {
 
   @override
   Widget build(BuildContext context) {
+    RxBool isPasswordVisible = true.obs;
+
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
@@ -37,19 +38,45 @@ class PageLoginScreen extends GetWidget<PageLoginController> {
                                   height: 160.v,
                                   width: 312.h),
                               Spacer(),
-                              CustomTextFormField(
-                                  controller: controller.studentidoneController,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 10.v),
-                                  hintText: "Email".tr),
-                              SizedBox(height: 24.v),
-                              CustomTextFormField(
-                                  controller: controller.passwordoneController,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 10.v),
-                                  hintText: "lbl_m_t_kh_u".tr,
-                                  obscureText: true,
-                                  textInputAction: TextInputAction.done
+
+                              TextFormField(
+                                controller: controller.studentidoneController,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  labelText: 'Email',
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.adaptSize))),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 10.adaptSize, vertical: 24.adaptSize),
+                                ),
                               ),
-                              SizedBox(height: 91.v),
+                              SizedBox(height: 16.v),
+                              Obx(() {
+                                  return TextFormField(
+                                      controller: controller.passwordoneController,
+                                      obscureText: isPasswordVisible.value,
+                                      decoration: InputDecoration(
+                                        labelText: 'Mật khẩu',
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.adaptSize))),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 10.adaptSize, vertical: 24.adaptSize),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(
+                                            isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
+                                          ),
+                                          onPressed: () {
+                                            isPasswordVisible.value = !isPasswordVisible.value;
+                                          },
+                                        ),
+                                      ),
+                                      textInputAction: TextInputAction.done
+                                  );
+                                }
+                              ),
+                              SizedBox(height: 120.v),
                               CustomElevatedButton(
                                   text: "lbl_ng_nh_p".tr,
                                   onTap: (){

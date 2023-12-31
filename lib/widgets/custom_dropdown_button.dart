@@ -1,4 +1,5 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -74,33 +75,53 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
               if (snapshot.hasData) {
                 forums = snapshot.data!;
                 return Container(
-                  child: DropdownButton<String>(
-                    value:
-                        dropdownValue.isNotEmpty ? dropdownValue : forums.first.name,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    isExpanded: true,
-                    elevation: 8,
-                    style: CustomTextStyles.titleSmallBlack900,
-                    dropdownColor: widget.dropdownColor,
-                    padding: EdgeInsets.fromLTRB(3.h, 2.v, 3.h, 2.v),
-                    focusColor: CupertinoColors.opaqueSeparator,
-                    borderRadius: BorderRadiusStyle.circleBorder20,
-                    onChanged: (String? value) {
-                      setState(() {
-                        dropdownValue = value!;
-                        int selectedIndex = forums.indexOf(forums
-                            .firstWhere((forum) => forum.name == dropdownValue));
-                        var selectedPostForum =
-                            Get.find<PagePostController>().selectedPostForum;
-                        selectedPostForum.value = forums[selectedIndex];
-                      });
-                    },
-                    items: forums.map<DropdownMenuItem<String>>((Forum forum) {
-                      return DropdownMenuItem<String>(
-                        value: forum.name,
-                        child: Text(forum.name),
-                      );
-                    }).toList(),
+                  // height: 300.adaptSize,
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      DropdownButton<String>(
+                        value:
+                            dropdownValue.isNotEmpty ? dropdownValue : forums.first.name,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        isExpanded: true,
+                        elevation: 8,
+                        menuMaxHeight: 300.adaptSize,
+                        style: CustomTextStyles.titleSmallBlack900,
+                        dropdownColor: widget.dropdownColor,
+                        padding: EdgeInsets.fromLTRB(3.h, 2.v, 3.h, 2.v),
+                        focusColor: CupertinoColors.opaqueSeparator,
+                        borderRadius: BorderRadiusStyle.circleBorder20,
+                        onChanged: (String? value) {
+                          setState(() {
+                            dropdownValue = value!;
+                            int selectedIndex = forums.indexOf(forums
+                                .firstWhere((forum) => forum.name == dropdownValue));
+                            var selectedPostForum =
+                                Get.find<PagePostController>().selectedPostForum;
+                            selectedPostForum.value = forums[selectedIndex];
+                          });
+                        },
+                        items: forums.map<DropdownMenuItem<String>>((Forum forum) {
+                          return DropdownMenuItem<String>(
+                            value: forum.name,
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius : BorderRadius.circular(10),
+                                  child: CachedNetworkImage(imageUrl: forum.avatarUrl ?? 'http://res.cloudinary.com/dy7he6gby/image/upload/v1702796805/a70tpruabwfzoq819luj.jpg',
+                                    height: 20.adaptSize,
+                                    width: 20.adaptSize,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(width: 10.adaptSize),
+                                Text(forum.name),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ),
                 );
               } else if (snapshot.hasError) {

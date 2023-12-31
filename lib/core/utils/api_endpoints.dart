@@ -8,6 +8,7 @@ class _AuthEndPoints {
   final String refresh = 'auth/refresh';
   final String forgot = 'auth/forgot-password';
   final String resetPassword = 'auth/reset-password';
+  final String changePassword = 'auth/change-password';
   final String posts = 'posts';
   final String comments = 'comments';
   final String replies = 'replies';
