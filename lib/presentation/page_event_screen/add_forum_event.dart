@@ -116,6 +116,12 @@ class AddEventPage extends StatelessWidget {
                         }
                       });
                     },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Vui lòng nhập thời gian bắt đầu';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 Container(
@@ -165,6 +171,12 @@ class AddEventPage extends StatelessWidget {
                         }
                       });
                     },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Vui lòng nhập thời gian kết thúc';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 Container(
@@ -179,6 +191,12 @@ class AddEventPage extends StatelessWidget {
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 10.adaptSize, vertical: 10.adaptSize),
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Vui lòng nhập địa điểm';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 Container(
@@ -194,6 +212,12 @@ class AddEventPage extends StatelessWidget {
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 10.adaptSize, vertical: 10.adaptSize),
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Vui lòng nhập nội dung';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 Expanded(child: Obx(() {
@@ -238,7 +262,12 @@ class AddEventPage extends StatelessWidget {
                           backgroundColor: Colors.white);
                     },
                     child: selectedImages.isEmpty
-                    ? CustomProgressIndicator()
+                    ? Container(child: Column(
+                      children: [
+                        Text('Thêm hình ảnh (${selectedImages.length}/5)'),
+                        Expanded(child: CustomProgressIndicator()),
+                      ],
+                    ))
                         : Container(
                             height: 300.adaptSize,
                             child: ListView.builder(
@@ -291,13 +320,14 @@ class AddEventPage extends StatelessWidget {
                     }
                   },
                   child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 60.adaptSize, vertical: 20.adaptSize),
+                      width: double.maxFinite,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(vertical: 20.adaptSize),
                       child: Text(
                         'Tạo',
                         style: TextStyle(
                             color: Colors.yellow,
-                            fontSize: 20.adaptSize,
+                            fontSize: 16.adaptSize,
                             fontWeight: FontWeight.w700,
                             fontFamily: 'Helvetica'),
                       )),

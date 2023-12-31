@@ -116,33 +116,72 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                               GestureDetector(
                                                 onTap: (){
                                                   Get.back();
-                                                  final emailController = TextEditingController();
                                                   final passwordController = TextEditingController();
                                                   final confirmPasswordController = TextEditingController();
                                                   final newPasswordController = TextEditingController();
+
+                                                  RxBool isPasswordVisible = true.obs;
+                                                  RxBool isConfirmPasswordVisible = true.obs;
+                                                  RxBool isNewPasswordVisible = true.obs;
+
                                                   Get.defaultDialog(
                                                     title: 'Đổi mật khẩu',
                                                     content: Column(
                                                       children: [
-                                                        TextField(
-                                                          controller: emailController,
-                                                          keyboardType: TextInputType.emailAddress,
-                                                          decoration: InputDecoration(hintText: 'Email'),
+                                                        Obx(() {
+                                                            return TextField(
+                                                              controller: passwordController,
+                                                              keyboardType: TextInputType.visiblePassword,
+                                                              obscureText: isPasswordVisible.value,
+                                                              decoration: InputDecoration(
+                                                                hintText: 'Mật khẩu cũ',
+                                                                suffixIcon: IconButton(
+                                                                  icon: Icon(
+                                                                    isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
+                                                                  ),
+                                                                  onPressed: () {
+                                                                      isPasswordVisible.value = !isPasswordVisible.value;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
                                                         ),
-                                                        TextField(
-                                                          controller: passwordController,
-                                                          keyboardType: TextInputType.visiblePassword,
-                                                          decoration: InputDecoration(hintText: 'Mật khẩu cũ'),
+                                                        Obx(() {
+                                                            return TextField(
+                                                              controller: confirmPasswordController,
+                                                              keyboardType: TextInputType.visiblePassword,
+                                                              obscureText: isConfirmPasswordVisible.value,
+                                                              decoration: InputDecoration(
+                                                                  hintText: 'Nhập lại mật khẩu cũ',
+                                                                suffixIcon: IconButton(
+                                                                  icon: Icon(
+                                                                    isConfirmPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
                                                         ),
-                                                        TextField(
-                                                          controller: confirmPasswordController,
-                                                          keyboardType: TextInputType.visiblePassword,
-                                                          decoration: InputDecoration(hintText: 'Nhập lại mật khẩu cũ'),
-                                                        ),
-                                                        TextField(
-                                                          controller: newPasswordController,
-                                                          keyboardType: TextInputType.visiblePassword,
-                                                          decoration: InputDecoration(hintText: 'Nhập mật khẩu mới'),
+                                                        Obx(() {
+                                                            return TextField(
+                                                              controller: newPasswordController,
+                                                              keyboardType: TextInputType.visiblePassword,
+                                                              obscureText: isNewPasswordVisible.value,
+                                                              decoration: InputDecoration(hintText: 'Nhập mật khẩu mới',
+                                                                suffixIcon: IconButton(
+                                                                  icon: Icon(
+                                                                    isNewPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    isNewPasswordVisible.value = !isNewPasswordVisible.value;
+                                                                  },
+                                                                )),
+                                                            );
+                                                          }
                                                         ),
                                                       ],
                                                     ),
@@ -152,12 +191,11 @@ class PageSettingScreen extends GetWidget<PageSettingController> {
                                                       ),
                                                       child: Text('OK', style: TextStyle(fontSize: 20.adaptSize, color: Colors.amber)),
                                                       onPressed: () {
-                                                        String email = emailController.text.trim();
                                                         String password = passwordController.text.trim();
                                                         String confirmPassword = confirmPasswordController.text.trim();
                                                         String newPassword = newPasswordController.text.trim();
                                                         if(password == confirmPassword && password != newPassword){
-                                                          controller.changePassword(newPassword, email);
+                                                          controller.changePassword(confirmPassword, newPassword);
                                                         } else Get.snackbar('Lỗi nhập liệu', 'Xác nhận mật khẩu chưa chính xác', backgroundColor: Colors.red.shade300);
                                                       },
                                                     ),

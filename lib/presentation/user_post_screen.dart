@@ -12,6 +12,7 @@ class UserPostScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
   final UserPostScreenController controller = Get.put(UserPostScreenController());
+  final postId = Get.arguments as String;
 
   @override
   Widget build(BuildContext context) {

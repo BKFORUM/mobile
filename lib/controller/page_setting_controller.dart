@@ -64,7 +64,7 @@ class PageSettingController extends GetxController {
     update();
   }
 
-  void changePassword(String newPassword, String email) {
-    ProfileApi().changePassword(newPassword, email);
+  void changePassword(String oldPassword, String newPassword)  {
+    ProfileApi().changePassword(oldPassword, newPassword);
   }
 }

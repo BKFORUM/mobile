@@ -47,6 +47,12 @@ class PageLoginController extends GetxController {
       String passWordCheck = '';
       String token = '';
       RxInt countdown = 60.obs;
+      var timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        countdown.value--;
+        if (countdown.value == 0) {
+          timer.cancel();
+        }
+      });
       Get.dialog(Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(

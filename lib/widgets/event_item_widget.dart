@@ -151,17 +151,12 @@ class EventItemWidget extends StatelessWidget {
                       }).toList(),
                     ),
                   ),
-                  // ignore: invalid_use_of_protected_member
-                  Text(eventItemModelObj.users!.value.isNotEmpty
-                      // ignore: invalid_use_of_protected_member
-                      ? (eventItemModelObj.users!.value.length == 1
-                          // ignore: invalid_use_of_protected_member
-                          ? (eventItemModelObj.users!.value[0].fullName ?? '')
-                          // ignore: invalid_use_of_protected_member
-                          : ((eventItemModelObj.users!.value[0].fullName ??
+                  Text(eventItemModelObj.users!.isNotEmpty
+                      ? (eventItemModelObj.users!.length == 1
+                          ? (eventItemModelObj.users![0].fullName ?? '')
+                          : ((eventItemModelObj.users![0].fullName ??
                                   '') +
-                              // ignore: invalid_use_of_protected_member
-                              ' và ${eventItemModelObj.users!.value.length - 1} người khác'))
+                              ' và ${eventItemModelObj.users!.length - 1} người khác'))
                       : (''))
                 ],
               ),

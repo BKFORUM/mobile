@@ -21,7 +21,7 @@ class EventApiClient extends GetConnect {
       ApiEndPoints.baseUrl +
           ApiEndPoints.authEndpoints.events +
           '?take=$take&skip=$skip' +
-          (forumIds != '' ? '&forumIds=$forumIds' : '') +
+          (forumIds != '' ? '&forumIds=$forumIds&type=FORUM' : '&type=GENERAL') +
           '&order=startAt%3Adesc',
       headers: headers,
     );

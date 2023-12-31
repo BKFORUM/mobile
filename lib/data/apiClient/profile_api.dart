@@ -66,23 +66,26 @@ class ProfileApi extends GetConnect {
     }
   }
 
-  Future<void> changePassword(String newPassword, String email) async {
+  Future<void> changePassword(String oldPassword, String newPassword) async {
     final preferences = await SharedPreferences.getInstance();
     String accessToken = preferences.getString('accessToken') ?? '';
-    String refreshToken = preferences.getString('refreshToken') ?? '';
     final headers = {
       'Authorization': 'Bearer $accessToken',
     };
-    final url = ApiEndPoints.baseUrl+ApiEndPoints.authEndpoints.resetPassword;
+    final url = ApiEndPoints.baseUrl+ApiEndPoints.authEndpoints.changePassword;
     final response = await post(url, {
-      "email" : email,
-      "token" : refreshToken,
-      "password": newPassword,
+      "newPassword" : newPassword,
+      "oldPassword": oldPassword,
     }, headers: headers);
     if(response.isOk){
-      Get.snackbar('Thành công', 'Đổi mật khẩu thành công',
+      await preferences.setString('accessToken', '');
+      await preferences.setString('refreshToken', '');
+      await preferences.setBool('isLoggedIn', false);
+      Get.offAllNamed(
+        AppRoutes.pageLoginScreen,
+      );
+      Get.snackbar('Thành công', 'Đổi mật khẩu thành công, vui lòng đăng nhập lại',
           backgroundColor: Colors.green);
-      Get.offNamed(AppRoutes.pageSettingScreen);
     } else {
       print(response.body['message']);
       Get.snackbar('Lỗi', response.body['message'] ?? '',

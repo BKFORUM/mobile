@@ -2,14 +2,20 @@ import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/controller/page_search_controller.dart';
 import 'package:bkforum/widgets/app_bar/custom_app_bar.dart';
 import 'package:bkforum/widgets/progress_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
+import '../../core/utils/image_constant.dart';
+import '../../core/utils/size_utils.dart';
 import '../../data/models/profile_model.dart';
+import '../../routes/app_routes.dart';
+import '../../widgets/app_bar/appbar_circleimage.dart';
 import '../../widgets/app_bar/appbar_image.dart';
 import '../../widgets/app_bar/appbar_image_1.dart';
+import '../../widgets/custom_text_form_field.dart';
 import '../page_profile_screen/page_profile_screen.dart';
 
-// ignore: must_be_immutable
 class PageSearchScreen extends GetView<PageSearchController> {
   PageSearchScreen({Key? key}) : super(key: key);
 
