@@ -5,6 +5,7 @@ import 'package:bkforum/widgets/event_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:bkforum/widgets/progress_indicator.dart';
 
+// ignore: must_be_immutable
 class PageEventScreen extends GetView<EventController> {
   Rx<List<Event>> listEvent = Rx<List<Event>>([]);
 

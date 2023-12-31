@@ -1,6 +1,5 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_login_screen/models/page_login_model.dart';
-import 'package:bkforum/widgets/base_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../data/apiClient/apiLogin.dart';
@@ -48,12 +47,6 @@ class PageLoginController extends GetxController {
       String passWordCheck = '';
       String token = '';
       RxInt countdown = 60.obs;
-      var timer = Timer.periodic(Duration(seconds: 1), (timer) {
-        countdown.value--;
-        if (countdown.value == 0) {
-          timer.cancel();
-        }
-      });
       Get.dialog(Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(

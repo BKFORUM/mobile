@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 
 import 'custom_comment_screen.dart';
 import 'custom_participate.dart';
-import 'custom_reaction.dart';
 import 'image_slider.dart';
 
 // ignore: must_be_immutable
@@ -152,11 +151,16 @@ class EventItemWidget extends StatelessWidget {
                       }).toList(),
                     ),
                   ),
+                  // ignore: invalid_use_of_protected_member
                   Text(eventItemModelObj.users!.value.isNotEmpty
+                      // ignore: invalid_use_of_protected_member
                       ? (eventItemModelObj.users!.value.length == 1
+                          // ignore: invalid_use_of_protected_member
                           ? (eventItemModelObj.users!.value[0].fullName ?? '')
+                          // ignore: invalid_use_of_protected_member
                           : ((eventItemModelObj.users!.value[0].fullName ??
                                   '') +
+                              // ignore: invalid_use_of_protected_member
                               ' và ${eventItemModelObj.users!.value.length - 1} người khác'))
                       : (''))
                 ],
