@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/conversation_api_client.dart';
+import 'package:bkforum/data/apiClient/upload_image.dart';
 import 'package:bkforum/data/apiClient/user_api_client.dart';
 import 'package:bkforum/data/models/data_prop/conversation.dart';
+import 'package:bkforum/data/models/data_prop/document.dart';
 import 'package:bkforum/data/models/data_prop/message.dart';
 import 'package:bkforum/data/models/data_prop/on_message.dart';
 import 'package:bkforum/data/models/user_model.dart';
@@ -35,8 +38,9 @@ class PageMessageController extends GetxController {
   }
 
   Future<void> receiveNewMessage(OnMessage msg) async {
-    int index = conversations.indexWhere((element) => element.id == msg.conversationId);
-    Conversation conversation =  conversations.removeAt(index);
+    int index =
+        conversations.indexWhere((element) => element.id == msg.conversationId);
+    Conversation conversation = conversations.removeAt(index);
     // Update
     conversation.lastMessage = LastMessage(
       content: msg.content,
@@ -70,12 +74,17 @@ class PageMessageController extends GetxController {
   }
 
   Future<void> addConversation(
-      String name, String imageLink, List<String> userIds) async {
+      String name, String fileImage, List<String> userIds) async {
     Conversation conversation = await conversationAPIClient.createConversation(
       name: name,
-      imagelink: imageLink,
+      imagelink: fileImage,
       userIds: userIds.toList(),
     );
     this.conversations.insert(0, conversation);
+  }
+
+  Future<String> getImageUrl(File x) async {
+    PostDocument temp = await uploadImage(x);
+    return temp.fileUrl.toString();
   }
 }
