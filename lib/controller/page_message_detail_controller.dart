@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bkforum/controller/page_messsage_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/conversation_api_client.dart';
@@ -14,7 +16,7 @@ class PageMessageDetailController extends GetxController {
   UserApiClient apiUserClient = UserApiClient();
 
   PageMessageDetailController({required this.conversation});
-  Rx<List<Message>> messages = Rx(<Message>[].obs);
+  List<Message> messages = <Message>[].obs;
   final Conversation conversation;
   final PageMessageController pageMessageController =
       Get.put(PageMessageController());
@@ -32,8 +34,8 @@ class PageMessageDetailController extends GetxController {
         conversation.forumId.toString() == '');
     getMessageInConversation();
     getUsersInConversation();
-    SocketIO.socket.on("onMessage", callback);
     if (!conversation.isRead) emitEventOnReadMessage();
+    SocketIO.socket.on("onMessage", callback);
   }
 
   @override
@@ -42,10 +44,13 @@ class PageMessageDetailController extends GetxController {
     super.onClose();
   }
 
-  void callback(dynamic data) async {
+  void callback(dynamic data) {
     OnMessage msg = OnMessage.fromJson(data);
     if(msg.conversationId == conversation.id){
-      messages.value.insert(0, Message.convertFromOnMessage(msg));
+      print(msg.content.toString());
+      Message temp = Message.convertFromOnMessage(msg);
+      messages.insert(0, temp);
+      print(messages.length);
     }
   }
 
@@ -63,12 +68,18 @@ class PageMessageDetailController extends GetxController {
   Future<void> getMessageInConversation() async {
     List<Message> list = await conversationAPIClient.getMessagesInConversation(
         id: conversation.id.toString(), skip: 0, take: 100);
-    messages.value.assignAll(list);
+    messages.assignAll(list);
   }
 
-  Future<void> sendMessage(String content) async {
+  Future<void> sendTextMessage(String content) async {
     await conversationAPIClient.createMessageInConversation(
-        id: conversation.id.toString(), content: content);
+        id: conversation.id.toString(), content: content, type: "TEXT");
+  }
+
+  Future<void> sendImageMessage(File file) async {
+    String imageUrl = await pageMessageController.getImageUrl(file); 
+    await conversationAPIClient.createMessageInConversation(
+        id: conversation.id.toString(), content: imageUrl, type: "IMAGE");
   }
 
   Future<void> changeDisplayName(String content, String userID) async {

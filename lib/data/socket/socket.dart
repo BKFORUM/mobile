@@ -40,10 +40,6 @@ class SocketIO {
     });
   }
 
-  void listenEvent() {
-    socket.on("onMessage", (data) => print(data));
-  }
-
   void emitEvent(String event, dynamic objects) {
     socket.emit(event, objects);
   }

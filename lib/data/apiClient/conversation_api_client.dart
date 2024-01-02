@@ -72,7 +72,7 @@ class ConversationAPIClient extends GetConnect {
   }
 
   Future<dynamic> createMessageInConversation(
-      {required String id, required String content}) async {
+      {required String id, required String content, required String type}) async {
     final preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('accessToken') ?? '';
 
@@ -84,7 +84,7 @@ class ConversationAPIClient extends GetConnect {
           ApiEndPoints.authEndpoints.getConversations +
           '/$id' +
           "/message",
-      {"content": content, "type": "TEXT"},
+      {"content": content, "type": type},
       headers: headers,
     );
     if (response.statusCode! <= 300) {

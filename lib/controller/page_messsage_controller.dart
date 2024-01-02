@@ -5,7 +5,6 @@ import 'package:bkforum/data/apiClient/upload_image.dart';
 import 'package:bkforum/data/apiClient/user_api_client.dart';
 import 'package:bkforum/data/models/data_prop/conversation.dart';
 import 'package:bkforum/data/models/data_prop/document.dart';
-import 'package:bkforum/data/models/data_prop/message.dart';
 import 'package:bkforum/data/models/data_prop/on_message.dart';
 import 'package:bkforum/data/models/user_model.dart';
 import 'package:bkforum/data/socket/socket.dart';
@@ -15,7 +14,7 @@ class PageMessageController extends GetxController {
   ConversationAPIClient conversationAPIClient = ConversationAPIClient();
   UserApiClient apiUserClient = UserApiClient();
   Rx<List<Conversation>> conversations = Rx(<Conversation>[].obs);
-  Rx<List<Message>> messages = Rx(<Message>[].obs);
+  //Rx<List<Message>> messages = Rx(<Message>[].obs);
   Rx<List<User>> users = Rx(<User>[].obs);
 
   @override
@@ -33,8 +32,7 @@ class PageMessageController extends GetxController {
 
   Future<void> callback(dynamic data) async {
     OnMessage msg = OnMessage.fromJson(data);
-    //int index = mapConversation[msg.conversationId.toString()] ?? 0;
-    await receiveNewMessage(msg);
+    receiveNewMessage(msg);
   }
 
   Future<void> receiveNewMessage(OnMessage msg) async {
@@ -56,12 +54,6 @@ class PageMessageController extends GetxController {
     List<Conversation> list =
         await conversationAPIClient.getConversation(skip: 0, take: 100);
     conversations.value.assignAll(list);
-  }
-
-  Future<void> getMessageInConversation(String id) async {
-    List<Message> list = await conversationAPIClient.getMessagesInConversation(
-        id: id, skip: 0, take: 100);
-    messages.value.assignAll(list);
   }
 
   Future<void> geAllUser() async {

@@ -21,14 +21,17 @@ class MessageState extends State<MessageWidget> {
       return Container(
         margin: EdgeInsets.fromLTRB(
             0.adaptSize, 0.adaptSize, 8.adaptSize, 1.adaptSize),
-        width: 100.adaptSize,
-        height: 150.adaptSize,
+        width: 200.adaptSize,
+        height: 300.adaptSize,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.adaptSize),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(msg.content.toString()),
-          ),
+          // image: DecorationImage(
+          //   fit: BoxFit.fill,
+          //   image: NetworkImage(msg.content.toString()),
+          // ),
+        ),
+        child: Image.network(msg.content.toString(),
+        
         ),
       );
     }
