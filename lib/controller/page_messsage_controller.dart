@@ -14,9 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PageMessageController extends GetxController {
   ConversationAPIClient conversationAPIClient = ConversationAPIClient();
   UserApiClient apiUserClient = UserApiClient();
-  final conversations = <Conversation>[].obs;
-  final messages = <Message>[].obs;
-  final users = <User>[].obs;
+  Rx<List<Conversation>> conversations = Rx(<Conversation>[].obs);
+  Rx<List<Message>> messages = Rx(<Message>[].obs);
+  Rx<List<User>> users = Rx(<User>[].obs);
 
   @override
   void onInit() async {
@@ -39,8 +39,8 @@ class PageMessageController extends GetxController {
 
   Future<void> receiveNewMessage(OnMessage msg) async {
     int index =
-        conversations.indexWhere((element) => element.id == msg.conversationId);
-    Conversation conversation = conversations.removeAt(index);
+        conversations.value.indexWhere((element) => element.id == msg.conversationId);
+    Conversation conversation = conversations.value.removeAt(index);
     // Update
     conversation.lastMessage = LastMessage(
       content: msg.content,
@@ -49,19 +49,19 @@ class PageMessageController extends GetxController {
       type: msg.type,
     );
     conversation.isRead = false;
-    conversations.insert(0, conversation);
+    conversations.value.insert(0, conversation);
   }
 
   Future<void> getAllConversation() async {
     List<Conversation> list =
         await conversationAPIClient.getConversation(skip: 0, take: 100);
-    conversations.assignAll(list);
+    conversations.value.assignAll(list);
   }
 
   Future<void> getMessageInConversation(String id) async {
     List<Message> list = await conversationAPIClient.getMessagesInConversation(
         id: id, skip: 0, take: 100);
-    messages.assignAll(list);
+    messages.value.assignAll(list);
   }
 
   Future<void> geAllUser() async {
@@ -70,7 +70,7 @@ class PageMessageController extends GetxController {
     String id = preferences.getString('id') ?? '';
     // ignore: unrelated_type_equality_checks
     list.removeWhere((element) => element.id == id.toString());
-    users.assignAll(list);
+    users.value.assignAll(list);
   }
 
   Future<void> addConversation(
@@ -80,7 +80,7 @@ class PageMessageController extends GetxController {
       imagelink: fileImage,
       userIds: userIds.toList(),
     );
-    this.conversations.insert(0, conversation);
+    this.conversations.value.insert(0, conversation);
   }
 
   Future<String> getImageUrl(File x) async {

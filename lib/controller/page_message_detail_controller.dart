@@ -4,6 +4,7 @@ import 'package:bkforum/data/apiClient/conversation_api_client.dart';
 import 'package:bkforum/data/apiClient/user_api_client.dart';
 import 'package:bkforum/data/models/data_prop/conversation.dart';
 import 'package:bkforum/data/models/data_prop/message.dart';
+import 'package:bkforum/data/models/data_prop/on_message.dart';
 import 'package:bkforum/data/models/user_model.dart';
 import 'package:bkforum/data/socket/socket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +14,7 @@ class PageMessageDetailController extends GetxController {
   UserApiClient apiUserClient = UserApiClient();
 
   PageMessageDetailController({required this.conversation});
-  final messages = <Message>[].obs;
+  Rx<List<Message>> messages = Rx(<Message>[].obs);
   final Conversation conversation;
   final PageMessageController pageMessageController =
       Get.put(PageMessageController());
@@ -41,9 +42,11 @@ class PageMessageDetailController extends GetxController {
     super.onClose();
   }
 
-  void callback(dynamic data) {
-    Message msg = Message.fromJson(data);
-    messages.insert(0, msg);
+  void callback(dynamic data) async {
+    OnMessage msg = OnMessage.fromJson(data);
+    if(msg.conversationId == conversation.id){
+      messages.value.insert(0, Message.convertFromOnMessage(msg));
+    }
   }
 
   void emitEventOnReadMessage() {
@@ -52,21 +55,20 @@ class PageMessageDetailController extends GetxController {
       "messageId": conversation.lastMessage?.id
     });
     this.conversation.isRead = true;
-    int index = pageMessageController.conversations
+    int index = pageMessageController.conversations.value
         .indexWhere((element) => element.id == conversation.id);
-    pageMessageController.conversations[index] = conversation;
+    pageMessageController.conversations.value[index] = conversation;
   }
 
   Future<void> getMessageInConversation() async {
     List<Message> list = await conversationAPIClient.getMessagesInConversation(
         id: conversation.id.toString(), skip: 0, take: 100);
-    messages.assignAll(list);
+    messages.value.assignAll(list);
   }
 
   Future<void> sendMessage(String content) async {
     await conversationAPIClient.createMessageInConversation(
         id: conversation.id.toString(), content: content);
-    //messages.insert(0, msg);
   }
 
   Future<void> changeDisplayName(String content, String userID) async {
@@ -112,7 +114,7 @@ class PageMessageDetailController extends GetxController {
       conversationID: conversation.id.toString(),
       userId: myId,
     );
-    pageMessageController.conversations
+    pageMessageController.conversations.value
         .removeWhere((element) => element.id == conversation.id);
   }
 }

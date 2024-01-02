@@ -164,10 +164,10 @@ class PageCreateConversationScreen extends GetWidget<PageMessageController> {
                       separatorBuilder: (context, index) {
                         return SizedBox(height: 5.v);
                       },
-                      itemCount: controller.users.length,
+                      itemCount: controller.users.value.length,
                       itemBuilder: (context, index) {
                         return ChooseUserWidget(
-                          user: controller.users[index],
+                          user: controller.users.value[index],
                           callbackAdd: (content) => addUserToList(content),
                           callbackDelete: (content) =>
                               deleteUserFromList(content),

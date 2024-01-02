@@ -82,14 +82,14 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                         separatorBuilder: (context, index) {
                           return SizedBox(height: 5.v);
                         },
-                        itemCount: controller.messages.length,
+                        itemCount: controller.messages.value.length,
                         itemBuilder: (context, index) {
                           if (controller.myId !=
-                              controller.messages[index].author?.id) {
+                              controller.messages.value[index].author?.id) {
                             return ChatLeftItemWidget(
-                                controller.messages[index]);
+                                controller.messages.value[index]);
                           }
-                          return ChatRightItemWidget(controller.messages[index]);
+                          return ChatRightItemWidget(controller.messages.value[index]);
                         }))),
                   ),
                   Padding(

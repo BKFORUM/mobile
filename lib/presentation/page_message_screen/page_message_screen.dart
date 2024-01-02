@@ -225,11 +225,11 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                               return SizedBox(height: 5.v);
                                             },
                                             itemCount:
-                                                controller.conversations.length,
+                                                controller.conversations.value.length,
                                             itemBuilder: (context, index) {
                                               return ConversationWidget(
                                                   conversation: controller
-                                                      .conversations[index]);
+                                                      .conversations.value[index]);
                                             })))
                                       ],
                                     ),

@@ -1,3 +1,5 @@
+import 'package:bkforum/data/models/data_prop/on_message.dart';
+
 class Message {
   String? id;
   String? content;
@@ -23,6 +25,17 @@ class Message {
       createdAt: json['createdAt'] ?? '',
       updatedAt: json['updatedAt'] ?? '',
       author: json['author'] != null ? Author.fromJson(json['author']) : null,
+    );
+  }
+
+  factory Message.convertFromOnMessage(OnMessage msg){
+    return Message(
+      id: msg.id,
+      author: msg.author,
+      content: msg.content,
+      createdAt: msg.createdAt,
+      type: msg.type,
+      updatedAt: msg.updatedAt
     );
   }
 }
