@@ -19,6 +19,7 @@ class TopicLabel extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(10.adaptSize))),
       child: Text(
         name,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white),
       ),
     );
