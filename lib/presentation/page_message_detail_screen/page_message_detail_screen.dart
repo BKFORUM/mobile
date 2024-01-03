@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/chat_left_item.dart';
@@ -5,19 +7,18 @@ import 'package:bkforum/presentation/page_message_detail_screen/widget/chat_righ
 import 'package:bkforum/widgets/custom_text_form_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
 class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
-  PageMessageDetailScreen({Key? key}) : super(key: key);
   TextEditingController textController = TextEditingController();
 
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: Color(0xff0001cb),
       title: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           SizedBox(
             width: 45.adaptSize,
             height: 45.adaptSize,
@@ -75,49 +76,68 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
               child: Column(
                 children: [
                   Expanded(
-                    child: (Obx(() => ListView.separated(
-                        reverse: true,
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 5.v);
-                        },
-                        itemCount: controller.messages.length,
-                        itemBuilder: (context, index) {
-                          if (controller.myId !=
-                              controller.messages[index].author?.id) {
-                            return ChatLeftItemWidget(
+                    child: (Obx(() {
+                      return ListView.builder(
+                          reverse: true,
+                          // separatorBuilder: (context, index) {
+                          //   return SizedBox(height: 5.v);
+                          // },
+                          itemCount: controller.messages.length,
+                          itemBuilder: (context, index) {
+                            if (controller.myId !=
+                                controller.messages[index].author?.id) {
+                              return ChatLeftItemWidget(
+                                  controller.messages[index]);
+                            }
+                            return ChatRightItemWidget(
                                 controller.messages[index]);
-                          }
-                          return ChatRightItemWidget(controller.messages[index]);
-                        }))),
+                          });
+                    })),
                   ),
                   Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(children: [
-                        SizedBox(width: 20),
-                        Expanded(
-                            child: CustomTextFormField(
-                                controller: textController,
-                                hintText: "Thêm tin nhắn".tr,
-                                hintStyle: theme.textTheme.titleSmall,
-                                textInputAction: TextInputAction.done,
-                                borderDecoration: InputBorder.none,
-                                // TextFormFieldStyleHelper,
-                                filled: false,
-                                fillColor: appTheme.blueGray100,
-                                suffix: IconButton(
-                                  icon: Icon(Icons.send),
-                                  iconSize: 16.adaptSize,
-                                  onPressed: () {
-                                    if (textController.text.isNotEmpty) {
-                                      controller
-                                          .sendMessage(textController.text);
-                                      textController.clear();
-                                    }
-                                  },
-                                ))),
-                      ])),
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(width: 20),
+                            IconButton(
+                              onPressed: () async {
+                                final pickedImage =
+                                    await ImagePicker().pickImage(
+                                  source: ImageSource.gallery,
+                                );
+                                if (pickedImage != null) {
+                                  controller.sendImageMessage(File(pickedImage.path));
+                                }
+                              },
+                              icon: Icon(
+                                Icons.image,
+                                color: Color(0xff0001cb),
+                              ),
+                            ),
+                            Expanded(
+                                child: CustomTextFormField(
+                                    controller: textController,
+                                    hintText: "Thêm tin nhắn".tr,
+                                    hintStyle: theme.textTheme.titleSmall,
+                                    textInputAction: TextInputAction.done,
+                                    borderDecoration: InputBorder.none,
+                                    // TextFormFieldStyleHelper,
+                                    filled: false,
+                                    fillColor: appTheme.blueGray100,
+                                    suffix: IconButton(
+                                      icon: Icon(Icons.send),
+                                      iconSize: 16.adaptSize,
+                                      onPressed: () {
+                                        if (textController.text.isNotEmpty) {
+                                          controller
+                                              .sendTextMessage(textController.text);
+                                          textController.clear();
+                                        }
+                                      },
+                                    ))),
+                          ])),
                 ],
               ),
             )));

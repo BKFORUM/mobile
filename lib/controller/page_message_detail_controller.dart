@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:bkforum/controller/page_messsage_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/apiClient/conversation_api_client.dart';
 import 'package:bkforum/data/apiClient/user_api_client.dart';
 import 'package:bkforum/data/models/data_prop/conversation.dart';
 import 'package:bkforum/data/models/data_prop/message.dart';
+import 'package:bkforum/data/models/data_prop/on_message.dart';
 import 'package:bkforum/data/models/user_model.dart';
 import 'package:bkforum/data/socket/socket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +16,7 @@ class PageMessageDetailController extends GetxController {
   UserApiClient apiUserClient = UserApiClient();
 
   PageMessageDetailController({required this.conversation});
-  final messages = <Message>[].obs;
+  List<Message> messages = <Message>[].obs;
   final Conversation conversation;
   final PageMessageController pageMessageController =
       Get.put(PageMessageController());
@@ -31,8 +34,8 @@ class PageMessageDetailController extends GetxController {
         conversation.forumId.toString() == '');
     getMessageInConversation();
     getUsersInConversation();
-    SocketIO.socket.on("onMessage", callback);
     if (!conversation.isRead) emitEventOnReadMessage();
+    SocketIO.socket.on("onMessage", callback);
   }
 
   @override
@@ -42,8 +45,13 @@ class PageMessageDetailController extends GetxController {
   }
 
   void callback(dynamic data) {
-    Message msg = Message.fromJson(data);
-    messages.insert(0, msg);
+    OnMessage msg = OnMessage.fromJson(data);
+    if(msg.conversationId == conversation.id){
+      print(msg.content.toString());
+      Message temp = Message.convertFromOnMessage(msg);
+      messages.insert(0, temp);
+      print(messages.length);
+    }
   }
 
   void emitEventOnReadMessage() {
@@ -52,9 +60,9 @@ class PageMessageDetailController extends GetxController {
       "messageId": conversation.lastMessage?.id
     });
     this.conversation.isRead = true;
-    int index = pageMessageController.conversations
+    int index = pageMessageController.conversations.value
         .indexWhere((element) => element.id == conversation.id);
-    pageMessageController.conversations[index] = conversation;
+    pageMessageController.conversations.value[index] = conversation;
   }
 
   Future<void> getMessageInConversation() async {
@@ -63,10 +71,15 @@ class PageMessageDetailController extends GetxController {
     messages.assignAll(list);
   }
 
-  Future<void> sendMessage(String content) async {
+  Future<void> sendTextMessage(String content) async {
     await conversationAPIClient.createMessageInConversation(
-        id: conversation.id.toString(), content: content);
-    //messages.insert(0, msg);
+        id: conversation.id.toString(), content: content, type: "TEXT");
+  }
+
+  Future<void> sendImageMessage(File file) async {
+    String imageUrl = await pageMessageController.getImageUrl(file); 
+    await conversationAPIClient.createMessageInConversation(
+        id: conversation.id.toString(), content: imageUrl, type: "IMAGE");
   }
 
   Future<void> changeDisplayName(String content, String userID) async {
@@ -112,7 +125,7 @@ class PageMessageDetailController extends GetxController {
       conversationID: conversation.id.toString(),
       userId: myId,
     );
-    pageMessageController.conversations
+    pageMessageController.conversations.value
         .removeWhere((element) => element.id == conversation.id);
   }
 }

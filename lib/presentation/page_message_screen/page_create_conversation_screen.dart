@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:bkforum/controller/page_messsage_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/choose_user_widget.dart';
+import 'package:bkforum/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
 class PageCreateConversationScreen extends GetWidget<PageMessageController> {
@@ -20,7 +24,7 @@ class PageCreateConversationScreen extends GetWidget<PageMessageController> {
     if (textFieldController.text.isNotEmpty) {
       controller.addConversation(
         textFieldController.text,
-        "https://res.cloudinary.com/dy7he6gby/image/upload/v1703826093/wheoqyp7iw6nlzsnc7gj.png",
+        this.imageUrl.value,
         userIDs,
       );
       userIDs.clear();
@@ -72,6 +76,7 @@ class PageCreateConversationScreen extends GetWidget<PageMessageController> {
     );
   }
 
+  Rx<String> imageUrl = Rx<String>('DEFAULT_URL_AVATAR_CONVERSATION');
   @override
   Widget build(BuildContext context) {
     controller.geAllUser();
@@ -93,6 +98,64 @@ class PageCreateConversationScreen extends GetWidget<PageMessageController> {
                     ),
                   ),
                 ),
+                Container(
+                  height: 70.adaptSize,
+                  width: 70.adaptSize,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(20.adaptSize))),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.bottomSheet(
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            clipBehavior: Clip.hardEdge,
+                            padding: EdgeInsets.fromLTRB(10.adaptSize,
+                                26.adaptSize, 10.adaptSize, 10.adaptSize),
+                            height: 110.adaptSize,
+                            child: Column(
+                              children: [
+                                CustomElevatedButton(
+                                  text: "Chọn từ thư viện".tr,
+                                  buttonStyle: ElevatedButton.styleFrom(
+                                      padding:
+                                          EdgeInsets.only(top: 7.adaptSize),
+                                      backgroundColor: Colors.transparent,
+                                      shadowColor: Colors.transparent,
+                                      alignment: Alignment.center),
+                                  buttonTextStyle: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 18.fSize,
+                                      fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.w600),
+                                  onTap: () async {
+                                    final pickedImage =
+                                        await ImagePicker().pickImage(
+                                      source: ImageSource.gallery,
+                                    );
+                                    if (pickedImage != null) {
+                                      this.imageUrl.value = (await controller
+                                          .getImageUrl(File(pickedImage.path)));
+                                    }
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                          backgroundColor: Colors.white);
+                    },
+                    child: Obx(() {
+                      return CustomImageView(
+                        url: this.imageUrl.toString(),
+                        fit: BoxFit.cover,
+                      );
+                    }),
+                  ),
+                ),
                 Expanded(
                     child: (Obx(() {
                   return ListView.separated(
@@ -101,10 +164,10 @@ class PageCreateConversationScreen extends GetWidget<PageMessageController> {
                       separatorBuilder: (context, index) {
                         return SizedBox(height: 5.v);
                       },
-                      itemCount: controller.users.length,
+                      itemCount: controller.users.value.length,
                       itemBuilder: (context, index) {
                         return ChooseUserWidget(
-                          user: controller.users[index],
+                          user: controller.users.value[index],
                           callbackAdd: (content) => addUserToList(content),
                           callbackDelete: (content) =>
                               deleteUserFromList(content),
