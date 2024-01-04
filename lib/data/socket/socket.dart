@@ -1,4 +1,5 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/data/apiClient/apiLogin.dart';
 import 'package:bkforum/data/models/data_prop/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +25,11 @@ class SocketIO {
     socket.onConnect((_) {
       print('Connect socket');
     });
-    socket.onConnectError((data) => print(data));
+    socket.onConnectError((data) async {
+      final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
+      final refreshToken = preferences.getString('refreshToken') ?? '';
+      if (isLoggedIn) await LoginApiClient().refreshLogin(refreshToken);
+    });
     socket.emit("onGetOnlineFriends", {});
     socket.on("onGetOnlineFriends", (data) {
       for (dynamic user in data) {

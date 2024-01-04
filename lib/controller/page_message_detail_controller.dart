@@ -91,6 +91,7 @@ class PageMessageDetailController extends GetxController {
     UserConversation user = listUser.elementAt(index);
     user.displayName = content;
     listUser[index] = user;
+    listUser.assignAll(listUser);
   }
 
   Future<void> getUsersOutsideOfForum() async {
