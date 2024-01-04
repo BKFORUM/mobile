@@ -4,7 +4,6 @@ import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/chat_left_item.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/chat_right_item.dart';
-import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:bkforum/widgets/custom_text_form_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -87,10 +86,10 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                           itemBuilder: (context, index) {
                             if (controller.myId !=
                                 controller.messages[index].author?.id) {
-                              return ChatLeftItemWidget(
+                              return ChatLeftItem(
                                   controller.messages[index]);
                             }
-                            return ChatRightItemWidget(
+                            return ChatRightItem(
                                 controller.messages[index]);
                           });
                     })),
@@ -135,7 +134,6 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                                           controller
                                               .sendTextMessage(textController.text);
                                           textController.clear();
-                                          setState(() {});
                                         }
                                       },
                                     ))),

@@ -72,9 +72,8 @@ class PageMessageDetailController extends GetxController {
   }
 
   Future<void> sendTextMessage(String content) async {
-    Message msg = await conversationAPIClient.createMessageInConversation(
+   await conversationAPIClient.createMessageInConversation(
         id: conversation.id.toString(), content: content, type: "TEXT");
-    //messages.insert(0, msg);
   }
 
   Future<void> sendImageMessage(File file) async {
