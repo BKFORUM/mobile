@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 class PageMemberInConversation extends GetWidget<PageMessageDetailController> {
   @override
   Widget build(BuildContext context) {
-    controller.getUsersInConversation();
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -27,23 +26,26 @@ class PageMemberInConversation extends GetWidget<PageMessageDetailController> {
                         child: Center(
                           child: ListView(
                             children: [
-                              (Obx(() => ListView.separated(
-                                  physics: BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(height: 5.v);
-                                  },
-                                  itemCount: controller.listUser.length,
-                                  itemBuilder: (context, index) {
-                                    UserConversation user =
-                                        controller.listUser[index];
-                                    return MemberWidget(
-                                      user: user,
-                                      callback: (content, id) =>
-                                          clickButtonChangeDisplayName(
-                                              content, id),
-                                    );
-                                  })))
+                              (Obx(() {
+                                controller.getUsersInConversation();
+                                return ListView.separated(
+                                    physics: BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    separatorBuilder: (context, index) {
+                                      return SizedBox(height: 5.v);
+                                    },
+                                    itemCount: controller.listUser.length,
+                                    itemBuilder: (context, index) {
+                                      UserConversation user =
+                                          controller.listUser[index];
+                                      return MemberWidget(
+                                        user: user,
+                                        callback: (content, id) =>
+                                            clickButtonChangeDisplayName(
+                                                content, id),
+                                      );
+                                    });
+                              }))
                             ],
                           ),
                         )))

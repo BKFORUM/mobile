@@ -35,11 +35,6 @@ class PagePostController extends GetxController {
           PostDocument document = await uploadImage(compressedItem);
           documents.add(document);
         }
-
-        for (final PostDocument document in documents) {
-          print('fileUrl: ${document.fileUrl}');
-          print('fileName: ${document.fileName}');
-        }
       }
       var postUpload = UploadPostModel(
           forumId: forum.id,

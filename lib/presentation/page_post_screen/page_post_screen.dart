@@ -37,60 +37,61 @@ class PagePostScreen extends GetWidget<PagePostController> {
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar:
-            (forum?.id == null) ? CustomAppBar(
-                leadingWidth: 44.h,
-                leading: AppbarImage(
-                    imagePath: ImageConstant.imgIconhome,
-                    margin:
-                        EdgeInsets.only(left: 24.h, top: 15.v, bottom: 15.v),
-                    onTap: () {
-                      onTapIconhomeone();
-                    }),
-                title: Padding(
-                    padding: EdgeInsets.only(left: 19.h),
-                    child: Row(children: [
-                      AppbarImage1(
-                          imagePath: ImageConstant.imgIconWhiteSearch,
-                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                          onTap: () {
-                            onTapIconsearch();
-                          }),
-                      AppbarImage1(
-                              imagePath: ImageConstant.imgIconadd,
-                              margin: EdgeInsets.only(left: 19.h, right: 19.h))
-                          .animate()
-                          .tint(color: Colors.amber)
-                          .shake(),
-                      AppbarImage1(
-                          imagePath: ImageConstant.imgIconmessage,
-                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                          onTap: () {
-                            onTapIconmessageone();
-                          }),
-                      AppbarImage1(
-                          imagePath: ImageConstant.imgIconnotification,
-                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                          onTap: () {
-                            onTapIconnotificatio();
-                          }),
-                      AppbarImage1(
-                          imagePath: ImageConstant.imgIconMenu,
-                          margin: EdgeInsets.only(left: 19.h, right: 19.h),
-                          onTap: () {
-                            onTapIconavatarone();
-                          })
-                    ])),
-                styleType: Style.bgFill)
-            : AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(Icons.arrow_back_ios_new_rounded),
-              ),
-              title: Text('Thêm bài viết'),
-            ),
+            appBar: (forum?.id == null)
+                ? CustomAppBar(
+                    leadingWidth: 44.h,
+                    leading: AppbarImage(
+                        imagePath: ImageConstant.imgIconhome,
+                        margin: EdgeInsets.only(
+                            left: 24.h, top: 15.v, bottom: 15.v),
+                        onTap: () {
+                          onTapIconhomeone();
+                        }),
+                    title: Padding(
+                        padding: EdgeInsets.only(left: 19.h),
+                        child: Row(children: [
+                          AppbarImage1(
+                              imagePath: ImageConstant.imgIconWhiteSearch,
+                              margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                              onTap: () {
+                                onTapIconsearch();
+                              }),
+                          AppbarImage1(
+                                  imagePath: ImageConstant.imgIconadd,
+                                  margin:
+                                      EdgeInsets.only(left: 19.h, right: 19.h))
+                              .animate()
+                              .tint(color: Colors.amber)
+                              .shake(),
+                          AppbarImage1(
+                              imagePath: ImageConstant.imgIconmessage,
+                              margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                              onTap: () {
+                                onTapIconmessageone();
+                              }),
+                          AppbarImage1(
+                              imagePath: ImageConstant.imgIconnotification,
+                              margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                              onTap: () {
+                                onTapIconnotificatio();
+                              }),
+                          AppbarImage1(
+                              imagePath: ImageConstant.imgIconMenu,
+                              margin: EdgeInsets.only(left: 19.h, right: 19.h),
+                              onTap: () {
+                                onTapIconavatarone();
+                              })
+                        ])),
+                    styleType: Style.bgFill)
+                : AppBar(
+                    leading: IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: Icon(Icons.arrow_back_ios_new_rounded),
+                    ),
+                    title: Text('Thêm bài viết'),
+                  ),
             body: Container(
                 width: 359.h,
                 padding: EdgeInsets.all(14.h),
@@ -142,13 +143,19 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                         ? forum
                                         : Get.find<PagePostController>()
                                             .getSelectedForum;
-                                controller
-                                    .uploadPost(
-                                        context, forumSelect!, textFieldValue)
-                                    .then((_) {
-                                  selectedImages.clear();
-                                  isLoading.value = false;
-                                });
+                                if (forumSelect != null) {
+                                  controller
+                                      .uploadPost(
+                                          context, forumSelect, textFieldValue)
+                                      .then((_) {
+                                    selectedImages.clear();
+                                    isLoading.value = false;
+                                  });
+                                }
+                                else {
+                                  print(Error);
+                                }
+
                                 // onTapIconhomeone();
                               }),
                         ))
@@ -231,10 +238,17 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                     text: "Chọn từ thư viện".tr,
                                                     buttonStyle: ElevatedButton
                                                         .styleFrom(
-                                                            padding: EdgeInsets.only(top: 7.adaptSize),
-                                                            backgroundColor: Colors.transparent,
-                                                            shadowColor: Colors.transparent,
-                                                            alignment: Alignment.center),
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 7
+                                                                        .adaptSize),
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            shadowColor: Colors
+                                                                .transparent,
+                                                            alignment: Alignment
+                                                                .center),
                                                     buttonTextStyle: TextStyle(
                                                         color: Colors.black87,
                                                         fontSize: 18.fSize,
@@ -251,17 +265,26 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                       final selectedImage =
                                                           File(pickedImage!
                                                               .path);
-                                                      selectedImages.add(selectedImage);
+                                                      selectedImages
+                                                          .add(selectedImage);
                                                     },
                                                   ).animate().fade().slideY(
                                                       curve: Curves.easeIn),
                                                   CustomElevatedButton(
                                                     text: "Chọn từ máy ảnh".tr,
-                                                    buttonStyle: ElevatedButton.styleFrom(padding: EdgeInsets.only(
-                                                        top: 7.adaptSize),
-                                                        backgroundColor: Colors.transparent,
-                                                        shadowColor: Colors.transparent,
-                                                        alignment: Alignment.center),
+                                                    buttonStyle: ElevatedButton
+                                                        .styleFrom(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 7
+                                                                        .adaptSize),
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            shadowColor: Colors
+                                                                .transparent,
+                                                            alignment: Alignment
+                                                                .center),
                                                     buttonTextStyle: TextStyle(
                                                         color: Colors.black87,
                                                         fontSize: 18.fSize,
@@ -275,73 +298,84 @@ class PagePostScreen extends GetWidget<PagePostController> {
                                                                   source:
                                                                       ImageSource
                                                                           .camera);
-                                                        if (pickedImage != null) {
-                                                          final selectedImage = File(pickedImage.path);
-                                                          selectedImages.add(selectedImage);
-                                                        } else {
-                                                          print('No image selected.');
-                                                        }
+                                                      if (pickedImage != null) {
+                                                        final selectedImage =
+                                                            File(pickedImage
+                                                                .path);
+                                                        selectedImages
+                                                            .add(selectedImage);
+                                                      } else {
+                                                        print(
+                                                            'No image selected.');
+                                                      }
                                                     },
                                                   ).animate().fade().slideY(
                                                       curve: Curves.easeIn),
                                                   const SizedBox(height: 20),
                                                   Expanded(
-                                                    child:
-                                                        Obx(() {
-                                                            return Container(
-                                                                height: 300.adaptSize,
-                                                      child: selectedImages.isNotEmpty
-                                                               ? ListView.builder(
-                                                                // shrinkWrap: true,
-                                                                // physics: NeverScrollableScrollPhysics(),
-                                                                scrollDirection: Axis.horizontal,
-                                                                itemCount: selectedImages.length,
-                                                                itemBuilder:(context, index) {
-                                                                  File image = selectedImages[index];
-                                                                  return Padding(
-                                                                    padding: const EdgeInsets.all(8.0),
-                                                                    child: Stack(
-                                                                      children: [
+                                                    child: Obx(() {
+                                                      return Container(
+                                                          height: 300.adaptSize,
+                                                          child: selectedImages
+                                                                  .isNotEmpty
+                                                              ? ListView
+                                                                  .builder(
+                                                                  // shrinkWrap: true,
+                                                                  // physics: NeverScrollableScrollPhysics(),
+                                                                  scrollDirection:
+                                                                      Axis.horizontal,
+                                                                  itemCount:
+                                                                      selectedImages
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    File image =
+                                                                        selectedImages[
+                                                                            index];
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .all(
+                                                                          8.0),
+                                                                      child: Stack(
+                                                                          children: [
+                                                                            CustomImageView(
+                                                                              height: 270.adaptSize,
+                                                                              width: 270.adaptSize,
+                                                                              file: image,
+                                                                              // width: 0.6 *MediaQuery.of(context).size.height,
+                                                                              fit: BoxFit.cover,
+                                                                              radius: BorderRadius.circular(32),
+                                                                            ),
+                                                                            Positioned(
+                                                                              top: 6,
+                                                                              right: 6,
+                                                                              child: CancelButton(
+                                                                                onPressed: () {
+                                                                                  // ignore: invalid_use_of_protected_member
+                                                                                  selectedImages.remove(image);
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          ]),
+                                                                    );
+                                                                  },
+                                                                )
+                                                              : Container(
+                                                                  child: Center(
+                                                                    child:
                                                                         CustomImageView(
-                                                                          height: 270.adaptSize,
-                                                                          width: 270.adaptSize,
-                                                                          file: image,
-                                                                          // width: 0.6 *MediaQuery.of(context).size.height,
-                                                                          fit: BoxFit.cover,
-                                                                          radius: BorderRadius.circular(32),
-                                                                        ),
-                                                                        Positioned(
-                                                                          top: 6,
-                                                                          right: 6,
-                                                                          child:
-                                                                              CancelButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              // ignore: invalid_use_of_protected_member
-                                                                              selectedImages
-                                                                                  .remove(image);
-                                                                            },
-                                                                          ),
-                                                                        ),
-                                                                      ]),
-                                                                  );
-                                                                },
-                                                              )
-                                                             : Container(
-                                                                child: Center(
-                                                                  child:
-                                                                      CustomImageView(
-                                                                    imagePath:
-                                                                        ImageConstant
-                                                                            .imageNotFound,
-                                                                    width: 120,
-                                                                    height: 120,
+                                                                      imagePath:
+                                                                          ImageConstant
+                                                                              .imageNotFound,
+                                                                      width:
+                                                                          120,
+                                                                      height:
+                                                                          120,
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              )
-                                                    );
-                                                          }
-                                                        ),
+                                                                ));
+                                                    }),
                                                   ),
                                                   CustomElevatedButton(
                                                     text: "Chọn".tr,

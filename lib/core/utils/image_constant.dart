@@ -92,5 +92,5 @@ class ImageConstant {
 
   static String iconOutConversation = "assets/images/log-out.png";
 
-
+  static String heart = "assets/images/heart.png";
 }

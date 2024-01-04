@@ -128,55 +128,55 @@ class PageMessageScreen extends GetWidget<PageMessageController> {
                                   child: Center(
                                     child: ListView(
                                       children: [
-                                        Container(
-                                          padding: EdgeInsets.fromLTRB(
-                                              10.adaptSize,
-                                              10.adaptSize,
-                                              10.adaptSize,
-                                              10.adaptSize),
-                                          margin: EdgeInsets.fromLTRB(
-                                              15.adaptSize,
-                                              15.adaptSize,
-                                              15.adaptSize,
-                                              15.adaptSize),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Color(0x33000000)),
-                                            color: Color(0xffffffff),
-                                            borderRadius: BorderRadius.circular(
-                                                30.adaptSize),
-                                          ),
-                                          alignment: Alignment.centerRight,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.fromLTRB(
-                                                    0.adaptSize,
-                                                    0.adaptSize,
-                                                    10.adaptSize,
-                                                    0.adaptSize),
-                                                height: 20.adaptSize,
-                                                child: Image.asset(
-                                                  ImageConstant
-                                                      .iconSearchColorBlack,
-                                                  width: 20.adaptSize,
-                                                  height: 20.adaptSize,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Tìm kiếm',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w100,
-                                                  height: 1.2175,
-                                                  color: Color(0xff000000),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        // Container(
+                                        //   padding: EdgeInsets.fromLTRB(
+                                        //       10.adaptSize,
+                                        //       10.adaptSize,
+                                        //       10.adaptSize,
+                                        //       10.adaptSize),
+                                        //   margin: EdgeInsets.fromLTRB(
+                                        //       15.adaptSize,
+                                        //       15.adaptSize,
+                                        //       15.adaptSize,
+                                        //       15.adaptSize),
+                                        //   decoration: BoxDecoration(
+                                        //     border: Border.all(
+                                        //         color: Color(0x33000000)),
+                                        //     color: Color(0xffffffff),
+                                        //     borderRadius: BorderRadius.circular(
+                                        //         30.adaptSize),
+                                        //   ),
+                                        //   alignment: Alignment.centerRight,
+                                        //   child: Row(
+                                        //     mainAxisAlignment:
+                                        //         MainAxisAlignment.start,
+                                        //     children: [
+                                        //       Container(
+                                        //         margin: EdgeInsets.fromLTRB(
+                                        //             0.adaptSize,
+                                        //             0.adaptSize,
+                                        //             10.adaptSize,
+                                        //             0.adaptSize),
+                                        //         height: 20.adaptSize,
+                                        //         child: Image.asset(
+                                        //           ImageConstant
+                                        //               .iconSearchColorBlack,
+                                        //           width: 20.adaptSize,
+                                        //           height: 20.adaptSize,
+                                        //         ),
+                                        //       ),
+                                        //       Text(
+                                        //         'Tìm kiếm',
+                                        //         style: TextStyle(
+                                        //           fontSize: 14,
+                                        //           fontWeight: FontWeight.w100,
+                                        //           height: 1.2175,
+                                        //           color: Color(0xff000000),
+                                        //         ),
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
                                         SizedBox(height: 10),
                                         SocketIO.listFriendOnline.isNotEmpty ?
                                         Container(

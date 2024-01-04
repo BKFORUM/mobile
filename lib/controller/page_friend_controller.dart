@@ -58,7 +58,7 @@ class PageFriendController extends GetxController {
   }
 
   Future<void> getUser() async {
-    List<User> list = await apiUserClient.getUsers();
+    List<User> list = await apiUserClient.getUsers(take: 1000);
     List<User> listFriendSuggest = <User>[].obs;
     List<User> listFriendRequest = <User>[].obs;
     List<User> listMyFriends = <User>[].obs;

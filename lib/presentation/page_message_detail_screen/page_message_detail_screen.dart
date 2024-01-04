@@ -12,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 // ignore: must_be_immutable
 class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
   TextEditingController textController = TextEditingController();
-
+  
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: Color(0xff0001cb),
@@ -86,10 +86,10 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                           itemBuilder: (context, index) {
                             if (controller.myId !=
                                 controller.messages[index].author?.id) {
-                              return ChatLeftItemWidget(
+                              return ChatLeftItem(
                                   controller.messages[index]);
                             }
-                            return ChatRightItemWidget(
+                            return ChatRightItem(
                                 controller.messages[index]);
                           });
                     })),
@@ -129,7 +129,7 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                                     suffix: IconButton(
                                       icon: Icon(Icons.send),
                                       iconSize: 16.adaptSize,
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (textController.text.isNotEmpty) {
                                           controller
                                               .sendTextMessage(textController.text);
