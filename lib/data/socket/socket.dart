@@ -12,23 +12,27 @@ class SocketIO {
 
   void initSocket() async {
     final preferences = await SharedPreferences.getInstance();
-    String token = preferences.getString('accessToken') ?? '';
-    Map<String, dynamic> extraHeaders = {
-      'token': token,
-    };
     socket = IO.io(
         "ws://52.139.152.154",
         IO.OptionBuilder()
             .setTransports(['websocket'])
-            .setAuth(extraHeaders)
+            .setAuth({'token': preferences.getString('accessToken') ?? ''})
             .build());
     socket.onConnect((_) {
       print('Connect socket');
     });
-    socket.onConnectError((data) async {
+    socket.onReconnectError((data) async {
+      print(data);
       final isLoggedIn = preferences.getBool('isLoggedIn') ?? false;
       final refreshToken = preferences.getString('refreshToken') ?? '';
-      if (isLoggedIn) await LoginApiClient().refreshLogin(refreshToken);
+      if (isLoggedIn) {
+        await LoginApiClient().refreshLogin(refreshToken);
+        socket.io.options = IO.OptionBuilder()
+        .setTransports(['websocket'])
+        .setAuth({'token': preferences.getString('accessToken') ?? ''}).build();
+
+        socket.connect();
+      }
     });
     socket.emit("onGetOnlineFriends", {});
     socket.on("onGetOnlineFriends", (data) {

@@ -1,4 +1,5 @@
 import 'package:bkforum/core/app_export.dart';
+import 'package:bkforum/data/socket/socket.dart';
 import 'package:bkforum/presentation/page_login_screen/models/page_login_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -36,6 +37,7 @@ class PageLoginController extends GetxController {
           padding: EdgeInsets.symmetric(vertical: 30.adaptSize)
       );
     else {
+      SocketIO().initSocket();
       Get.offNamed(AppRoutes.pageFeedScreen);
     }
   }

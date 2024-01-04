@@ -1,7 +1,6 @@
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/core/utils/api_endpoints.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApiClient extends GetConnect {
