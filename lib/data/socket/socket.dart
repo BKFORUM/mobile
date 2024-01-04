@@ -26,7 +26,6 @@ class SocketIO {
     socket.emit("onGetOnlineFriends", {});
     socket.on("onGetOnlineFriends", (data) {
       for (dynamic user in data) {
-        print(User.fromJson(user).fullName);
         listFriendOnline.add(User.fromJson(user));
       }
     });

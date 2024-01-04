@@ -4,6 +4,7 @@ import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/chat_left_item.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/chat_right_item.dart';
+import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:bkforum/widgets/custom_text_form_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 // ignore: must_be_immutable
 class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
   TextEditingController textController = TextEditingController();
-
+  
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: Color(0xff0001cb),
@@ -129,11 +130,12 @@ class PageMessageDetailScreen extends GetWidget<PageMessageDetailController> {
                                     suffix: IconButton(
                                       icon: Icon(Icons.send),
                                       iconSize: 16.adaptSize,
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (textController.text.isNotEmpty) {
                                           controller
                                               .sendTextMessage(textController.text);
                                           textController.clear();
+                                          setState(() {});
                                         }
                                       },
                                     ))),

@@ -481,7 +481,6 @@ class PageProfileScreen extends GetView<PageProfileController> {
                                     .then((newPosts) {
                                   postList.value.addAll(newPosts);
 
-                                  // print(postList.value.length);
                                 });
                               }
                               return true;

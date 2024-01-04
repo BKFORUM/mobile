@@ -32,7 +32,6 @@ class PageForumoneController extends GetxController {
       // ignore: invalid_use_of_protected_member
       pageForumoneModelObj.value.userpostForumItemList.value.addAll(value);
       // ignore: invalid_use_of_protected_member
-      print(pageForumoneModelObj.value.userpostForumItemList.value.length);
     });
 
     return pageForumoneModelObj;
@@ -72,7 +71,6 @@ class PageForumoneController extends GetxController {
 
       return userpostItemList;
     } catch (error) {
-      print(error);
       throw error;
     }
   }
@@ -108,7 +106,6 @@ class PageForumoneController extends GetxController {
 
       return userpostItemList;
     } catch (error) {
-      print(error);
       throw error;
     }
   }
@@ -145,7 +142,6 @@ class PageForumoneController extends GetxController {
 
       return userpostItemList;
     } catch (error) {
-      print(error);
       throw error;
     }
   }
@@ -156,7 +152,6 @@ class PageForumoneController extends GetxController {
       eventsList.assignAll(tempList);
       return eventsList;
     } catch (error) {
-      print('Error fetching forum event: $error');
       throw error;
     }
   }
@@ -176,7 +171,6 @@ class PageForumoneController extends GetxController {
       List<Topic> tempList = await ForumListApiClient().fetchTopics();
       return tempList;
     }  catch (error) {
-      print('Error fetching topic: $error');
       throw error;
     }
   }

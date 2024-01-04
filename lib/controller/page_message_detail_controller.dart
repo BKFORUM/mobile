@@ -50,7 +50,6 @@ class PageMessageDetailController extends GetxController {
       print(msg.content.toString());
       Message temp = Message.convertFromOnMessage(msg);
       messages.insert(0, temp);
-      print(messages.length);
     }
   }
 
@@ -65,15 +64,17 @@ class PageMessageDetailController extends GetxController {
     pageMessageController.conversations.value[index] = conversation;
   }
 
-  Future<void> getMessageInConversation() async {
+  Future<List<Message>> getMessageInConversation() async {
     List<Message> list = await conversationAPIClient.getMessagesInConversation(
         id: conversation.id.toString(), skip: 0, take: 100);
     messages.assignAll(list);
+    return list;
   }
 
   Future<void> sendTextMessage(String content) async {
-    await conversationAPIClient.createMessageInConversation(
+    Message msg = await conversationAPIClient.createMessageInConversation(
         id: conversation.id.toString(), content: content, type: "TEXT");
+    //messages.insert(0, msg);
   }
 
   Future<void> sendImageMessage(File file) async {

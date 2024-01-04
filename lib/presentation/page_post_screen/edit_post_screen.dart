@@ -322,7 +322,6 @@ class EditPostScreen extends StatelessWidget {
                                       CustomElevatedButton(
                                         text: "Chọn".tr,
                                         onTap: () {
-                                          print(allImages.length);
                                           Navigator.pop(context);
                                         },
                                       ),
