@@ -2,6 +2,7 @@ import 'package:bkforum/controller/page_message_detail_controller.dart';
 import 'package:bkforum/core/app_export.dart';
 import 'package:bkforum/data/models/data_prop/conversation.dart';
 import 'package:bkforum/presentation/page_message_detail_screen/widget/member_widget.dart';
+import 'package:bkforum/presentation/page_notification_screen/page_notification_screen.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -52,6 +53,8 @@ class PageMemberInConversation extends GetWidget<PageMessageDetailController> {
   }
 
   void clickButtonChangeDisplayName(String content, String userID) {
-    controller.changeDisplayName(content, userID);
+    setState((){
+      controller.changeDisplayName(content, userID);
+    });
   }
 }
