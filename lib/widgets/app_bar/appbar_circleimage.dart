@@ -6,6 +6,7 @@ class AppbarCircleimage extends StatelessWidget {
   AppbarCircleimage({
     Key? key,
     this.imagePath,
+    this.url,
     this.svgPath,
     this.margin,
     this.onTap,
@@ -14,6 +15,8 @@ class AppbarCircleimage extends StatelessWidget {
         );
 
   String? imagePath;
+
+  String? url;
 
   String? svgPath;
 
@@ -33,6 +36,7 @@ class AppbarCircleimage extends StatelessWidget {
         child: CustomImageView(
           svgPath: svgPath,
           imagePath: imagePath,
+          url: url,
           height: 20.adaptSize,
           width: 20.adaptSize,
           fit: BoxFit.contain,
