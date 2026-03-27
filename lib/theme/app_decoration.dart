@@ -49,11 +49,11 @@ class AppDecoration {
         border: Border(
           top: BorderSide(
             color: appTheme.gray70001,
-            width: 1.h,
+            width: 0.2.h,
           ),
           bottom: BorderSide(
             color: appTheme.gray70001,
-            width: 1.h,
+            width: 0.2.h,
           ),
         ),
       );

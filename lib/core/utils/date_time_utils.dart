@@ -1,17 +1,25 @@
-import 'package:intl/date_symbol_data_local.dart';
+// ignore: non_constant_identifier_names
 import 'package:intl/intl.dart';
 
-const String dateTimeFormatPattern = 'dd/MM/yyyy';
+// ignore: non_constant_identifier_names
+DateTime ConvertStringToDataTime(String dateString) {
+  DateTime dateTime = DateTime.parse(dateString).toLocal();
+  return dateTime;
+}
 
-extension DateTimeExtension on DateTime {
-  /// Return a string representing [date] formatted according to our locale
-  String format([
-    String pattern = dateTimeFormatPattern,
-    String? locale,
-  ]) {
-    if (locale != null && locale.isNotEmpty) {
-      initializeDateFormatting(locale);
-    }
-    return DateFormat(pattern, locale).format(this);
+String formatDateTime(String dateTime) {
+  DateTime temp = ConvertStringToDataTime(dateTime);
+  return DateFormat('dd-MM-yyyy – kk:mm').format(temp);
+}
+
+String formatTimeDifference(Duration difference) {
+  if (difference.inDays > 0) {
+    return '${difference.inDays} ngày trước';
+  } else if (difference.inHours > 0) {
+    return '${difference.inHours} giờ trước';
+  } else if (difference.inMinutes > 0) {
+    return '${difference.inMinutes} phút trước';
+  } else {
+    return 'Vừa xong';
   }
 }

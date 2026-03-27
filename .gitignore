@@ -1,8 +1,11 @@
+.flutter-plugins-dependencies
+.flutter-plugins
 /.dart_tool/
 /.idea/
 /build/
 /.vscode/
 !/pubspec.lock
 !/.packages
-!/.flutter-plugins-dependencies
-!/.flutter-plugins
+
+*.flutter-plugins-dependencies
+*.flutter-plugins

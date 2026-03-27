@@ -1,4 +1,4 @@
-import '../controller/page_setting_controller.dart';
+import '../../../controller/page_setting_controller.dart';
 import 'package:get/get.dart';
 
 /// A binding class for the PageSettingScreen.
